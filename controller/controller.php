@@ -2,9 +2,19 @@
 require_once("../model/model.php");
 class controller extends model{
 
+    public $page_name="";
     public function __construct(){
         parent::__construct();
         $path = (!isset($_SERVER["PATH_INFO"]) || $_SERVER["PATH_INFO"] == NULL)? "/home": $_SERVER["PATH_INFO"];
+        $this->page_name = $path;
+        if(isset($_COOKIE["customer_id"])){
+            $data = ["customer_id" => $_COOKIE["customer_id"]];
+            $answer = $this->chack_account("customer", $data);
+            if($answer == false){
+                unset($_COOKIE['customer_id']); 
+                setcookie('customer_id', '', -1, '/'); 
+            };
+        };
 
         switch ($path){
             case "/home":
@@ -53,7 +63,7 @@ class controller extends model{
                     };
                 };
                 break;
-            case 'chack_account':
+            case '/chack_account':
                 if($_SERVER['REQUEST_METHOD'] == 'POST' || isset($_POST)){
                     $return =false;
                     $empty = [];

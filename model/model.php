@@ -41,14 +41,15 @@ class model {
     public function chack_account($tbl,$data){
         $sql = "SELECT * FROM $tbl WHERE ";
         foreach ($data as $key => $value) {
-            $sql .= "`$key` = '$value' AND ";
+            $sql .= "`$key` = '$value' AND";
         };
         $sql = substr($sql,0,-3);
         $data = $this->sqli_($sql); 
+        $data = $this->fatch_all($data);
         return $data;
     }
     public function sqli_($sql){
-       
+
         $sqli = $this->connection->query($sql);
         if(isset($sqli) || $sqli == 1){
             return $sqli;
@@ -57,5 +58,20 @@ class model {
         }
 
        
+    }
+    public function fatch_all($sql){
+        if($sql->num_rows > 0){
+            $arr = [];
+            $data = [];
+            while ($sqli = $sql->fetch_object()) {
+                foreach ($sqli as $key => $value){
+                    $arr[$key]=$value;
+                };
+                array_push($data, $arr);
+            };
+            return $data;
+        }else{
+            return false;
+        };
     }
 }

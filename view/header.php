@@ -96,17 +96,24 @@
         </button>
         <div class="collapse navbar-collapse justify-content-between" id="navbarCollapse">
             <div class="navbar-nav mr-auto py-0">
-                <a href="http://localhost/clones/igotit/public/home" class="nav-item nav-link active">Home</a>
-                <a href="http://localhost/clones/igotit/public/shop" class="nav-item nav-link">Shop</a>
-                <a href="http://localhost/clones/igotit/public/detail" class="nav-item nav-link">Shop Detail</a>
-                <a href="http://localhost/clones/igotit/public/cart" class="nav-item nav-link">Shopping Cart</a>
-                <a href="http://localhost/clones/igotit/public/checkout" class="nav-item nav-link">Checkout</a>
-                <a href="http://localhost/clones/igotit/public/contact" class="nav-item nav-link">Contact</a>
+                <a href="http://localhost/clones/igotit/public/home" class="nav-item nav-link<?php if($this->page_name == '/home'){echo " active";}?>">Home</a>
+                <a href="http://localhost/clones/igotit/public/shop" class="nav-item nav-link<?php if($this->page_name == '/shop'){echo " active";}?>">Shop</a>
+                <a href="http://localhost/clones/igotit/public/detail" class="nav-item nav-link<?php if($this->page_name == '/detail'){echo " active";}?>">Shop Detail</a>
+                <a href="http://localhost/clones/igotit/public/cart" class="nav-item nav-link<?php if($this->page_name == '/cart'){echo " active";}?>">Shopping Cart</a>
+                <a href="http://localhost/clones/igotit/public/checkout" class="nav-item nav-link<?php if($this->page_name == '/checkout'){echo " active";}?>">Checkout</a>
+                <a href="http://localhost/clones/igotit/public/contact" class="nav-item nav-link<?php if($this->page_name == '/contact'){echo " active";}?>">Contact</a>
             </div>
-            <div class="navbar-nav  py-0">
-                <a href="http://localhost/clones/igotit/public/login" class="nav-item nav-link">Login</a>
-                <a href="http://localhost/clones/igotit/public/register" class="nav-item nav-link">Register</a>
-            </div>
+            <?php 
+                if(isset($_COOKIE['customer_id'])){ ?>
+                <div class="navbar-nav  py-0">
+                    <a class="nav-item nav-link" onclick="removeUser()">LogOut</a>
+                </div>
+            <?php } else { ?>
+                <div class="navbar-nav  py-0">
+                    <a href="http://localhost/clones/igotit/public/login" class="nav-item nav-link<?php if($this->page_name == '/login'){echo " active";}?>">Login</a>
+                    <a href="http://localhost/clones/igotit/public/register" class="nav-item nav-link<?php if($this->page_name == '/register'){echo " active";}?>">Register</a>
+                </div>
+            <?php };?>
         </div>
     </nav>
             
@@ -114,4 +121,9 @@
     <!-- Topbar End -->
 
 
-   
+   <script>
+    function removeUser(){
+        document.cookie = "customer_id=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
+        window.location.href="http://localhost/clones/igotit/public/login";
+    }
+   </script>
