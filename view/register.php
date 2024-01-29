@@ -51,3 +51,28 @@
       </div>
   </div>
 </form>
+
+<script>
+    $(document).ready(function(){
+        $('#register').on('submit',function(e){
+            e.preventDefault();
+            let data = new FormData(this);
+            let url = "http://localhost/clones/igotit/public/create_account";
+            jQuery.ajax({
+                url: url,
+                data:data,
+                processData:false,
+                contentType:false,
+                type: 'POST',
+                success:function(result){
+                    result = JSON.parse(result);
+                    if(result.status == 200){
+                        window.location.href = "http://localhost/clones/igotit/public/login";
+                    }else{
+                        alert('404 ERROR');
+                    };
+                }
+            });
+        });
+    });
+</script>

@@ -21,4 +21,41 @@ class model {
         return $this->connection;
     } 
 
+    public function create_account($tbl,$data){
+        $sql = "INSERT INTO $tbl( ";
+        $firstSQL ="";
+        $lastSQL="" ;
+        foreach ($data as $key => $value) {
+            $firstSQL .= "`$key` ,";
+            $lastSQL .= "'$value' ,";
+        };
+        $firstSQL = substr($firstSQL,0,-1);
+        $firstSQL .= " ) VALUES ( ";
+        $lastSQL = substr($lastSQL,0,-1);
+        $lastSQL .= " )";
+        $sql .=$firstSQL.$lastSQL;
+        $data = $this->sqli_($sql);
+        return $data;
+    }
+    
+    public function chack_account($tbl,$data){
+        $sql = "SELECT * FROM $tbl WHERE ";
+        foreach ($data as $key => $value) {
+            $sql .= "`$key` = '$value' AND ";
+        };
+        $sql = substr($sql,0,-3);
+        $data = $this->sqli_($sql); 
+        return $data;
+    }
+    public function sqli_($sql){
+       
+        $sqli = $this->connection->query($sql);
+        if(isset($sqli) || $sqli == 1){
+            return $sqli;
+        }else{
+            return false;
+        }
+
+       
+    }
 }

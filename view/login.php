@@ -103,10 +103,10 @@
 
 </style>
 <section id="login_wrapper">
-  <form class="login">
+  <form class="login" id="login">
     <h2>Welcome, User!</h2>
     <p>Please log in</p>
-    <input type="text" name="customer_email" placeholder="User Email" />
+    <input type="email" name="customer_email" placeholder="User Email" />
     <input type="password" name="customer_password" placeholder="Password" />
     <input type="submit" name="login" value="LogIn" />
     <div class="links">
@@ -116,3 +116,28 @@
   </form>
   
   </section>
+
+  <script>
+    $(document).ready(function(){
+        $('#login').on('submit',function(e){
+            e.preventDefault();
+            let data = new FormData(this);
+            let url = "http://localhost/clones/igotit/public/chack_account";
+            jQuery.ajax({
+                url: url,
+                data:data,
+                processData:false,
+                contentType:false,
+                type: 'POST',
+                success:function(result){
+                    result = JSON.parse(result);
+                    if(result.status == 200){
+                        window.location.href = "http://localhost/clones/igotit/public/home";
+                    }else{
+                        alert('404 ERROR');
+                    };
+                }
+            });
+        });
+    });
+</script>

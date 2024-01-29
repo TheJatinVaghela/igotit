@@ -31,6 +31,50 @@ class controller extends model{
             case "/register":
                 $this->view("../view/register.php"); 
                 break;
+            case "/create_account":
+                if($_SERVER['REQUEST_METHOD'] == 'POST' || isset($_POST)){
+                    $return =false;
+                    $empty = [];
+                    foreach($_POST as $key => $value){
+                        if($value === "" || !isset($value)){
+                            $return =true;
+                            array_push($empty, $value);
+                        } ;
+                    };
+                    if($return == true){
+                        print_r(json_encode(['data'=>$empty,'message'=>'data Was empty','status' =>404]));
+                    }else{
+                        $data = $this->create_account("customer",$_POST);
+                        if($data == false){
+                            print_r(json_encode(['data'=>$data,'message'=>'Server ERROR','status' =>500]));
+                        }else{
+                            print_r(json_encode(['data'=>$data,'message'=>'success','status' =>200]));
+                        };
+                    };
+                };
+                break;
+            case 'chack_account':
+                if($_SERVER['REQUEST_METHOD'] == 'POST' || isset($_POST)){
+                    $return =false;
+                    $empty = [];
+                    foreach($_POST as $key => $value){
+                        if($value === "" || !isset($value)){
+                            $return =true;
+                            array_push($empty, $value);
+                        } ;
+                    };
+                    if($return == true){
+                        print_r(json_encode(['data'=>$empty,'message'=>'data Was empty','status' =>404]));
+                    }else{
+                        $data = $this->chack_account("customer",$_POST);
+                        if($data == false){
+                            print_r(json_encode(['data'=>$data,'message'=>'Server ERROR','status' =>500]));
+                        }else{
+                            print_r(json_encode(['data'=>$data,'message'=>'success','status' =>200]));
+                        };
+                    };  
+                };
+                break;
             default:
                 echo " NO PAGE " ;
                 break;
