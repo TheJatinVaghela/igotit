@@ -76,7 +76,7 @@ class controller extends model{
                         array_pop($Temp_Arr); 
                         $data = $this->chack_account("customer",$Temp_Arr);
                         if($data['data'] == NULL){print_r(json_encode($data));};
-                        $data = $this->update_account("customer",$_POST);
+                        $data = $this->update_account("customer",$_POST,$Temp_Arr);
                     };  
                 };
                 break;

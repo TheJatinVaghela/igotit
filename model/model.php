@@ -37,8 +37,21 @@ class model {
         $data = $this->sqli_($sql);
         return $data;
     }
-    public function update_account($tbl,$data){
-        
+    public function update_account($tbl,$data,$get=NULL){
+        $sql = "UPDATE $tbl SET ";
+        foreach ($data as $key => $value) {
+            $sql .= "`$key` = '$value' ,";
+        };
+        $sql = substr($sql,0,-1);
+        $sql .= " WHERE ";
+        foreach ($data as $key => $value) {
+            $sql .= "`$key` = '$value' AND";
+        };
+        $sql = substr($sql,0,-3);
+        $data = $this->sqli_($sql); 
+        if($data['data'] == NULL) {return $data;};
+        $data = $this->fatch_all($get);
+        return $data;
     }
     
     public function chack_account($tbl,$data){
@@ -49,7 +62,7 @@ class model {
         $sql = substr($sql,0,-3);
         $data = $this->sqli_($sql); 
         if($data['data'] == NULL) {return $data;};
-        $data = $this->fatch_all($data);
+        $data = $this->fatch_all($data['data']);
         return $data;
     }
     public function sqli_($sql){
@@ -60,8 +73,10 @@ class model {
         }else{
             return ["data"=>NULL,"message"=>"Server Error","status"=>500];
         }
-
-       
+    }
+    public function select($tbl,$data){
+        $sql = "SELECT * FROM $tbl WHERE ";
+        
     }
     public function fatch_all($sql){
         if($sql->num_rows > 0){

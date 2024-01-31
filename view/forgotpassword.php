@@ -107,7 +107,7 @@
     <p>Create New Password</p>
     <input type="email" name="customer_email" placeholder="User Email" />
     <input type="password" name="customer_password" placeholder="Password" />
-    <input type="submit" name="login" value="LogIn" />
+    <input type="submit" name="login" value="Save Password" />
     <div class="links">
       <a href="http://localhost/clones/igotit/public/register">Register</a>
     </div>
