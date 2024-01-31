@@ -37,6 +37,9 @@ class model {
         $data = $this->sqli_($sql);
         return $data;
     }
+    public function update_account($tbl,$data){
+        
+    }
     
     public function chack_account($tbl,$data){
         $sql = "SELECT * FROM $tbl WHERE ";
@@ -45,6 +48,7 @@ class model {
         };
         $sql = substr($sql,0,-3);
         $data = $this->sqli_($sql); 
+        if($data['data'] == NULL) {return $data;};
         $data = $this->fatch_all($data);
         return $data;
     }
@@ -52,9 +56,9 @@ class model {
 
         $sqli = $this->connection->query($sql);
         if(isset($sqli) || $sqli == 1){
-            return $sqli;
+            return ["data"=>$sqli,"message"=>"success","status"=>200];
         }else{
-            return false;
+            return ["data"=>NULL,"message"=>"Server Error","status"=>500];
         }
 
        
@@ -69,9 +73,9 @@ class model {
                 };
                 array_push($data, $arr);
             };
-            return $data;
+            return ["data"=>$data,"message"=>"success","status"=>200];
         }else{
-            return false;
+            return ["data"=>NULL,"message"=>"There Is No Data Releted Your Query","status"=>500];
         };
     }
 }

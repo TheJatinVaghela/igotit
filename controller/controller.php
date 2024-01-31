@@ -41,47 +41,42 @@ class controller extends model{
             case "/register":
                 $this->view("../view/register.php"); 
                 break;
+            case "/forgotpassword":
+                $this->view("../view/forgotpassword.php"); 
+                break;
             case "/create_account":
                 if($_SERVER['REQUEST_METHOD'] == 'POST' || isset($_POST)){
-                    $return =false;
-                    $empty = [];
-                    foreach($_POST as $key => $value){
-                        if($value === "" || !isset($value)){
-                            $return =true;
-                            array_push($empty, $value);
-                        } ;
-                    };
+                    $return = $this->validate_data($_POST);
                     if($return == true){
-                        print_r(json_encode(['data'=>$empty,'message'=>'data Was empty','status' =>404]));
+                        print_r(json_encode(['data'=>$_POST,'message'=>'data Was empty','status' =>404]));
                     }else{
                         $data = $this->create_account("customer",$_POST);
-                        if($data == false){
-                            print_r(json_encode(['data'=>$data,'message'=>'Server ERROR','status' =>500]));
-                        }else{
-                            print_r(json_encode(['data'=>$data,'message'=>'success','status' =>200]));
-                        };
+                        print_r(json_encode($data));
                     };
                 };
                 break;
             case '/chack_account':
                 if($_SERVER['REQUEST_METHOD'] == 'POST' || isset($_POST)){
-                    $return =false;
-                    $empty = [];
-                    foreach($_POST as $key => $value){
-                        if($value === "" || !isset($value)){
-                            $return =true;
-                            array_push($empty, $value);
-                        } ;
-                    };
+                    $return = $this->validate_data($_POST);
                     if($return == true){
-                        print_r(json_encode(['data'=>$empty,'message'=>'data Was empty','status' =>404]));
+                        print_r(json_encode(['data'=>$_POST,'message'=>'data Was empty','status' =>404]));
                     }else{
                         $data = $this->chack_account("customer",$_POST);
-                        if($data == false){
-                            print_r(json_encode(['data'=>$data,'message'=>'Server ERROR','status' =>500]));
-                        }else{
-                            print_r(json_encode(['data'=>$data,'message'=>'success','status' =>200]));
-                        };
+                        print_r(json_encode($data));
+                    };  
+                };
+                break;
+            case '/changepassword':
+                if($_SERVER['REQUEST_METHOD'] == 'POST' || isset($_POST)){
+                    $return = $this->validate_data($_POST);
+                    if($return == true){
+                        print_r(json_encode(['data'=>$_POST,'message'=>'data Was empty','status' =>404]));
+                    }else{
+                        $Temp_Arr = $_POST;
+                        array_pop($Temp_Arr); 
+                        $data = $this->chack_account("customer",$Temp_Arr);
+                        if($data['data'] == NULL){print_r(json_encode($data));};
+                        $data = $this->update_account("customer",$_POST);
                     };  
                 };
                 break;
@@ -92,6 +87,17 @@ class controller extends model{
         }
     }
 
+    public function validate_data($data){
+        $return =false;
+        $empty = [];
+        foreach($data as $key => $value){
+            if($value === "" || !isset($value)){
+                $return =true;
+                array_push($empty, $value);
+            } ;
+        };
+        return $return;
+    }
     public function view($url){
         require_once("../view/header.php");
         require_once($url);
