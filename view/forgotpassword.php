@@ -107,7 +107,7 @@
     <p>Create New Password</p>
     <input type="email" name="customer_email" placeholder="User Email" />
     <input type="password" name="customer_password" placeholder="Password" />
-    <input type="submit" name="login" value="Save Password" />
+    <input type="submit" name="login" value="Save" />
     <div class="links">
       <a href="http://localhost/clones/igotit/public/register">Register</a>
     </div>
@@ -133,7 +133,8 @@
             setCookie("customer_id",result.data[0].customer_id,2);
             window.location.href = "http://localhost/clones/igotit/public/home";
           } else {
-            alert('404 ERROR');
+            console.log(result);
+
           };
         }
       });

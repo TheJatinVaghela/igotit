@@ -69,7 +69,7 @@
                     if(result.status == 200){
                         window.location.href = "http://localhost/clones/igotit/public/login";
                     }else{
-                        alert('404 ERROR');
+                        console.log(result);
                     };
                 }
             });

@@ -37,20 +37,20 @@ class model {
         $data = $this->sqli_($sql);
         return $data;
     }
-    public function update_account($tbl,$data,$get=NULL){
+    public function update_account($tbl,$data,$where=NULL){
         $sql = "UPDATE $tbl SET ";
         foreach ($data as $key => $value) {
             $sql .= "`$key` = '$value' ,";
         };
         $sql = substr($sql,0,-1);
         $sql .= " WHERE ";
-        foreach ($data as $key => $value) {
+        foreach ($where as $key => $value) {
             $sql .= "`$key` = '$value' AND";
         };
         $sql = substr($sql,0,-3);
         $data = $this->sqli_($sql); 
         if($data['data'] == NULL) {return $data;};
-        $data = $this->fatch_all($get);
+        $data = $this->chack_account($tbl,$where);
         return $data;
     }
     
@@ -66,17 +66,16 @@ class model {
         return $data;
     }
     public function sqli_($sql){
-
-        $sqli = $this->connection->query($sql);
+        try {
+            $sqli = $this->connection->query($sql);
+        } catch (\Exception $th) {
+            return ["data"=>NULL,"message"=>$th->getMessage(),"status"=>500];
+        };
         if(isset($sqli) || $sqli == 1){
             return ["data"=>$sqli,"message"=>"success","status"=>200];
         }else{
             return ["data"=>NULL,"message"=>"Server Error","status"=>500];
         }
-    }
-    public function select($tbl,$data){
-        $sql = "SELECT * FROM $tbl WHERE ";
-        
     }
     public function fatch_all($sql){
         if($sql->num_rows > 0){

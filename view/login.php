@@ -134,7 +134,7 @@
             setCookie("customer_id",result.data[0].customer_id,2);
             window.location.href = "http://localhost/clones/igotit/public/home";
           } else {
-            alert('404 ERROR');
+            console.log(result);
           };
         }
       });
