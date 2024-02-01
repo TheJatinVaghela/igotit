@@ -81,6 +81,22 @@ class controller extends model{
                     };  
                 };
                 break;
+            // SELLER CODE
+            case '/seller_home':
+                $this->seller_view('../view/seller/seller_home.php');
+                break;
+            case '/seller_login':
+                $this->seller_view('../view/seller/seller_login.php');
+                break;
+            case '/seller_register':
+                $this->seller_view('../view/seller/seller_register.php');
+                break;
+            case '/seller_uploadproduct':
+                $this->seller_view('../view/seller/uploadproduct.php');
+                break;
+            case '/product':
+                $this->seller_view('../view/seller/see_product.php');
+                break;
             default:
                 echo " NO PAGE " ;
                 break;
@@ -103,6 +119,11 @@ class controller extends model{
         require_once("../view/header.php");
         require_once($url);
         require_once("../view/footer.php");
+    }
+    public function seller_view($url){
+        require_once("../view/seller/header.php");
+        require_once($url);
+        require_once("../view/seller/footer.php");
     }
 
 }

@@ -2,6 +2,7 @@
 
 class model {
     public $assets = "../public/assets/";
+    public $customer_assets = "../seller/assets/";
     public $hostname = "localhost";
     public $username = "root";
     public $password = "";
