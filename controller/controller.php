@@ -6,7 +6,7 @@ class controller extends model{
     public function __construct(){
         parent::__construct();
         if(!isset($_SERVER["PATH_INFO"]) || $_SERVER["PATH_INFO"] == NULL){
-           $path = "public/home";
+           $path = "default";
         }else{
             $arr = explode("/",$_SERVER['REQUEST_URI']);
             $path = $arr[3].$_SERVER["PATH_INFO"];
@@ -91,6 +91,10 @@ class controller extends model{
                 break;
             // SELLER CODE
             case 'seller/home':
+                if(!isset($_COOKIE["seller_id"])){
+                    echo "<center><h1>GO TO <a href='http://localhost/clones/igotit/seller/register'>SIGN UP</a>OR <a href='http://localhost/clones/igotit/seller/login'>SIGN IN</a> </h1> </center>";
+                    exit();
+                };
                 $this->seller_view('../view/seller/seller_home.php');
                 break;
             case 'seller/login':

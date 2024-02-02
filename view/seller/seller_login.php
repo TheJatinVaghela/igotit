@@ -17,9 +17,6 @@
                 <div class="form-group">
                   <input type="password" required name="seller_password"class="form-control form-control-lg" id="exampleInputPassword1" placeholder="Password">
                 </div>
-                <div class="mt-3">
-                  <button type="submit" class="btn btn-block btn-primary btn-lg font-weight-medium auth-form-btn">SIGN IN</button>
-                </div>
                 <div class="my-2 d-flex justify-content-between align-items-center">
                   <div class="form-check">
                     <label class="form-check-label text-muted">
@@ -28,6 +25,9 @@
                     </label>
                   </div>
                   <a href="http://localhost/clones/igotit/seller/forgotpassword" class="auth-link text-black">Forgot password?</a>
+                </div>
+                <div class="mt-3 my-2">
+                  <button type="submit" class="btn btn-block btn-primary btn-lg font-weight-medium auth-form-btn">SIGN IN</button>
                 </div>
                 <div class="mb-2">
                   <button type="button" class="btn btn-block btn-facebook auth-form-btn">

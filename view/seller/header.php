@@ -103,12 +103,12 @@
               <img src="<?php echo $this->customer_assets;?>/images/faces/face28.jpg" alt="profile"/>
             </a>
             <div class="dropdown-menu dropdown-menu-right navbar-dropdown" aria-labelledby="profileDropdown">
-              <a class="dropdown-item">
-                <i class="ti-settings text-primary"></i>
-                Settings
-              </a>
               <?php 
                 if(isset($_COOKIE['seller_id'])){ ?>
+              <a class="dropdown-item" href="http://localhost/clones/igotit/seller/account">
+                <i class="ti-settings text-primary"></i>
+                Account
+              </a>
               <a class="dropdown-item" onclick="removeUser()">
                 <i class="ti-na text-primary"></i>
                 Logout
@@ -125,11 +125,7 @@
               <?php };?>
             </div>
           </li>
-          <li class="nav-item nav-settings d-none d-lg-flex">
-            <a class="nav-link" href="#">
-              <i class="icon-ellipsis"></i>
-            </a>
-          </li>
+         
         </ul>
         <button class="navbar-toggler navbar-toggler-right d-lg-none align-self-center" type="button" data-toggle="offcanvas">
           <span class="icon-menu"></span>
@@ -212,12 +208,12 @@
               <img src="<?php echo $this->customer_assets;?>/images/faces/face28.jpg" alt="profile"/>
             </a>
             <div class="dropdown-menu dropdown-menu-right navbar-dropdown" aria-labelledby="profileDropdown">
-              <a class="dropdown-item">
-                <i class="ti-settings text-primary"></i>
-                Settings
-              </a>
               <?php 
                 if(isset($_COOKIE['seller_id'])){ ?>
+              <a class="dropdown-item" href="http://localhost/clones/igotit/seller/account">
+                <i class="ti-settings text-primary"></i>
+                Account
+              </a>
               <a class="dropdown-item" onclick="removeUser()">
                 <i class="ti-na text-primary"></i>
                 Logout
@@ -234,11 +230,7 @@
               <?php };?>
             </div>
           </li>
-          <li class="nav-item nav-settings d-none d-lg-flex">
-            <a class="nav-link" href="#">
-              <i class="icon-ellipsis"></i>
-            </a>
-          </li>
+        
         </ul>
         <button class="navbar-toggler navbar-toggler-right d-lg-none align-self-center" type="button" data-toggle="offcanvas">
           <span class="icon-menu"></span>
