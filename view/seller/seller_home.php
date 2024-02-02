@@ -348,9 +348,9 @@
             </a>
             <div class="collapse" id="auth">
               <ul class="nav flex-column sub-menu">
-                <li class="nav-item"> <a class="nav-link" href="http://localhost/clones/igotit/seller/seller_login"> Login </a></li>
-                <li class="nav-item"> <a class="nav-link" href="http://localhost/clones/igotit/seller/seller_register"> Register </a></li>
-                <li class="nav-item"> <a class="nav-link" href="http://localhost/clones/igotit/seller/seller_uploadproduct">Upload Product</a></li>
+                <li class="nav-item"> <a class="nav-link" href="http://localhost/clones/igotit/seller/login"> Login </a></li>
+                <li class="nav-item"> <a class="nav-link" href="http://localhost/clones/igotit/seller/register"> Register </a></li>
+                <li class="nav-item"> <a class="nav-link" href="http://localhost/clones/igotit/seller/uploadproduct">Upload Product</a></li>
               </ul>
             </div>
           </li>

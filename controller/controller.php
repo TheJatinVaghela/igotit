@@ -5,7 +5,14 @@ class controller extends model{
     public $page_name="";
     public function __construct(){
         parent::__construct();
-        $path = (!isset($_SERVER["PATH_INFO"]) || $_SERVER["PATH_INFO"] == NULL)? "/home": $_SERVER["PATH_INFO"];
+        if(!isset($_SERVER["PATH_INFO"]) || $_SERVER["PATH_INFO"] == NULL){
+           $path = "public/home";
+        }else{
+            $arr = explode("/",$_SERVER['REQUEST_URI']);
+            $path = $arr[3].$_SERVER["PATH_INFO"];
+        };
+         
+        
         $this->page_name = $path;
         if(isset($_COOKIE["customer_id"])){
             $data = ["customer_id" => $_COOKIE["customer_id"]];
@@ -17,34 +24,35 @@ class controller extends model{
         };
 
         switch ($path){
-            case "/home":
+            // PUBLIC CODE
+            case "public/home":
                 $this->view("../view/home.php"); 
                 break;
-            case "/shop":
+            case "public/shop":
                 $this->view("../view/shop.php"); 
                 break;
-            case "/detail":
+            case "public/detail":
                 $this->view("../view/detail.php"); 
                 break;
-            case "/cart":
+            case "public/cart":
                 $this->view("../view/cart.php"); 
                 break;
-            case "/checkout":
+            case "public/checkout":
                 $this->view("../view/checkout.php"); 
                 break;
-            case "/contact":
+            case "public/contact":
                 $this->view("../view/contact.php"); 
                 break;
-            case "/login":
+            case "public/login":
                 $this->view("../view/login.php"); 
                 break;
-            case "/register":
+            case "public/register":
                 $this->view("../view/register.php"); 
                 break;
-            case "/forgotpassword":
+            case "public/forgotpassword":
                 $this->view("../view/forgotpassword.php"); 
                 break;
-            case "/create_account":
+            case "public/create_account":
                 if($_SERVER['REQUEST_METHOD'] == 'POST' || isset($_POST)){
                     $return = $this->validate_data($_POST);
                     if($return == true){
@@ -55,7 +63,7 @@ class controller extends model{
                     };
                 };
                 break;
-            case '/chack_account':
+            case 'public/chack_account':
                 if($_SERVER['REQUEST_METHOD'] == 'POST' || isset($_POST)){
                     $return = $this->validate_data($_POST);
                     if($return == true){
@@ -66,7 +74,7 @@ class controller extends model{
                     };  
                 };
                 break;
-            case '/changepassword':
+            case 'public/changepassword':
                 if($_SERVER['REQUEST_METHOD'] == 'POST' || isset($_POST)){
                     $return = $this->validate_data($_POST);
                     if($return == true){
@@ -82,20 +90,47 @@ class controller extends model{
                 };
                 break;
             // SELLER CODE
-            case '/seller_home':
+            case 'seller/home':
                 $this->seller_view('../view/seller/seller_home.php');
                 break;
-            case '/seller_login':
+            case 'seller/login':
                 $this->seller_view('../view/seller/seller_login.php');
                 break;
-            case '/seller_register':
+            case 'seller/register':
                 $this->seller_view('../view/seller/seller_register.php');
                 break;
-            case '/seller_uploadproduct':
+            case 'seller/uploadproduct':
                 $this->seller_view('../view/seller/uploadproduct.php');
                 break;
-            case '/product':
+            case 'seller/product':
                 $this->seller_view('../view/seller/see_product.php');
+                break;
+            case 'seller/forgotpassword':
+                $this->seller_view('../view/seller/forgotpassword.php');
+                break;
+            case 'seller/create_seller':
+                if($_SERVER['REQUEST_METHOD'] == 'POST' || isset($_POST)){
+                    $return = $this->validate_data($_POST);
+                    if($return == true){
+                        print_r(json_encode(['data'=>$_POST,'message'=>'data Was empty','status' =>404]));
+                    }else{
+                        array_pop($_POST);
+                        $data = $this->create_account("seller",$_POST);
+                        print_r(json_encode($data));
+                    };
+                };
+                break;
+            case 'seller/chack_account':
+                if($_SERVER['REQUEST_METHOD'] == 'POST' || isset($_POST)){
+                    $return = $this->validate_data($_POST);
+                    if($return == true){
+                        print_r(json_encode(['data'=>$_POST,'message'=>'data Was empty','status' =>404]));
+                    }else{
+                        array_pop($_POST);
+                        $data = $this->chack_account("seller",$_POST);
+                        print_r(json_encode($data));
+                    };
+                };
                 break;
             default:
                 echo " NO PAGE " ;

@@ -5,7 +5,7 @@
   <!-- Required meta tags -->
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-  <title>igotit seller</title>
+  <title>igotit - seller</title>
   <!-- plugins:css -->
   <link rel="stylesheet" href="<?php echo $this->customer_assets;?>/vendors/feather/feather.css">
   <link rel="stylesheet" href="<?php echo $this->customer_assets;?>/vendors/ti-icons/css/themify-icons.css">

@@ -93,4 +93,10 @@ class model {
             return ["data"=>NULL,"message"=>"There Is No Data Releted Your Query","status"=>500];
         };
     }
+
+    public function print_stuf($stuf){
+        echo"<pre>";
+        print_r($stuf);
+        echo"</pre>";
+    }
 }

@@ -6,28 +6,30 @@
           <div class="col-lg-4 mx-auto">
             <div class="auth-form-light text-left py-5 px-4 px-sm-5">
               <div class="brand-logo">
-                <h4>(❁´◡`❁)</h4>
+                <h4>ヾ(＠⌒ー⌒＠)ノ</h4>
               </div>
               <h4>Hello! let's get started</h4>
-              <h6 class="font-weight-light">Sign in to continue.</h6>
-              <form class="pt-3" method="post" id="seller_login">
+              <h6 class="font-weight-light">Save Password to continue.</h6>
+              <form class="pt-3" method="post" id="seller_forgotpassword">
                 <div class="form-group">
                   <input type="email" required name="seller_email"class="form-control form-control-lg" id="exampleInputEmail1" placeholder="Username">
                 </div>
                 <div class="form-group">
                   <input type="password" required name="seller_password"class="form-control form-control-lg" id="exampleInputPassword1" placeholder="Password">
                 </div>
-                <div class="mt-3">
-                  <button type="submit" class="btn btn-block btn-primary btn-lg font-weight-medium auth-form-btn">SIGN IN</button>
+                <div class="form-group">
+                  <input type="password" required name="seller_password_re"class="form-control form-control-lg" id="exampleInputPassword1" placeholder="Re-enter Password">
                 </div>
-                <div class="my-2 d-flex justify-content-between align-items-center">
+                <div class="mt-3">
+                  <button type="submit" class="btn btn-block btn-primary btn-lg font-weight-medium auth-form-btn">SAVE</button>
+                </div>
+                <div class="my-1 d-flex justify-content-between align-items-center">
                   <div class="form-check">
-                    <label class="form-check-label text-muted">
-                      <input type="checkbox" name="seller_terms" required class="form-check-input">
-                     Will Keep you signed in
-                    </label>
+                    <!-- <label class="form-check-label text-muted">
+                      <input type="checkbox" class="form-check-input">
+                      Keep me signed in
+                    </label> -->
                   </div>
-                  <a href="http://localhost/clones/igotit/seller/forgotpassword" class="auth-link text-black">Forgot password?</a>
                 </div>
                 <div class="mb-2">
                   <button type="button" class="btn btn-block btn-facebook auth-form-btn">
@@ -51,10 +53,10 @@
 
 <script>
   $(document).ready(function() {
-    $('#seller_login').on('submit', function(e) {
+    $('#seller_forgotpassword').on('submit', function(e) {
       e.preventDefault();
       let data = new FormData(this);
-      let url = "http://localhost/clones/igotit/seller/chack_account";
+      let url = "http://localhost/clones/igotit/seller/changepassword";
       jQuery.ajax({
         url: url,
         data: data,
@@ -68,11 +70,14 @@
             window.location.href = "http://localhost/clones/igotit/seller/home";
           } else {
             console.log(result);
+
           };
         }
       });
     });
   });
+
+
 
   function setCookie(cname, cvalue, exdays) {
     const d = new Date();
