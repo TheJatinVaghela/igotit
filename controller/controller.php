@@ -132,6 +132,25 @@ class controller extends model{
                     };
                 };
                 break;
+            case 'seller/changepassword':
+                if($_SERVER['REQUEST_METHOD'] == 'POST' || isset($_POST)){
+                    $return = $this->validate_data($_POST);
+                    if($return == true){
+                        print_r(json_encode(['data'=>$_POST,'message'=>'data Was empty','status' =>404]));
+                    }else{
+                        if($_POST["seller_password"] != $_POST["seller_password_re"]){
+                            print_r(json_encode(['data'=>$_POST,'message'=>'Password Did Not Match','status' =>404]));
+                        };
+                        array_pop($_POST);
+                        $Temp_Arr = $_POST;
+                        array_pop($Temp_Arr); 
+                        $data = $this->chack_account("seller",$Temp_Arr);
+                        if($data['data'] == NULL){print_r(json_encode($data));};
+                        $data = $this->update_account("seller",$_POST,$Temp_Arr);
+                        print_r(json_encode($data));
+                    };  
+                };
+                break;
             default:
                 echo " NO PAGE " ;
                 break;

@@ -1,4 +1,4 @@
-<body>
+
   <div class="container-scroller">
     <div class="container-fluid page-body-wrapper full-page-wrapper">
       <div class="content-wrapper d-flex align-items-center auth px-0">
@@ -12,7 +12,7 @@
               <h6 class="font-weight-light">Sign in to continue.</h6>
               <form class="pt-3" method="post" id="seller_login">
                 <div class="form-group">
-                  <input type="email" required name="seller_email"class="form-control form-control-lg" id="exampleInputEmail1" placeholder="Username">
+                  <input type="email" required name="seller_email"class="form-control form-control-lg" id="exampleInputEmail1" placeholder="Seller Email">
                 </div>
                 <div class="form-group">
                   <input type="password" required name="seller_password"class="form-control form-control-lg" id="exampleInputPassword1" placeholder="Password">
@@ -47,7 +47,6 @@
     <!-- page-body-wrapper ends -->
   </div>
 
-</body>
 
 <script>
   $(document).ready(function() {
@@ -65,6 +64,7 @@
           result = JSON.parse(result);
           if (result.status == 200) {
             setCookie("seller_id",result.data[0].seller_id,2);
+            setCookie("seller_name",result.data[0].seller_name,2);
             window.location.href = "http://localhost/clones/igotit/seller/home";
           } else {
             console.log(result);
