@@ -2,6 +2,7 @@
 // $this->print_stuf($this->data);
 if($this->data['name'] == 'Customer'){
 
+    $val_0 ="customer_id";
     $val_1 ="customer_firstname";
     $val_2 ="customer_lastname";
     $val_3 ="customer_email";
@@ -12,6 +13,7 @@ if($this->data['name'] == 'Customer'){
     $key_3 ="Email";
     $key_4 ="State";
 }else if ($this->data['name'] == 'Seller'){
+    $val_0 ="seller_id";
     $val_1 ="seller_name";
     $val_4 ="seller_email";
     $val_2 ="seller_phone";
@@ -112,10 +114,11 @@ if($this->data['name'] == 'Customer'){
                                     <tbody>
                                     <?php foreach ($this->data['data'] as $key => $value) { ?>
                                         <tr>
-                                            <td><?php echo $value[$val_1] ?></td>
-                                            <td><?php echo $value[$val_2] ?></td>
-                                            <td><?php echo $value[$val_3] ?></td>
-                                            <td><label class="badge badge-success"><?php echo $value[$val_4] ?></label></td>
+                                          <td><?php echo $value[$val_1] ?></td>
+                                          <td><?php echo $value[$val_2] ?></td>
+                                          <td><?php echo $value[$val_3] ?></td>
+                                          <td><label class="badge badge-success"><?php echo $value[$val_4] ?></label></td>
+                                          <td> <button type="submit" class="btn btn-danger" name="Delete" value="<?php echo $val_0 .'='.$value[$val_0] ?>">Delete</button> </td>
                                         </tr>
                                     <?php }?>
                                     
