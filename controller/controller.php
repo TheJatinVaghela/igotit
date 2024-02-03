@@ -1,7 +1,7 @@
 <?php 
 require_once("../model/model.php");
 class controller extends model{
-
+    public $data;
     public $page_name="";
     public function __construct(){
         parent::__construct();
@@ -155,6 +155,90 @@ class controller extends model{
                     };  
                 };
                 break;
+            // ADMIN CODE
+            case 'admin/home':
+                if(!isset($_COOKIE["admin_id"])){
+                    echo "<center><h1>GO TO <a href='http://localhost/clones/igotit/admin/register'>SIGN UP</a>OR <a href='http://localhost/clones/igotit/admin/login'>SIGN IN</a> </h1> </center>";
+                    exit();
+                };
+                $this->admin_view('../view/admin/admin_home.php');
+                break;
+            case 'admin/login':
+                $this->admin_view('../view/admin/admin_login.php');
+                break;
+            case 'admin/register':
+                $this->admin_view('../view/admin/admin_register.php');
+                break;
+            case 'admin/uploadproduct':
+                $this->admin_view('../view/admin/uploadproduct.php');
+                break;
+            case 'admin/product':
+                $this->admin_view('../view/admin/see_product.php');
+                break;
+            case 'admin/forgotpassword':
+                $this->seller_view('../view/admin/forgotpassword.php');
+                break;
+            case 'admin/customer-table':
+                    try {
+                        $this->data = $this->select('customer',['*']);    
+                        $this->data['name']='Customer';
+                    } catch (\Exception $th) {
+                        print_r($th);
+                    };
+                    $this->admin_view('../view/admin/usertable.php');
+                break;  
+            case 'admin/seller-table':
+                    try {
+                        $this->data = $this->select('seller',['*']);    
+                        $this->data['name']='Seller';
+                    } catch (\Exception $th) {
+                        print_r($th);
+                    };
+                    $this->admin_view('../view/admin/usertable.php');
+                break;  
+            case 'admin/create_admin':
+                if($_SERVER['REQUEST_METHOD'] == 'POST' || isset($_POST)){
+                    $return = $this->validate_data($_POST);
+                    if($return == true){
+                        print_r(json_encode(['data'=>$_POST,'message'=>'data Was empty','status' =>404]));
+                    }else{
+                        array_pop($_POST);
+                        $data = $this->create_account("admin",$_POST);
+                        print_r(json_encode($data));
+                    };
+                };
+                break;
+            case 'admin/chack_account':
+                if($_SERVER['REQUEST_METHOD'] == 'POST' || isset($_POST)){
+                    $return = $this->validate_data($_POST);
+                    if($return == true){
+                        print_r(json_encode(['data'=>$_POST,'message'=>'data Was empty','status' =>404]));
+                    }else{
+                        array_pop($_POST);
+                        $data = $this->chack_account("admin",$_POST);
+                        print_r(json_encode($data));
+                    };
+                };
+                break;
+            case 'admin/changepassword':
+                if($_SERVER['REQUEST_METHOD'] == 'POST' || isset($_POST)){
+                    $return = $this->validate_data($_POST);
+                    if($return == true){
+                        print_r(json_encode(['data'=>$_POST,'message'=>'data Was empty','status' =>404]));
+                    }else{
+                        if($_POST["admin_password"] != $_POST["admin_password_re"]){
+                            print_r(json_encode(['data'=>$_POST,'message'=>'Password Did Not Match','status' =>404]));
+                        };
+                        array_pop($_POST);
+                        $Temp_Arr = $_POST;
+                        array_pop($Temp_Arr); 
+                        $data = $this->chack_account("admin",$Temp_Arr);
+                        if($data['data'] == NULL){print_r(json_encode($data));};
+                        $data = $this->update_account("admin",$_POST,$Temp_Arr);
+                        print_r(json_encode($data));
+                    };  
+                };
+                break;
             default:
                 echo " NO PAGE " ;
                 break;
@@ -182,6 +266,11 @@ class controller extends model{
         require_once("../view/seller/header.php");
         require_once($url);
         require_once("../view/seller/footer.php");
+    }
+    public function admin_view($url){
+        require_once("../view/admin/header.php");
+        require_once($url);
+        require_once("../view/admin/footer.php");
     }
 
 }

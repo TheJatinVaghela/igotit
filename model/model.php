@@ -2,7 +2,8 @@
 
 class model {
     public $assets = "../public/assets/";
-    public $customer_assets = "../seller/assets/";
+    public $seller_assets = "../seller/assets/";
+    public $admin_assets = "../admin/assets/";
     public $hostname = "localhost";
     public $username = "root";
     public $password = "";
@@ -61,6 +62,26 @@ class model {
             $sql .= "`$key` = '$value' AND";
         };
         $sql = substr($sql,0,-3);
+        $data = $this->sqli_($sql); 
+        if($data['data'] == NULL) {return $data;};
+        $data = $this->fatch_all($data['data']);
+        return $data;
+    }
+    public function select($tbl,$get,$where=null){
+        $sql = "SELECT";// FROM $tbl WHERE"
+        foreach ($get as $key => $value) {
+            $sql .= " $value ,";
+        };
+        $sql = substr($sql,0,-1);
+        if($where != null){
+            $sql .= "FROM $tbl WHERE";
+            foreach ($where as $key => $value) {
+                $sql .= " `$key` = '$value' AND";
+            };
+            $sql = substr($sql,0,-3);
+        }else{
+            $sql .= "FROM $tbl";
+        };
         $data = $this->sqli_($sql); 
         if($data['data'] == NULL) {return $data;};
         $data = $this->fatch_all($data['data']);
