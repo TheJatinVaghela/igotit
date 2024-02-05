@@ -48,7 +48,7 @@ if($this->data['name'] == 'Customer'){
               <!-- Modal body -->
               <div class="modal-body">
                   <?php if($this->data['name'] == 'Customer'){?>
-                    <form class="login container" id="customer_update" onsubmit="API(this,event,'/admin/update');">
+                    <form class="login container" id="customer_update" method="post">
                         <div class="col-lg-8">
                             <div class="mb-4">
                                 <h4 class="font-weight-semi-bold mb-4">Update</h4>
@@ -105,7 +105,7 @@ if($this->data['name'] == 'Customer'){
                         </div>
                     </form>
                   <?php }else if($this->data['name'] == 'Seller'){?>
-                    <form class="pt-3" method="post" id="seller_update" onsubmit="return API(this,'/admin/update');">
+                    <form class="pt-3" method="post" id="seller_update" >
                       <div class="form-group">
                         <label>Name</label>
                         <input type="text" name="seller_name" required class="form-control form-control-lg" id="exampleInputUsername1" placeholder="Username">
@@ -140,7 +140,7 @@ if($this->data['name'] == 'Customer'){
                         <input class="form-control" name="seller_addres" type="text" placeholder="123 Street" required>
                       </div>
                       <div class="mt-3">
-                        <button type="submit" onsubmit="API(this,'/admin/update')" class="btn btn-block btn-primary btn-lg font-weight-medium auth-form-btn">Update Account</button>
+                        <button type="submit" class="btn btn-block btn-primary btn-lg font-weight-medium auth-form-btn">Update Account</button>
                       </div>
                      
                     </form>
@@ -261,8 +261,8 @@ if($this->data['name'] == 'Customer'){
                                           <td><?php echo $value[$val_2] ?></td>
                                           <td><?php echo $value[$val_3] ?></td>
                                           <td><label class="badge badge-success"><?php echo $value[$val_4] ?></label></td>
-                                          <td> <button type="button" class="btn btn-danger" name="Delete" value="<?php echo $value[$val_0] ?>" onclick="Delete()">Delete</button> </td>
-                                          <td> <button type="button" class="btn btn-primary" name="Update" value="<?php echo $value[$val_0] ?>" onclick="showModal(`<?php echo $val_0.'='.$value[$val_0] ?>`)">Update</button> </td>
+                                          <td> <button type="button" class="btn btn-danger" name="Delete" value="<?php echo $value[$val_0]; ?>" onclick="Delete(<?php echo $value[$val_0]; ?>)">Delete</button> </td>
+                                          <td> <button type="button" class="btn btn-primary" name="Update" value="<?php echo $value[$val_0]; ?>" onclick="showModal(`<?php echo $val_0.'='.$value[$val_0]; ?>`)">Update</button> </td>
                                           <script>
                                               function showModal(FullID){
                                                 let id = FullID.replace(/[^0-9\.]+/g, "");
@@ -935,77 +935,31 @@ if($this->data['name'] == 'Customer'){
 
 <script>
 
-  //API
-  function API(e,event,url){
-            event.preventDefault(); 
-            console.log($('#<?php echo $val_0;?>').val());
-            
-            let data = new FormData(e);
-            console.log(data);
-            // let url = "http://localhost/clones/igotit"+url;
-            // jQuery.ajax({
-            //     url: url,
-            //     data:data,
-            //     processData:false,
-            //     contentType:false,
-            //     type: 'POST',
-            //     success:function(result){
-            //         result = JSON.parse(result);
-            //         if(result.status == 200){
-            //             window.location.reload();
-            //         }else{
-            //             console.log(result);
-            //         };
-            //     }
-            // });
+                                          
+   async function Delete(value){
+      let data = { <?php echo $val_0; ?> :value };
+      let url = "http://localhost/clones/igotit/admin/delete";
+      try {
+        const config = {
+            method: 'POST',
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(data)
         }
+        const responce = await fetch(url, config)
+        const result = await responce.json()
+        if(result.status == 200){
+             window.location.reload();
+        }else{
+              window.location.reload();
+        };
+      } catch (error) {
+            window.location.reload();
+            console.log(error);
+      }
+    }                                       
 
- /* // Seller Update
-    $(document).ready(function(){
-        $('#seller_update').on('submit',function(e){
-            e.preventDefault();
-            let data = new FormData(this);
-            let url = "http://localhost/clones/igotit/seller/update";
-            jQuery.ajax({
-                url: url,
-                data:data,
-                processData:false,
-                contentType:false,
-                type: 'POST',
-                success:function(result){
-                    result = JSON.parse(result);
-                    if(result.status == 200){
-                        window.location.href = "http://localhost/clones/igotit/seller/login";
-                    }else{
-                        console.log(result);
-                    };
-                }
-            });
-        });
-    });
-
-  //Customer Register
-  $(document).ready(function(){
-        $('#customer_update').on('submit',function(e){
-            e.preventDefault();
-            let data = new FormData(this);
-            let url = "http://localhost/clones/igotit/public/update";
-            jQuery.ajax({
-                url: url,
-                data:data,
-                processData:false,
-                contentType:false,
-                type: 'POST',
-                success:function(result){
-                    result = JSON.parse(result);
-                    if(result.status == 200){
-                        window.location.href = "http://localhost/clones/igotit/public/login";
-                    }else{
-                        console.log(result);
-                    };
-                }
-            });
-        });
-    }); */
 
 </script>

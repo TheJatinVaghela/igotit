@@ -11,17 +11,10 @@ class controller extends model{
             $arr = explode("/",$_SERVER['REQUEST_URI']);
             $path = $arr[3].$_SERVER["PATH_INFO"];
         };
-         
-        
         $this->page_name = $path;
-        if(isset($_COOKIE["customer_id"])){
-            $data = ["customer_id" => $_COOKIE["customer_id"]];
-            $answer = $this->chack_account("customer", $data);
-            if($answer == false){
-                unset($_COOKIE['customer_id']); 
-                setcookie('customer_id', '', -1, '/'); 
-            };
-        };
+        $this->chack_userExists('customer_id','customer');
+        $this->chack_userExists('admin_id','admin');
+        $this->chack_userExists('seller_id','seller');
 
         switch ($path){
             // PUBLIC CODE
@@ -246,11 +239,30 @@ class controller extends model{
                     if($return == true){
                         print_r(json_encode(['data'=>$_POST,'message'=>'data Was empty','status' =>404]));
                     }else{
-                        $data = $this->update_account("admin",$_POST,$_POST['']);
+                        $key = array_key_exists('seller_id',$_POST) ? 'seller_id' : 'customer_id';
+                        $table = explode('_',$key);
+                        array_pop($table);
+                        $data = $this->update_account($table[0],$_POST,[$key=>$_POST[$key]]);
                         print_r(json_encode($data));
                     }
                 };
-            
+                break;
+            case 'admin/delete':
+                if($_SERVER['REQUEST_METHOD'] == 'POST' || isset($_POST)){
+                    $post_data = json_decode(file_get_contents('php://input'),true);
+
+                    $return = $this->validate_data($post_data);
+                    if($return == true){
+                        print_r(json_encode(['data'=>$post_data,'message'=>'data Was empty','status' =>404]));
+                    }else{
+                        $key = array_key_exists('seller_id',$post_data) ? 'seller' : 'customer';
+                        $data = $this->chack_account("admin",$post_data);
+                        if($data['data'] == NULL){print_r(json_encode($data));};
+                        $data = $this->delete($key,$post_data);
+                        print_r(json_encode($data));
+                    }
+                };
+                break;
             default:
                 echo " NO PAGE " ;
                 break;
@@ -268,6 +280,16 @@ class controller extends model{
             } ;
         };
         return $return;
+    }
+    public function chack_userExists($cookie_key,$tbl){
+        if(isset($_COOKIE[$cookie_key])){
+            $data = [$cookie_key => $_COOKIE[$cookie_key]];
+            $answer = $this->chack_account($tbl, $data);
+            if($answer['status'] == 500){
+                unset($_COOKIE[$cookie_key]); 
+                setcookie($cookie_key, '', -1, '/'); 
+            };
+        };
     }
     public function view($url){
         require_once("../view/header.php");

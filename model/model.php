@@ -55,6 +55,15 @@ class model {
         $data = $this->chack_account($tbl,$where);
         return $data;
     }
+    public function delete($tbl,$where=NULL){
+        $sql = "DELETE FROM $tbl WHERE";
+        foreach ($where as $key => $value) {
+            $sql .= " $key = $value AND";
+        };
+        $sql = substr($sql,0,-3);
+        $data = $this->sqli_($sql,false);
+        return $data;
+    }
     
     public function chack_account($tbl,$data){
         $sql = "SELECT * FROM $tbl WHERE ";
@@ -87,17 +96,22 @@ class model {
         $data = $this->fatch_all($data['data']);
         return $data;
     }
-    public function sqli_($sql){
+    public function sqli_($sql,$error=true){
         try {
             $sqli = $this->connection->query($sql);
-        } catch (\Exception $th) {
-            return ["data"=>NULL,"message"=>$th->getMessage(),"status"=>500];
-        };
-        if(isset($sqli) || $sqli == 1){
-            return ["data"=>$sqli,"message"=>"success","status"=>200];
-        }else{
-            return ["data"=>NULL,"message"=>"Server Error","status"=>500];
+            if(isset($sqli) || $sqli == 1){
+                return ["data"=>$sqli,"message"=>"success","status"=>200,];
+            }else{
+                return ["data"=>NULL,"message"=>"Server Error","status"=>500,];
+            };
+        } catch (\Throwable $th) {
+            if($error == true){
+                return ["data"=>NULL,"message"=>$th->getMessage(),"status"=>500,];
+            }else if($error == false){
+
+            };
         }
+       
     }
     public function fatch_all($sql){
         if($sql->num_rows > 0){
