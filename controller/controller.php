@@ -81,6 +81,7 @@ class controller extends model{
                         print_r(json_encode(['data'=>$_POST,'message'=>'data Was empty','status' =>404]));
                     }else{
                         $Temp_Arr = $_POST;
+                        unset($Temp_Arr["customer_password"]);
                         array_pop($Temp_Arr); 
                         $data = $this->chack_account("customer",$Temp_Arr);
                         if($data['data'] == NULL){print_r(json_encode($data));};
@@ -118,7 +119,7 @@ class controller extends model{
                     if($return == true){
                         print_r(json_encode(['data'=>$_POST,'message'=>'data Was empty','status' =>404]));
                     }else{
-                        array_pop($_POST);
+                        unset($_POST['seller_terms']);
                         $data = $this->create_account("seller",$_POST);
                         print_r(json_encode($data));
                     };
@@ -130,7 +131,7 @@ class controller extends model{
                     if($return == true){
                         print_r(json_encode(['data'=>$_POST,'message'=>'data Was empty','status' =>404]));
                     }else{
-                        array_pop($_POST);
+                        unset($_POST["seller_terms"]);
                         $data = $this->chack_account("seller",$_POST);
                         print_r(json_encode($data));
                     };
@@ -145,9 +146,9 @@ class controller extends model{
                         if($_POST["seller_password"] != $_POST["seller_password_re"]){
                             print_r(json_encode(['data'=>$_POST,'message'=>'Password Did Not Match','status' =>404]));
                         };
-                        array_pop($_POST);
+                        unset($_POST['seller_password_re']);
                         $Temp_Arr = $_POST;
-                        array_pop($Temp_Arr); 
+                        unset($Temp_Arr['seller_password']); 
                         $data = $this->chack_account("seller",$Temp_Arr);
                         if($data['data'] == NULL){print_r(json_encode($data));};
                         $data = $this->update_account("seller",$_POST,$Temp_Arr);
@@ -202,7 +203,7 @@ class controller extends model{
                     if($return == true){
                         print_r(json_encode(['data'=>$_POST,'message'=>'data Was empty','status' =>404]));
                     }else{
-                        array_pop($_POST);
+                        unset($_POST['admin_terms']);
                         $data = $this->create_account("admin",$_POST);
                         print_r(json_encode($data));
                     };
@@ -214,7 +215,7 @@ class controller extends model{
                     if($return == true){
                         print_r(json_encode(['data'=>$_POST,'message'=>'data Was empty','status' =>404]));
                     }else{
-                        array_pop($_POST);
+                        unset($_POST['admin_terms']);
                         $data = $this->chack_account("admin",$_POST);
                         print_r(json_encode($data));
                     };
@@ -229,9 +230,9 @@ class controller extends model{
                         if($_POST["admin_password"] != $_POST["admin_password_re"]){
                             print_r(json_encode(['data'=>$_POST,'message'=>'Password Did Not Match','status' =>404]));
                         };
-                        array_pop($_POST);
+                        unset($_POST['admin_password_re']);
                         $Temp_Arr = $_POST;
-                        array_pop($Temp_Arr); 
+                        unset($Temp_Arr['admin_password']); 
                         $data = $this->chack_account("admin",$Temp_Arr);
                         if($data['data'] == NULL){print_r(json_encode($data));};
                         $data = $this->update_account("admin",$_POST,$Temp_Arr);
@@ -239,6 +240,17 @@ class controller extends model{
                     };  
                 };
                 break;
+            case 'admin/update':
+                if($_SERVER['REQUEST_METHOD'] == 'POST' || isset($_POST)){
+                    $return = $this->validate_data($_POST);
+                    if($return == true){
+                        print_r(json_encode(['data'=>$_POST,'message'=>'data Was empty','status' =>404]));
+                    }else{
+                        $data = $this->update_account("admin",$_POST,$_POST['']);
+                        print_r(json_encode($data));
+                    }
+                };
+            
             default:
                 echo " NO PAGE " ;
                 break;

@@ -1,3 +1,5 @@
+<link rel="stylesheet" href="../public\assets/csslogin_register">
+
 <?php 
 // $this->print_stuf($this->data);
 if($this->data['name'] == 'Customer'){
@@ -25,6 +27,145 @@ if($this->data['name'] == 'Customer'){
     $key_3 ="Addres";
 }
     ?> 
+<head>
+    <!-- bootstrap -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+  <!-- bootstrap-end -->
+</head>
+  
+      <!-- The Modal -->
+  <div class="modal" id="myModal">
+          <div class="modal-dialog">
+            <div class="modal-content">
+
+              <!-- Modal Header -->
+              <div class="modal-header">
+                <h4 class="modal-title">Modal Heading</h4>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+              </div>
+
+              <!-- Modal body -->
+              <div class="modal-body">
+                  <?php if($this->data['name'] == 'Customer'){?>
+                    <form class="login container" id="customer_update" onsubmit="API(this,event,'/admin/update');">
+                        <div class="col-lg-8">
+                            <div class="mb-4">
+                                <h4 class="font-weight-semi-bold mb-4">Update</h4>
+                                <div class="row">
+                                    <div class="col-md-6 form-group">
+                                        <label>First Name</label>
+                                        <input class="form-control" name="customer_firstname" type="text" placeholder="John">
+                                    </div>
+                                    <div class="col-md-6 form-group">
+                                        <label>Last Name</label>
+                                        <input class="form-control" name="customer_lastname" type="text" placeholder="Doe">
+                                    </div>
+                                    <div class="col-md-6 form-group">
+                                        <label>E-mail</label>
+                                        <input class="form-control" name="customer_email" type="text" placeholder="example@email.com">
+                                    </div>
+                                    <!-- For Reffrence id -->
+                                    <input class="form-control" name="customer_id" id="customer_id" value="" hidden type="text">
+                                    <!-- For Reffrence id -END -->
+                                        
+                                    <div class="col-md-6 form-group">
+                                        <label>Password</label>
+                                        <input class="form-control" name="customer_password" type="password" placeholder="">
+                                    </div>
+                                    <div class="col-md-6 form-group">
+                                        <label>Mobile No</label>
+                                        <input class="form-control" name="customer_phone" type="text" placeholder="+123 456 789">
+                                    </div>
+                                    <div class="col-md-6 form-group">
+                                        <label>Address</label>
+                                        <input class="form-control" name="customer_addres" type="text" placeholder="123 Street">
+                                    </div>
+                                    
+                                    <div class="col-md-6 form-group">
+                                        <label>City</label>
+                                        <input class="form-control" name="customer_city" type="text" placeholder="New York">
+                                    </div>
+                                    <div class="col-md-6 form-group">
+                                        <label>State</label>
+                                        <input class="form-control" name="customer_state" type="text" placeholder="New York">
+                                    </div>
+                                    <div class="col-md-6 form-group">
+                                        <label>ZIP Code</label>
+                                        <input class="form-control" name="customer_zipcode" type="text" placeholder="123">
+                                    </div>
+                                    
+                                    
+                                </div>
+                            </div>
+                            
+                            <div class="card-footer border-secondary bg-transparent">
+                                <button type="submit"  name="customer_update" class="btn btn-lg btn-block btn-primary font-weight-bold my-3 py-3">Update Account</button>
+                            </div>
+                        </div>
+                    </form>
+                  <?php }else if($this->data['name'] == 'Seller'){?>
+                    <form class="pt-3" method="post" id="seller_update" onsubmit="return API(this,'/admin/update');">
+                      <div class="form-group">
+                        <label>Name</label>
+                        <input type="text" name="seller_name" required class="form-control form-control-lg" id="exampleInputUsername1" placeholder="Username">
+                      </div>
+                      <div class="form-group">
+                        <label>Email</label>
+                        <input type="email" name="seller_email" required class="form-control form-control-lg" id="exampleInputEmail1" placeholder="Email">
+                      </div>
+                      <!-- For Reffrence id -->
+                      <input class="form-control" name="seller_id" id="seller_id" value="" hidden  type="text">
+                      <!-- For Reffrence id -END -->
+                      <!-- <div class="form-group
+                        <select class="form-control form-control-lg" id="exampleFormControlSelect2">
+                          <option>Country</option>
+                          <option>United States of America</option>
+                          <option>United Kingdom</option>
+                          <option>India</option>
+                          <option>Germany</option>
+                          <option>Argentina</option>
+                        </select>
+                      </div> -->
+                      <div class="form-group">
+                        <label>Password</label>
+                        <input type="password" name="seller_password" required class="form-control form-control-lg" id="exampleInputPassword1" placeholder="Password">
+                      </div>
+                      <div class="form-group">
+                        <label>Phone</label>
+                        <input class="form-control" name="seller_phone" type="text" placeholder="+123 456 789" required>
+                      </div>
+                      <div class="form-group">
+                        <label>Addres</label>
+                        <input class="form-control" name="seller_addres" type="text" placeholder="123 Street" required>
+                      </div>
+                      <div class="mt-3">
+                        <button type="submit" onsubmit="API(this,'/admin/update')" class="btn btn-block btn-primary btn-lg font-weight-medium auth-form-btn">Update Account</button>
+                      </div>
+                     
+                    </form>
+                  <?php }?>
+              </div>
+
+              <!-- Modal footer -->
+              <div class="modal-footer">
+                <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Close</button>
+              </div>
+
+            </div>
+          </div>
+        </div>
+        <script>
+
+    var myModal = document.getElementById('myModal')
+    var myInput = document.getElementById('myInput')
+
+    myModal.addEventListener('shown.bs.modal', function () {
+      myInput.focus()
+    })
+        </script>
+
+        <!-- bootstrap MODAL -end -->
 
 
     <!-- NAV -->
@@ -93,11 +234,13 @@ if($this->data['name'] == 'Customer'){
             </ul>
         </nav>
         <!-- NAV -END -->
+        <!-- bootstrap MODAL -->
+        <!-- Button to Open the Modal -->
+        
         <!-- MAIN-PANEL -->
         <div class="main-panel ">
             <div class="content-wrapper">
                 <div class="row">
-                    <div class="col-lg-6 grid-margin stretch-card">
                         <div class="card">
                             <div class="card-body">
                                 <h4 class="card-title"><?php echo $this->data['name']?></h4>
@@ -108,7 +251,7 @@ if($this->data['name'] == 'Customer'){
                                         <th><?php echo $key_1?></th>
                                         <th><?php echo $key_2?></th>
                                         <th><?php echo $key_3?></th>
-                                        <th><?php echo $key_4?></th>
+                                        <th ><?php echo $key_4?></th>
                                     </tr>
                                     </thead>
                                     <tbody>
@@ -118,7 +261,18 @@ if($this->data['name'] == 'Customer'){
                                           <td><?php echo $value[$val_2] ?></td>
                                           <td><?php echo $value[$val_3] ?></td>
                                           <td><label class="badge badge-success"><?php echo $value[$val_4] ?></label></td>
-                                          <td> <button type="submit" class="btn btn-danger" name="Delete" value="<?php echo $val_0 .'='.$value[$val_0] ?>">Delete</button> </td>
+                                          <td> <button type="button" class="btn btn-danger" name="Delete" value="<?php echo $value[$val_0] ?>" onclick="Delete()">Delete</button> </td>
+                                          <td> <button type="button" class="btn btn-primary" name="Update" value="<?php echo $value[$val_0] ?>" onclick="showModal(`<?php echo $val_0.'='.$value[$val_0] ?>`)">Update</button> </td>
+                                          <script>
+                                              function showModal(FullID){
+                                                let id = FullID.replace(/[^0-9\.]+/g, "");
+                                                console.log(id);
+                                                $('#myModal').show();
+                                                $('#<?php echo $val_0;?>').val(id);
+                                                console.log('#<?php echo $val_0;?>');
+                                                // $('#<?php echo $val_0;?>').attr('hidden', true);
+                                              };
+                                          </script>
                                         </tr>
                                     <?php }?>
                                     
@@ -127,7 +281,6 @@ if($this->data['name'] == 'Customer'){
                                 </div>
                             </div>
                         </div>
-                    </div>
                 </div>
             </div>
         </div>
@@ -135,7 +288,7 @@ if($this->data['name'] == 'Customer'){
 </div>
                           
          
-  
+
 <!--
             <div class="col-lg-6 grid-margin stretch-card">
               <div class="card">
@@ -778,3 +931,81 @@ if($this->data['name'] == 'Customer'){
               </div>
             </div>
 -->
+
+
+<script>
+
+  //API
+  function API(e,event,url){
+            event.preventDefault(); 
+            console.log($('#<?php echo $val_0;?>').val());
+            
+            let data = new FormData(e);
+            console.log(data);
+            // let url = "http://localhost/clones/igotit"+url;
+            // jQuery.ajax({
+            //     url: url,
+            //     data:data,
+            //     processData:false,
+            //     contentType:false,
+            //     type: 'POST',
+            //     success:function(result){
+            //         result = JSON.parse(result);
+            //         if(result.status == 200){
+            //             window.location.reload();
+            //         }else{
+            //             console.log(result);
+            //         };
+            //     }
+            // });
+        }
+
+ /* // Seller Update
+    $(document).ready(function(){
+        $('#seller_update').on('submit',function(e){
+            e.preventDefault();
+            let data = new FormData(this);
+            let url = "http://localhost/clones/igotit/seller/update";
+            jQuery.ajax({
+                url: url,
+                data:data,
+                processData:false,
+                contentType:false,
+                type: 'POST',
+                success:function(result){
+                    result = JSON.parse(result);
+                    if(result.status == 200){
+                        window.location.href = "http://localhost/clones/igotit/seller/login";
+                    }else{
+                        console.log(result);
+                    };
+                }
+            });
+        });
+    });
+
+  //Customer Register
+  $(document).ready(function(){
+        $('#customer_update').on('submit',function(e){
+            e.preventDefault();
+            let data = new FormData(this);
+            let url = "http://localhost/clones/igotit/public/update";
+            jQuery.ajax({
+                url: url,
+                data:data,
+                processData:false,
+                contentType:false,
+                type: 'POST',
+                success:function(result){
+                    result = JSON.parse(result);
+                    if(result.status == 200){
+                        window.location.href = "http://localhost/clones/igotit/public/login";
+                    }else{
+                        console.log(result);
+                    };
+                }
+            });
+        });
+    }); */
+
+</script>
