@@ -98,6 +98,8 @@ class controller extends model{
                 $this->seller_view('../view/seller/seller_register.php');
                 break;
             case 'seller/uploadproduct':
+                $this->data['CATEGORY'] = $this->select('category',['*']);
+                $this->data['SUBCATEGORY'] = $this->select('subcategory',['*']);
                 $this->seller_view('../view/seller/uploadproduct.php');
                 break;
             case 'seller/product':
@@ -149,6 +151,17 @@ class controller extends model{
                     };  
                 };
                 break;
+            case 'seller/add_product':
+                if($_SERVER['REQUEST_METHOD'] == 'POST' || isset($_POST)){
+                    $return = $this->validate_data($_POST);
+                    if($return == true){
+                        print_r(json_encode(['data'=>$_POST,'message'=>'data Was empty','status' =>404]));
+                    }else{
+                        $data = $this->insert("product",$_POST);
+                        print_r(json_encode($data));
+                    };
+                };
+                break;
             // ADMIN CODE
             case 'admin/home':
                 if(!isset($_COOKIE["admin_id"])){
@@ -171,6 +184,10 @@ class controller extends model{
                 break;
             case 'admin/create_category':
                 $this->seller_view('../view/admin/add_category.php');
+                break;
+            case 'admin/create_subcategory':
+                $this->data = $this->select('category',['*']);
+                $this->seller_view('../view/admin/add_subcategory.php');
                 break;
             case 'admin/customer-table':
                     try {
@@ -269,7 +286,18 @@ class controller extends model{
                     if($return == true){
                         print_r(json_encode(['data'=>$_POST,'message'=>'data Was empty','status' =>404]));
                     }else{
-                        $data = $this->insert("admin",$_POST);
+                        $data = $this->insert("category",$_POST);
+                        print_r(json_encode($data));
+                    };
+                };
+                break;
+            case 'admin/add_subcategory':
+                if($_SERVER['REQUEST_METHOD'] == 'POST' || isset($_POST)){
+                    $return = $this->validate_data($_POST);
+                    if($return == true){
+                        print_r(json_encode(['data'=>$_POST,'message'=>'data Was empty','status' =>404]));
+                    }else{
+                        $data = $this->insert("subcategory",$_POST);
                         print_r(json_encode($data));
                     };
                 };

@@ -427,6 +427,7 @@
             <div class="collapse" id="create_add">
               <ul class="nav flex-column sub-menu">
                 <li class="nav-item"> <a class="nav-link" href="http://localhost/clones/igotit/admin/create_category">create category</a></li>
+                <li class="nav-item"> <a class="nav-link" href="http://localhost/clones/igotit/admin/create_subcategory">create subcategory</a></li>
               </ul>
             </div>
           </li>

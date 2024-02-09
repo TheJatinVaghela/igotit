@@ -40,8 +40,20 @@
                     <input class="form-control" required name="customer_addres" type="text" placeholder="123 Street">
                 </div>
                 <div class="form-group">
-                  <label>Category</label>
-                  <input class="form-control" required name="product_category" type="text" placeholder="cloth">
+                    <label for="exampleFormControlSelect1">select category</label>
+                    <select class="form-control form-control-lg" name="product_category_id" id="exampleFormControlSelect1">
+                    <?php foreach ($this->data['CATEGORY']['data'] as $key => $value) { ?>
+                      <option value="<?php echo $value['category_id'] ?>"><?php echo $value['category_name'] ?></option>
+                    <?php }?>  
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="exampleFormControlSelect1">select subcategory</label>
+                    <select class="form-control form-control-lg" name="product_subcategory_id" id="exampleFormControlSelect1">
+                    <?php foreach ($this->data['SUBCATEGORY']['data'] as $key => $value) { ?>
+                      <option value="<?php echo $value['subcategory_id'] ?>"><?php echo $value['subcategory_name'] ?></option>
+                    <?php }?>  
+                    </select>
                 </div>
                 <div class="form-group">
                 <label>Retail - Price</label>
@@ -81,3 +93,28 @@
               </form>
             </div>
           </div>
+
+<script>
+    $(document).ready(function(){
+        $('#uploadproduct').on('submit',function(e){
+            e.preventDefault();
+            let data = new FormData(this);
+            let url = "http://localhost/clones/igotit/seller/add_product";
+            jQuery.ajax({
+                url: url,
+                data:data,
+                processData:false,
+                contentType:false,
+                type: 'POST',
+                success:function(result){
+                    result = JSON.parse(result);
+                    if(result.status == 200){
+                        window.location.href = "http://localhost/clones/igotit/seller/home";
+                    }else{
+                        console.log(result);
+                    };
+                }
+            });
+        });
+    });
+</script>

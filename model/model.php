@@ -77,7 +77,7 @@ class model {
         $data = $this->fatch_all($data['data']);
         return $data;
     }
-    public function select($tbl,$get,$where=null){
+    public function select($tbl,array $get,$where=null){
         $sql = "SELECT";// FROM $tbl WHERE"
         foreach ($get as $key => $value) {
             $sql .= " $value ,";
