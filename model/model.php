@@ -23,7 +23,7 @@ class model {
         return $this->connection;
     } 
 
-    public function create_account($tbl,$data){
+    public function insert($tbl,$data){
         $sql = "INSERT INTO $tbl( ";
         $firstSQL ="";
         $lastSQL="" ;
@@ -39,6 +39,7 @@ class model {
         $data = $this->sqli_($sql);
         return $data;
     }
+
     public function update_account($tbl,$data,$where=NULL){
         $sql = "UPDATE $tbl SET ";
         foreach ($data as $key => $value) {

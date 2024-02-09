@@ -164,83 +164,6 @@ if($this->data['name'] == 'Customer'){
       myInput.focus()
     })
         </script>
-
-        <!-- bootstrap MODAL -end -->
-
-
-    <!-- NAV -->
-    <div class="container-fluid page-body-wrapper">
-        <!-- partial:partials/_settings-panel.html -->
-        <div class="theme-setting-wrapper">
-            <div id="settings-trigger"><i class="ti-settings"></i></div>
-            <div id="theme-settings" class="settings-panel">
-            <i class="settings-close ti-close"></i>
-            <p class="settings-heading">SIDEBAR SKINS</p>
-            <div class="sidebar-bg-options selected" id="sidebar-light-theme"><div class="img-ss rounded-circle bg-light border mr-3"></div>Light</div>
-            <div class="sidebar-bg-options" id="sidebar-dark-theme"><div class="img-ss rounded-circle bg-dark border mr-3"></div>Dark</div>
-            <p class="settings-heading mt-2">HEADER SKINS</p>
-            <div class="color-tiles mx-0 px-4">
-                <div class="tiles success"></div>
-                <div class="tiles warning"></div>
-                <div class="tiles danger"></div>
-                <div class="tiles info"></div>
-                <div class="tiles dark"></div>
-                <div class="tiles default"></div>
-            </div>
-            </div>
-        </div>
-        
-        <!-- partial -->
-        <!-- partial:partials/_sidebar.html -->
-        <nav class="sidebar sidebar-offcanvas" id="sidebar">
-            <ul class="nav">
-            <li class="nav-item">
-                <a class="nav-link" href="http://localhost/clones/igotit/admin/home">
-                <i class="icon-grid menu-icon"></i>
-                <span class="menu-title">Dashboard</span>
-                </a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" data-toggle="collapse" href="#tables" aria-expanded="false" aria-controls="tables">
-                <i class="icon-grid-2 menu-icon"></i>
-                <span class="menu-title">Tables</span>
-                <i class="menu-arrow"></i>
-                </a>
-                <div class="collapse" id="tables">
-                <ul class="nav flex-column sub-menu">
-                    <li class="nav-item"> <a class="nav-link" href="http://localhost/clones/igotit/admin/customer-table">customer table</a></li>
-                </ul>
-                </div>
-                <div class="collapse" id="tables">
-                <ul class="nav flex-column sub-menu">
-                    <li class="nav-item"> <a class="nav-link" href="http://localhost/clones/igotit/admin/seller-table">seller table</a></li>
-                </ul>
-                </div>
-            </li>
-            
-            <li class="nav-item">
-                <a class="nav-link" data-toggle="collapse" href="#auth" aria-expanded="false" aria-controls="auth">
-                <i class="icon-head menu-icon"></i>
-                <span class="menu-title">Admin Pages</span>
-                <i class="menu-arrow"></i>
-                </a>
-                <div class="collapse" id="auth">
-                <ul class="nav flex-column sub-menu">
-                    <li class="nav-item"> <a class="nav-link" href="http://localhost/clones/igotit/admin/login"> Login </a></li>
-                    <li class="nav-item"> <a class="nav-link" href="http://localhost/clones/igotit/admin/register"> Register </a></li>
-                </ul>
-                </div>
-            </li>
-            </ul>
-        </nav>
-        <!-- NAV -END -->
-        <!-- bootstrap MODAL -->
-        <!-- Button to Open the Modal -->
-        
-        <!-- MAIN-PANEL -->
-        <div class="main-panel ">
-            <div class="content-wrapper">
-                <div class="row">
                         <div class="card">
                             <div class="card-body">
                                 <h4 class="card-title"><?php echo $this->data['name']?></h4>
@@ -281,11 +204,7 @@ if($this->data['name'] == 'Customer'){
                                 </div>
                             </div>
                         </div>
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
+
                           
          
 

@@ -45,13 +45,13 @@ class controller extends model{
             case "public/forgotpassword":
                 $this->view("../view/forgotpassword.php"); 
                 break;
-            case "public/create_account":
+            case "public/insert":
                 if($_SERVER['REQUEST_METHOD'] == 'POST' || isset($_POST)){
                     $return = $this->validate_data($_POST);
                     if($return == true){
                         print_r(json_encode(['data'=>$_POST,'message'=>'data Was empty','status' =>404]));
                     }else{
-                        $data = $this->create_account("customer",$_POST);
+                        $data = $this->insert("customer",$_POST);
                         print_r(json_encode($data));
                     };
                 };
@@ -113,7 +113,7 @@ class controller extends model{
                         print_r(json_encode(['data'=>$_POST,'message'=>'data Was empty','status' =>404]));
                     }else{
                         unset($_POST['seller_terms']);
-                        $data = $this->create_account("seller",$_POST);
+                        $data = $this->insert("seller",$_POST);
                         print_r(json_encode($data));
                     };
                 };
@@ -163,14 +163,14 @@ class controller extends model{
             case 'admin/register':
                 $this->admin_view('../view/admin/admin_register.php');
                 break;
-            case 'admin/uploadproduct':
-                $this->admin_view('../view/admin/uploadproduct.php');
-                break;
             case 'admin/product':
                 $this->admin_view('../view/admin/see_product.php');
                 break;
             case 'admin/forgotpassword':
                 $this->seller_view('../view/admin/forgotpassword.php');
+                break;
+            case 'admin/create_category':
+                $this->seller_view('../view/admin/add_category.php');
                 break;
             case 'admin/customer-table':
                     try {
@@ -197,7 +197,7 @@ class controller extends model{
                         print_r(json_encode(['data'=>$_POST,'message'=>'data Was empty','status' =>404]));
                     }else{
                         unset($_POST['admin_terms']);
-                        $data = $this->create_account("admin",$_POST);
+                        $data = $this->insert("admin",$_POST);
                         print_r(json_encode($data));
                     };
                 };
@@ -261,6 +261,17 @@ class controller extends model{
                         $data = $this->delete($key,$post_data);
                         print_r(json_encode($data));
                     }
+                };
+                break;
+            case 'admin/add_category':
+                if($_SERVER['REQUEST_METHOD'] == 'POST' || isset($_POST)){
+                    $return = $this->validate_data($_POST);
+                    if($return == true){
+                        print_r(json_encode(['data'=>$_POST,'message'=>'data Was empty','status' =>404]));
+                    }else{
+                        $data = $this->insert("admin",$_POST);
+                        print_r(json_encode($data));
+                    };
                 };
                 break;
             default:
