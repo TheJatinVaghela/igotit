@@ -157,6 +157,9 @@ class controller extends model{
                     if($return == true){
                         print_r(json_encode(['data'=>$_POST,'message'=>'data Was empty','status' =>404]));
                     }else{
+                        $this->print_stuf($_FILES);
+                        exit();
+                        unset($_POST['seller_terms']);
                         $data = $this->insert("product",$_POST);
                         print_r(json_encode($data));
                     };

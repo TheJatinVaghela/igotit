@@ -7,7 +7,7 @@
               </div>
               <h4>🫵</h4>
               <h6 class="font-weight-light">Uploading Product is easy. It only takes a few steps</h6>
-              <form class="pt-3" method="post" id="uploadproduct">
+              <form class="pt-3" method="post" id="uploadproduct" enctype="multipart/form-data">
                 <div class="form-group">
                   <label>Product Name</label>
                   <input type="text" required name="product_name" class="form-control form-control-lg" id="exampleInputUsername1" placeholder="name">
@@ -28,7 +28,7 @@
                 </div> -->
                 <div class="form-group">
                   <label>Multiple Images</label>
-                  <input type="file" name="product_img" required accept="image/*" multiple="" data-max_length="20"  class="form-control form-control-lg" id="exampleInputimage1" >
+                  <input type="file" name="product_img" required accept="image/*" multiple class="form-control form-control-lg" id="exampleInputimage1" >
                 </div>
                 <div class="form-group">
                   <label>Tages</label>
