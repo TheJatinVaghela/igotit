@@ -19,6 +19,10 @@ class controller extends model{
         switch ($path){
             // PUBLIC CODE
             case "public/home":
+                $this->data = 
+                $this->select_join(['category_name','subcategory_name'],'subcategory',[['type'=>'right','table'=>'category','key'=>'subcategory.product_category_id','value'=>'category.category_id']]);
+                $this->print_stuf($this->data);
+                exit();
                 $this->view("../view/home.php"); 
                 break;
             case "public/shop":
@@ -157,8 +161,17 @@ class controller extends model{
                     if($return == true){
                         print_r(json_encode(['data'=>$_POST,'message'=>'data Was empty','status' =>404]));
                     }else{
-                        $this->print_stuf($_FILES);
-                        exit();
+                        try {
+                            $uniq_id = time().uniqid().'_';
+                            $img_name = $uniq_id.$_FILES['product_img']['name'];
+                            move_uploaded_file($_FILES['product_img']['tmp_name'],$this->product_img.$img_name);
+                            $_POST['product_img']=$img_name;
+                            $_POST['seller_id']=$_COOKIE['seller_id'];
+                            $_POST['product_code']=uniqid().time();
+                        } catch (\Exception $th) {
+                            print_r($th->getMessage());
+                            exit();
+                        }
                         unset($_POST['seller_terms']);
                         $data = $this->insert("product",$_POST);
                         print_r(json_encode($data));

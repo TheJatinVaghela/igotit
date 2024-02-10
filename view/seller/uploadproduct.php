@@ -27,18 +27,16 @@
                   </select>
                 </div> -->
                 <div class="form-group">
-                  <label>Multiple Images</label>
+                  <label>Images</label>
                   <input type="file" name="product_img" required accept="image/*" multiple class="form-control form-control-lg" id="exampleInputimage1" >
                 </div>
+
                 <div class="form-group">
                   <label>Tages</label>
                   <input class="form-control" required name="product_tags" type="text" placeholder="cloth/now/trend">
                   <p>Ex:- cloth/trend/now</p>
                 </div>
-                <div class="form-group">
-                    <label>Addres</label>
-                    <input class="form-control" required name="customer_addres" type="text" placeholder="123 Street">
-                </div>
+          
                 <div class="form-group">
                     <label for="exampleFormControlSelect1">select category</label>
                     <select class="form-control form-control-lg" name="product_category_id" id="exampleFormControlSelect1">

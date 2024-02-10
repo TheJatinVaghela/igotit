@@ -2,6 +2,7 @@
 
 class model {
     public $assets = "../public/assets/";
+    public $product_img = "../public/assets/product_img/";
     public $seller_assets = "../seller/assets/";
     public $admin_assets = "../admin/assets/";
     public $hostname = "localhost";
@@ -92,6 +93,22 @@ class model {
         }else{
             $sql .= "FROM $tbl";
         };
+        $data = $this->sqli_($sql); 
+        if($data['data'] == NULL) {return $data;};
+        $data = $this->fatch_all($data['data']);
+        return $data;
+    }
+    public function select_join(array $data,string $from,array $join,){
+        $sql = "SELECT";
+        foreach($data as $key => $value){
+            $sql .= " $value ,";
+        };
+        $sql = substr($sql,0,-1);
+        $sql .= " FROM $from ";
+        foreach($join as $key=>$value){
+
+            $sql .= $value['type']." JOIN ".$value['table']." ON ".$value['key']." = ".$value['value']." ";
+        }
         $data = $this->sqli_($sql); 
         if($data['data'] == NULL) {return $data;};
         $data = $this->fatch_all($data['data']);
