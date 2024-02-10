@@ -21,8 +21,22 @@ class controller extends model{
             case "public/home":
                 $this->data = 
                 $this->select_join(['category_name','subcategory_name'],'subcategory',[['type'=>'right','table'=>'category','key'=>'subcategory.product_category_id','value'=>'category.category_id']]);
-                $this->print_stuf($this->data);
-                exit();
+
+                $newArr = [];
+
+                foreach ($this->data['data'] as $item) {
+                    $categoryName = $item['category_name'];
+                    $subcategoryName = $item['subcategory_name'];
+                    
+                    if (!isset($newArr[$categoryName])) {
+                        $newArr[$categoryName] = [];
+                    }
+                    
+                    if (!empty($subcategoryName)) {
+                        $newArr[$categoryName][] = $subcategoryName;
+                    }
+                }
+                $this->data = $newArr;
                 $this->view("../view/home.php"); 
                 break;
             case "public/shop":
