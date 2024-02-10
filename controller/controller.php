@@ -14,9 +14,9 @@ class controller extends model
             $path = $arr[3] . $_SERVER["PATH_INFO"];
         };
         $this->page_name = $path;
-        $this->chack_userExists('customer_id', 'customer');
-        $this->chack_userExists('admin_id', 'admin');
-        $this->chack_userExists('seller_id', 'seller');
+        $this->chack_userExists('customer', 'customer');
+        $this->chack_userExists('admin', 'admin');
+        $this->chack_userExists('seller', 'seller');
 
         switch ($path) {
                 // PUBLIC CODE
@@ -83,7 +83,11 @@ class controller extends model
                         print_r(json_encode(['data' => $_POST, 'message' => 'data Was empty', 'status' => 404]));
                     } else {
                         $data = $this->chack_account("customer", $_POST);
-                        print_r(json_encode($data));
+                        if($data['data'][0]['customer_ban'] == '1'){
+                            print_r(json_encode(['data'=>Null,'message'=>'You Have Been Banned','status'=>404]));
+                        }else{
+                            print_r(json_encode($data));
+                        };
                     };
                 };
                 break;
@@ -150,7 +154,11 @@ class controller extends model
                     } else {
                         unset($_POST["seller_terms"]);
                         $data = $this->chack_account("seller", $_POST);
-                        print_r(json_encode($data));
+                        if($data['data'][0]['seller_ban'] == '1'){
+                            print_r(json_encode(['data'=>Null,'message'=>'You Have Been Banned','status'=>404]));
+                        }else{
+                            print_r(json_encode($data));
+                        };
                     };
                 };
                 break;
@@ -167,11 +175,15 @@ class controller extends model
                         $Temp_Arr = $_POST;
                         unset($Temp_Arr['seller_password']);
                         $data = $this->chack_account("seller", $Temp_Arr);
-                        if ($data['data'] == NULL) {
+                        if($data['data'][0]['seller_ban'] == '1'){
+                            print_r(json_encode(['data'=>Null,'message'=>'You Have Been Banned','status'=>404]));
+                        }else{
+                            if ($data['data'] == NULL) {
+                                print_r(json_encode($data));
+                            };
+                            $data = $this->update_account("seller", $_POST, $Temp_Arr);
                             print_r(json_encode($data));
                         };
-                        $data = $this->update_account("seller", $_POST, $Temp_Arr);
-                        print_r(json_encode($data));
                     };
                 };
                 break;
@@ -400,14 +412,33 @@ class controller extends model
         };
         return $return;
     }
-    public function chack_userExists($cookie_key, $tbl)
-    {
+    public function chack_userExists($cookie, $tbl)
+    {   
+        $cookie_key = $cookie.'_id';
         if (isset($_COOKIE[$cookie_key])) {
             $data = [$cookie_key => $_COOKIE[$cookie_key]];
             $answer = $this->chack_account($tbl, $data);
-            if ($answer['status'] == 500) {
-                unset($_COOKIE[$cookie_key]);
-                setcookie($cookie_key, '', -1, '/');
+            if($cookie !== 'admin'){
+
+                if($answer['data'][0][$cookie.'_ban'] == '1'){
+                    
+                    echo"<script> alert(You Have Been Banned) </script>";
+                    echo "<center><h1>GO TO ADMIN <a href='http://localhost/clones/igotit/admin/register'>SIGN UP</a>OR <a href='http://localhost/clones/igotit/admin/login'>SIGN IN</a> </h1> </center>";
+                    echo "<center><h1>GO TO SELLER <a href='http://localhost/clones/igotit/seller/register'>SIGN UP</a>OR <a href='http://localhost/clones/igotit/seller/login'>SIGN IN</a> </h1> </center>";
+                    echo "<center><h1>GO TO User <a href='http://localhost/clones/igotit/public/register'>SIGN UP</a>OR <a href='http://localhost/clones/igotit/pubic/login'>SIGN IN</a> </h1> </center>";
+
+                    exit();
+                }else{
+                    if ($answer['status'] == 500) {
+                        unset($_COOKIE[$cookie_key]);
+                        setcookie($cookie_key, '', -1, '/');
+                    };
+                };
+            }else{
+                if ($answer['status'] == 500) {
+                    unset($_COOKIE[$cookie_key]);
+                    setcookie($cookie_key, '', -1, '/');
+                };
             };
         };
     }
