@@ -46,7 +46,7 @@
                 success:function(result){
                     result = JSON.parse(result);
                     if(result.status == 200){
-                        window.location.href = "http://localhost/clones/igotit/admin/home";
+                        window.location.reload();
                     }else{
                         console.log(result);
                     };

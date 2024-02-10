@@ -21,7 +21,7 @@ class controller extends model
         switch ($path) {
                 // PUBLIC CODE
             case "public/home":
-                $this->data =
+                $this->data =          //data You Want              ,        //form this table,    //right JOIN category ON subcategory.product_category_id = category.category_id
                     $this->select_join(['category_name', 'subcategory_name'], 'subcategory', [['type' => 'right', 'table' => 'category', 'key' => 'subcategory.product_category_id', 'value' => 'category.category_id']]);
 
                 $newArr = [];
@@ -228,14 +228,14 @@ class controller extends model
                 $this->admin_view('../view/admin/see_product.php');
                 break;
             case 'admin/forgotpassword':
-                $this->seller_view('../view/admin/forgotpassword.php');
+                $this->admin_view('../view/admin/forgotpassword.php');
                 break;
             case 'admin/create_category':
-                $this->seller_view('../view/admin/add_category.php');
+                $this->admin_view('../view/admin/add_category.php');
                 break;
             case 'admin/create_subcategory':
                 $this->data = $this->select('category', ['*']);
-                $this->seller_view('../view/admin/add_subcategory.php');
+                $this->admin_view('../view/admin/add_subcategory.php');
                 break;
             case 'admin/customer-table':
                 try {
@@ -340,12 +340,12 @@ class controller extends model
                     if ($return == true) {
                         print_r(json_encode(['data' => $post_data, 'message' => 'data Was empty', 'status' => 404]));
                     } else {
-                        $key = array_key_exists('seller_ban', $post_data) ? 'seller' : 'customer';
+                        $key = array_key_exists('seller_id', $post_data) ? 'seller' : 'customer';
                         $data = $this->chack_account("admin", $post_data);
                         if ($data['data'] == NULL) {
                             print_r(json_encode($data));
                         };
-
+                        
                         $data = $this->update_account($key, [$key . "_ban" => '1'], $post_data);
 
                         print_r(json_encode($data));
@@ -360,7 +360,7 @@ class controller extends model
                     if ($return == true) {
                         print_r(json_encode(['data' => $post_data, 'message' => 'data Was empty', 'status' => 404]));
                     } else {
-                        $key = array_key_exists('seller_ban', $post_data) ? 'seller' : 'customer';
+                        $key = array_key_exists('seller_id', $post_data) ? 'seller' : 'customer';
                         $data = $this->chack_account("admin", $post_data);
                         if ($data['data'] == NULL) {
                             print_r(json_encode($data));
@@ -419,15 +419,10 @@ class controller extends model
             $data = [$cookie_key => $_COOKIE[$cookie_key]];
             $answer = $this->chack_account($tbl, $data);
             if($cookie !== 'admin'){
-
+               
                 if($answer['data'][0][$cookie.'_ban'] == '1'){
-                    
-                    echo"<script> alert(You Have Been Banned) </script>";
-                    echo "<center><h1>GO TO ADMIN <a href='http://localhost/clones/igotit/admin/register'>SIGN UP</a>OR <a href='http://localhost/clones/igotit/admin/login'>SIGN IN</a> </h1> </center>";
-                    echo "<center><h1>GO TO SELLER <a href='http://localhost/clones/igotit/seller/register'>SIGN UP</a>OR <a href='http://localhost/clones/igotit/seller/login'>SIGN IN</a> </h1> </center>";
-                    echo "<center><h1>GO TO User <a href='http://localhost/clones/igotit/public/register'>SIGN UP</a>OR <a href='http://localhost/clones/igotit/pubic/login'>SIGN IN</a> </h1> </center>";
-
-                    exit();
+                    unset($_COOKIE[$cookie_key]);
+                    setcookie($cookie_key, '', -1, '/');
                 }else{
                     if ($answer['status'] == 500) {
                         unset($_COOKIE[$cookie_key]);

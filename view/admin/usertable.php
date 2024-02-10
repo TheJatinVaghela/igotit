@@ -1,8 +1,8 @@
 <link rel="stylesheet" href="../public\assets/csslogin_register">
 
 <?php 
-  // $this->print_stuf($this->data);
-if($this->data['name'] == 'Customer'){
+   //$this->print_stuf($this->data['name']);
+if($this->data['name'] === 'Customer'){
 
     $val_0 ="customer_id";
     $val_1 ="customer_firstname";
@@ -14,7 +14,7 @@ if($this->data['name'] == 'Customer'){
     $key_2 ="Last Name";
     $key_3 ="Email";
     $key_4 ="State";
-}else if ($this->data['name'] == 'Seller'){
+}else if ($this->data['name'] === 'Seller'){
     $val_0 ="seller_id";
     $val_1 ="seller_name";
     $val_4 ="seller_email";
@@ -26,6 +26,8 @@ if($this->data['name'] == 'Customer'){
     $key_2 ="Phone";
     $key_3 ="Addres";
 }
+  //  $this->print_stuf($block);
+
     ?> 
 <head>
     <!-- bootstrap -->
@@ -904,11 +906,12 @@ if($this->data['name'] == 'Customer'){
                window.location.reload();
         };
       } catch (error) {
-              window.location.reload();
-              console.log(error);
+               window.location.reload();
+               console.log(error);
       }
     }                                       
    async function UnBlock(value){
+
       let data = { <?php echo $val_0; ?> :value };
       let url = "http://localhost/clones/igotit/admin/unblock";
       try {
@@ -928,8 +931,8 @@ if($this->data['name'] == 'Customer'){
                window.location.reload();
         };
       } catch (error) {
-              window.location.reload();
-              console.log(error);
+               window.location.reload();
+               console.log(error);
       }
     }                                       
 

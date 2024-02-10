@@ -54,9 +54,9 @@
         success: function(result) {
           result = JSON.parse(result);
           if (result.status == 200) {
-            setCookie("seller_id",result.data[0].customer_id,2);
+            setCookie("seller_id",result.data[0].seller_id,2);
             setCookie("seller_name",result.data[0].seller_name,2);
-            window.location.href = "http://localhost/clones/igotit/public/home";
+            window.location.href = "http://localhost/clones/igotit/seller/home";
           } else {
             setCookie("seller_id",'NULL',-2);
             setCookie("seller_name",'NULL',-2);
