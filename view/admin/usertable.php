@@ -1,7 +1,7 @@
 <link rel="stylesheet" href="../public\assets/csslogin_register">
 
 <?php 
-// $this->print_stuf($this->data);
+  // $this->print_stuf($this->data);
 if($this->data['name'] == 'Customer'){
 
     $val_0 ="customer_id";
@@ -9,7 +9,7 @@ if($this->data['name'] == 'Customer'){
     $val_2 ="customer_lastname";
     $val_3 ="customer_email";
     $val_4 ="customer_state";
-
+    $block = 'customer_ban';
     $key_1 ="First Name";
     $key_2 ="Last Name";
     $key_3 ="Email";
@@ -20,7 +20,7 @@ if($this->data['name'] == 'Customer'){
     $val_4 ="seller_email";
     $val_2 ="seller_phone";
     $val_3 ="seller_addres";
-
+    $block = 'seller_ban';
     $key_1 ="Name";
     $key_4 ="Email";
     $key_2 ="Phone";
@@ -185,6 +185,11 @@ if($this->data['name'] == 'Customer'){
                                           <td><?php echo $value[$val_3] ?></td>
                                           <td><label class="badge badge-success"><?php echo $value[$val_4] ?></label></td>
                                           <td> <button type="button" class="btn btn-danger" name="Delete" value="<?php echo $value[$val_0]; ?>" onclick="Delete(<?php echo $value[$val_0]; ?>)">Delete</button> </td>
+                                          <?php if($value[$block]=='0'){?>
+                                          <td> <button type="button" class="btn btn-danger" name="Block" value="<?php echo $value[$val_0]; ?>" onclick="Block(<?php echo $value[$val_0]; ?>)">Block</button> </td>
+                                          <?php }else{?>
+                                            <td> <button type="button" class="btn btn-warning" name="UnBlock" value="<?php echo $value[$val_0]; ?>" onclick="UnBlock(<?php echo $value[$val_0]; ?>)">UnBlock</button> </td>
+                                          <?php }?>
                                           <td> <button type="button" class="btn btn-primary" name="Update" value="<?php echo $value[$val_0]; ?>" onclick="showModal(`<?php echo $val_0.'='.$value[$val_0]; ?>`)">Update</button> </td>
                                           <script>
                                               function showModal(FullID){
@@ -877,6 +882,54 @@ if($this->data['name'] == 'Customer'){
       } catch (error) {
             window.location.reload();
             console.log(error);
+      }
+    }                                       
+   async function Block(value){
+      let data = { <?php echo $val_0; ?> :value };
+      let url = "http://localhost/clones/igotit/admin/block";
+      try {
+        const config = {
+            method: 'POST',
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(data)
+        }
+        const responce = await fetch(url, config)
+        const result = await responce.json()
+        if(result.status == 200){
+              window.location.reload();
+        }else{
+               window.location.reload();
+        };
+      } catch (error) {
+              window.location.reload();
+              console.log(error);
+      }
+    }                                       
+   async function UnBlock(value){
+      let data = { <?php echo $val_0; ?> :value };
+      let url = "http://localhost/clones/igotit/admin/unblock";
+      try {
+        const config = {
+            method: 'POST',
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(data)
+        }
+        const responce = await fetch(url, config)
+        const result = await responce.json()
+        if(result.status == 200){
+              window.location.reload();
+        }else{
+               window.location.reload();
+        };
+      } catch (error) {
+              window.location.reload();
+              console.log(error);
       }
     }                                       
 
