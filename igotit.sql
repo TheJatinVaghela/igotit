@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Feb 09, 2024 at 02:12 PM
+-- Generation Time: Feb 10, 2024 at 04:33 PM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -68,6 +68,15 @@ CREATE TABLE `category` (
   `category_name` varchar(20) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
+--
+-- Dumping data for table `category`
+--
+
+INSERT INTO `category` (`category_id`, `category_name`) VALUES
+(1, 'sirt'),
+(2, 'pents'),
+(3, 'shoe');
+
 -- --------------------------------------------------------
 
 --
@@ -84,15 +93,17 @@ CREATE TABLE `customer` (
   `customer_addres` varchar(250) NOT NULL,
   `customer_state` varchar(50) NOT NULL,
   `customer_city` varchar(50) NOT NULL,
-  `customer_zipcode` varchar(20) NOT NULL
+  `customer_zipcode` varchar(20) NOT NULL,
+  `customer_ban` int(2) NOT NULL DEFAULT 0
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data for table `customer`
 --
 
-INSERT INTO `customer` (`customer_id`, `customer_email`, `customer_password`, `customer_firstname`, `customer_lastname`, `customer_phone`, `customer_addres`, `customer_state`, `customer_city`, `customer_zipcode`) VALUES
-(1, 'HAHU@gmail.com', '123', 'HAH', 'HU', '9978706184', 'D/8, Rajiv Nagar, Old Acher, Sabarmati, Ahmedabad-380005, Gujarat', 'Gujarat', 'Ahmedabad', '123');
+INSERT INTO `customer` (`customer_id`, `customer_email`, `customer_password`, `customer_firstname`, `customer_lastname`, `customer_phone`, `customer_addres`, `customer_state`, `customer_city`, `customer_zipcode`, `customer_ban`) VALUES
+(1, 'HAHU@gmail.com', '123', 'HAH', 'HU', '9978706184', 'D/8, Rajiv Nagar, Old Acher, Sabarmati, Ahmedabad-380005, Gujarat', 'Gujarat', 'Ahmedabad', '123', 0),
+(19, 'tban@gmail.com', '123', 'Tban', 'BUN', '9978706184', 'D/8, Rajiv Nagar, Old Acher, Sabarmati, Ahmedabad-380005, Gujarat', 'Gujarat', 'Ahmedabad', '123', 1);
 
 -- --------------------------------------------------------
 
@@ -157,15 +168,17 @@ CREATE TABLE `seller` (
   `seller_name` varchar(100) NOT NULL,
   `seller_phone` varchar(50) NOT NULL,
   `seller_addres` varchar(250) NOT NULL,
-  `seller_wallet` int(11) NOT NULL
+  `seller_wallet` int(11) NOT NULL,
+  `seller_ban` int(2) NOT NULL DEFAULT 0
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data for table `seller`
 --
 
-INSERT INTO `seller` (`seller_id`, `seller_email`, `seller_password`, `seller_name`, `seller_phone`, `seller_addres`, `seller_wallet`) VALUES
-(1, 'New@gmail.com', '123', 'NEW', '9978709154', 'd-8 something somerwhere you got it show me the place', 0);
+INSERT INTO `seller` (`seller_id`, `seller_email`, `seller_password`, `seller_name`, `seller_phone`, `seller_addres`, `seller_wallet`, `seller_ban`) VALUES
+(1, 'New@gmail.com', '123', 'NEW', '9978709154', 'd-8 something somerwhere you got it show me the place', 0, 0),
+(3, 'Bun@gmail.com', '123', 'Sban', '9978709154', 'd-8 something somerwhere you got it show me the place', 0, 1);
 
 -- --------------------------------------------------------
 
@@ -194,6 +207,16 @@ CREATE TABLE `subcategory` (
   `subcategory_name` varchar(20) NOT NULL,
   `product_category_id` int(11) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `subcategory`
+--
+
+INSERT INTO `subcategory` (`subcategory_id`, `subcategory_name`, `product_category_id`) VALUES
+(1, 'man', 1),
+(2, 'women', 1),
+(3, 'child', 3),
+(4, 'Nike', 3);
 
 --
 -- Indexes for dumped tables
@@ -295,13 +318,13 @@ ALTER TABLE `cart`
 -- AUTO_INCREMENT for table `category`
 --
 ALTER TABLE `category`
-  MODIFY `category_id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `category_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT for table `customer`
 --
 ALTER TABLE `customer`
-  MODIFY `customer_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=19;
+  MODIFY `customer_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=20;
 
 --
 -- AUTO_INCREMENT for table `favourite`
@@ -319,7 +342,7 @@ ALTER TABLE `order`
 -- AUTO_INCREMENT for table `seller`
 --
 ALTER TABLE `seller`
-  MODIFY `seller_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `seller_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT for table `seller_products`
@@ -331,7 +354,7 @@ ALTER TABLE `seller_products`
 -- AUTO_INCREMENT for table `subcategory`
 --
 ALTER TABLE `subcategory`
-  MODIFY `subcategory_id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `subcategory_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- Constraints for dumped tables
