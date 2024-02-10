@@ -1,6 +1,6 @@
 <?php 
-                $this->print_stuf($this->data);
-                echo '<hr>';
+                // $this->print_stuf($this->data);
+                // echo '<hr>';
                 // exit();
 ?>
 <!-- Navbar Start -->
