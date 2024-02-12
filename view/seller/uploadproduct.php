@@ -38,19 +38,20 @@
                 </div>
           
                 <div class="form-group">
-                    <label for="exampleFormControlSelect1">select category</label>
-                    <select class="form-control form-control-lg" name="product_category_id" id="exampleFormControlSelect1">
+                    <label for="select_category">select category</label>
+                    <select class="form-control form-control-lg" name="product_category_id" id="select_category" required>
+                      <option>Select</option>
                     <?php foreach ($this->data['CATEGORY']['data'] as $key => $value) { ?>
                       <option value="<?php echo $value['category_id'] ?>"><?php echo $value['category_name'] ?></option>
                     <?php }?>  
                     </select>
                 </div>
                 <div class="form-group">
-                    <label for="exampleFormControlSelect1">select subcategory</label>
-                    <select class="form-control form-control-lg" name="product_subcategory_id" id="exampleFormControlSelect1">
-                    <?php foreach ($this->data['SUBCATEGORY']['data'] as $key => $value) { ?>
-                      <option value="<?php echo $value['subcategory_id'] ?>"><?php echo $value['subcategory_name'] ?></option>
-                    <?php }?>  
+                    <label for="select_subcategory">select subcategory</label>
+                    <select class="form-control form-control-lg" name="product_subcategory_id" id="select_subcategory" required>
+                    <!-- <?php foreach ($this->data['SUBCATEGORY']['data'] as $key => $value) { ?>
+                      <option value="<?php echo $value['subcategory_id'] ?>"><?php echo $value['subcategory_name'] ?></option> 
+                    <?php }?>   -->
                     </select>
                 </div>
                 <div class="form-group">
@@ -114,5 +115,33 @@
                 }
             });
         });
+
+        $('#select_category').on('change',function(e){
+            let data ={
+              select_category:this.value
+            };
+            url = 'http://localhost/clones/igotit/seller/get_subcategory';
+            jQuery.ajax({
+              data:data,
+              url:url,
+              type:'POST',
+              cache:false,
+              success:function(result){
+                result = JSON.parse(result);
+                if(result.status == 200){
+                  console.log( result.data); 
+                  result.data.map((e)=>{
+                    console.log(e);
+                     $('#select_subcategory').append(`<option value='${e.subcategory_id}'>${e.subcategory_name}</option> `);
+                      //document.getElementById('select_subcategory').innerHTML +=`<option value='${e.subcategory_id}'>${e.subcategory_name}</option> `;
+                  });
+                }else{
+                    console.log(result);
+                };
+              }
+            })
+        })
     });
+
+    
 </script>

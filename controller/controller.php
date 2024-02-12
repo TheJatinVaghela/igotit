@@ -187,6 +187,25 @@ class controller extends model
                     };
                 };
                 break;
+            case 'seller/get_subcategory':
+                if ($_SERVER['REQUEST_METHOD'] == 'POST' || isset($_POST)) {
+                    $return = $this->validate_data($_POST);
+                    if ($return == true) {
+                        print_r(json_encode(['data' => $_POST, 'message' => 'data Was empty', 'status' => 404]));
+                    } else {
+
+                        $data=$_POST['select_category'];
+                        $data = $this->connection->query("SELECT subcategory_id,subcategory_name FROM subcategory WHERE  `product_category_id` = $data");
+                        if($data->num_rows > 0){
+                            $data = $this->fatch_all($data);
+                            print_r(json_encode($data));
+                        }else{
+                            print_r(json_encode(['data'=>NULL , 'message'=>'NO Sub Category Found','status'=>500]));
+                        };
+                        
+                    };
+                };
+                break;
             case 'seller/add_product':
                 if ($_SERVER['REQUEST_METHOD'] == 'POST' || isset($_POST)) {
                     $return = $this->validate_data($_POST);
