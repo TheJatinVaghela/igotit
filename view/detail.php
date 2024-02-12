@@ -57,7 +57,7 @@
                 </div>
                 <h3 class="font-weight-semi-bold mb-4">$150.00</h3>
                 <p class="mb-4">Volup erat ipsum diam elitr rebum et dolor. Est nonumy elitr erat diam stet sit clita ea. Sanc invidunt ipsum et, labore clita lorem magna lorem ut. Erat lorem duo dolor no sea nonumy. Accus labore stet, est lorem sit diam sea et justo, amet at lorem et eirmod ipsum diam et rebum kasd rebum.</p>
-                <div class="d-flex mb-3">
+                <!-- <div class="d-flex mb-3">
                     <p class="text-dark font-weight-medium mb-0 mr-3">Sizes:</p>
                     <form>
                         <div class="custom-control custom-radio custom-control-inline">
@@ -81,8 +81,8 @@
                             <label class="custom-control-label" for="size-5">XL</label>
                         </div>
                     </form>
-                </div>
-                <div class="d-flex mb-4">
+                </div> -->
+                <!-- <div class="d-flex mb-4">
                     <p class="text-dark font-weight-medium mb-0 mr-3">Colors:</p>
                     <form>
                         <div class="custom-control custom-radio custom-control-inline">
@@ -106,7 +106,7 @@
                             <label class="custom-control-label" for="color-5">Green</label>
                         </div>
                     </form>
-                </div>
+                </div> -->
                 <div class="d-flex align-items-center mb-4 pt-2">
                     <div class="input-group quantity mr-3" style="width: 130px;">
                         <div class="input-group-btn">

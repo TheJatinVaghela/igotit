@@ -42,7 +42,20 @@ class controller extends model
                 $this->view("../view/home.php");
                 break;
             case "public/shop":
-                $this->view("../view/shop.php");
+                print_r($_GET);
+                if(isset($_GET['category']) || isset($_GET['subcategory']) ){
+                    if(isset($_GET['category']) && isset($_GET['subcategory'])){
+                        $data =          //data You Want              ,        //form this table,    //right JOIN category ON subcategory.product_category_id = category.category_id
+                        $this->select_join(['*'], 'product', [['type' => 'inner', 'table' => 'subcategory', 'key' => 'subcategory.subcategory_name', 'value' => "'".$_GET['subcategory']."'"],
+                        ['type' => 'inner', 'table' => 'category', 'key' => 'category.category_name', 'value' => "'".$_GET['category']."'"]]);
+                        $this->print_stuf($data);
+                        $this->view("../view/shop.php");
+                    }else{
+
+                    };
+                }else{
+                    $this->view("../view/shop.php");
+                };
                 break;
             case "public/detail":
                 $this->view("../view/detail.php");

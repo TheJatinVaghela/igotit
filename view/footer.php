@@ -17,9 +17,9 @@
                         <div class="d-flex flex-column justify-content-start">
                             <a class="text-dark mb-2" href="http://localhost/clones/igotit/public/home"><i class="fa fa-angle-right mr-2"></i>Home</a>
                             <a class="text-dark mb-2" href="http://localhost/clones/igotit/public/shop"><i class="fa fa-angle-right mr-2"></i>Our Shop</a>
-                            <a class="text-dark mb-2" href="http://localhost/clones/igotit/public/detail"><i class="fa fa-angle-right mr-2"></i>Shop Detail</a>
+                            <!-- <a class="text-dark mb-2" href="http://localhost/clones/igotit/public/detail"><i class="fa fa-angle-right mr-2"></i>Shop Detail</a> -->
                             <a class="text-dark mb-2" href="http://localhost/clones/igotit/public/cart"><i class="fa fa-angle-right mr-2"></i>Shopping Cart</a>
-                            <a class="text-dark mb-2" href="http://localhost/clones/igotit/public/checkout"><i class="fa fa-angle-right mr-2"></i>Checkout</a>
+                            <!-- <a class="text-dark mb-2" href="http://localhost/clones/igotit/public/checkout"><i class="fa fa-angle-right mr-2"></i>Checkout</a> -->
                             <a class="text-dark" href="http://localhost/clones/igotit/public/contact"><i class="fa fa-angle-right mr-2"></i>Contact Us</a>
                         </div>
                     </div>

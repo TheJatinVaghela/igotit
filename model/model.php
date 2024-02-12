@@ -37,6 +37,7 @@ class model {
         $lastSQL = substr($lastSQL,0,-1);
         $lastSQL .= " )";
         $sql .=$firstSQL.$lastSQL;
+        
         $data = $this->sqli_($sql);
         return $data;
     }
@@ -111,6 +112,7 @@ class model {
 
             $sql .= $value['type']." JOIN ".$value['table']." ON ".$value['key']." = ".$value['value']." ";
         }
+        //  exit($sql);
         $data = $this->sqli_($sql); 
         if($data['data'] == NULL) {return $data;};
         $data = $this->fatch_all($data['data']);
