@@ -18,6 +18,12 @@
     <!-- Font Awesome -->
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.10.0/css/all.min.css" rel="stylesheet">
 
+    <!-- product page css -->
+    <link href="<?php echo $this->assets;?>lib/slick/slick.css" rel="stylesheet">
+    <link href="<?php echo $this->assets;?>lib/slick/slick-theme.css" rel="stylesheet">
+    <link href="<?php echo $this->assets;?>lib/slick/style.css" rel="stylesheet">
+    <!-- product page css-end -->
+
     <!-- Libraries Stylesheet -->
     
     <link href="../public\assets\lib/owlcarousel/assets/owl.carousel.min.css" rel="stylesheet">

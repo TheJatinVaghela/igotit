@@ -62,9 +62,9 @@
     <a href="#" class="btn btn-primary back-to-top"><i class="fa fa-angle-double-up"></i></a>
 
     <!-- prodcuct tab js lib -->
-    <script src="lib/easing/easing.min.js"></script>
-    <script src="lib/slick/slick.min.js"></script>
-    <script src="<?php echo $this->assets;?>js/main.js"></script>
+    <script src="<?php echo $this->assets;?>lib/slick/easing.min.js"></script>
+    <script src="<?php echo $this->assets;?>lib/slick/slick.min.js"></script>
+    <script src="<?php echo $this->assets;?>lib/slick/main.js"></script>
     <!-- prodcuct tab js lib -end-->
 
     <!-- JavaScript Libraries -->
