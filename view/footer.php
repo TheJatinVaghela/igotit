@@ -61,6 +61,11 @@
     <!-- Back to Top -->
     <a href="#" class="btn btn-primary back-to-top"><i class="fa fa-angle-double-up"></i></a>
 
+    <!-- prodcuct tab js lib -->
+    <script src="lib/easing/easing.min.js"></script>
+    <script src="lib/slick/slick.min.js"></script>
+    <script src="<?php echo $this->assets;?>js/main.js"></script>
+    <!-- prodcuct tab js lib -end-->
 
     <!-- JavaScript Libraries -->
     <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
@@ -73,7 +78,8 @@
     <script src="mail/contact.js"></script>
 
     <!-- Template Javascript -->
-    <script src="js/main.js"></script>
+    <script src="<?php echo $this->assets;?>js/main.js"></script>
+
 </body>
 
 </html>
