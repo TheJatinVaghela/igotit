@@ -112,7 +112,7 @@ class model {
 
             $sql .= $value['type']." JOIN ".$value['table']." ON ".$value['key']." = ".$value['value']." ";
         }
-        //  exit($sql);
+         
         $data = $this->sqli_($sql); 
         if($data['data'] == NULL) {return $data;};
         $data = $this->fatch_all($data['data']);

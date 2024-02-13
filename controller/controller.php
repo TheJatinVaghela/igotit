@@ -45,11 +45,15 @@ class controller extends model
                 print_r($_GET);
                 if(isset($_GET['category']) || isset($_GET['subcategory']) ){
                     if(isset($_GET['category']) && isset($_GET['subcategory'])){
-                        $data =          //data You Want              ,        //form this table,    //right JOIN category ON subcategory.product_category_id = category.category_id
-                        $this->select_join(['*'], 'product', [['type' => 'inner', 'table' => 'subcategory', 'key' => 'subcategory.subcategory_name', 'value' => "'".$_GET['subcategory']."'"],
-                        ['type' => 'inner', 'table' => 'category', 'key' => 'category.category_name', 'value' => "'".$_GET['category']."'"]]);
-                        $this->print_stuf($data);
-                        $this->view("../view/shop.php");
+                        $data = $this->connection->query(
+                            "select * from product where product.product_subcategory_id IN(select subcategory_id from subcategory where subcategory_name='".$_GET['subcategory']."')  and product_category_id IN(select category_id from category where category_name='".$_GET['category']."')");
+                        if($data->num_rows < 0){
+                            print_r(json_encode(['data'=>NULL,'message'=>'data not found','status'=>500]));
+                        }else{
+                            $data = $this->fatch_all($data);
+                            $this->print_stuf($data);
+                            $this->view("../view/shop.php");
+                        }
                     }else{
 
                     };

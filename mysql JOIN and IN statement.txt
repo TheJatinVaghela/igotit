@@ -1,0 +1,7 @@
+SELECT * FROM `product` join subcategory on subcategory.subcategory_name = 'man' join category on category.category_name = 'sirt'
+
+--------------
+
+IN statment
+
+select * from product where product.product_subcategory_id IN(select subcategory_id from subcategory where subcategory_name='women')  and product_category_id IN(select category_id from category where category_name='sirt')
