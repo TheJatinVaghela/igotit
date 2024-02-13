@@ -15,7 +15,7 @@
                 <div class="navbar-nav w-100 overflow-hidden" style="height: 410px">
                 <?php foreach($this->data as $key => $value){?>
                     <div class="nav-item dropdown">
-                        <a  class="nav-link"  <?php if(isset($value[0]) && !empty($value[0])){echo "data-toggle='dropdown'"; };?> ><?php echo $key; ?> <?php if(isset($value[0]) && !empty($value[0])){echo '<i class="fa fa-angle-down float-right mt-1"></i>' ;}?></a>
+                        <a class="nav-link"  <?php if(isset($value[0]) && !empty($value[0])){echo "data-toggle='dropdown'"; };?> ><?php echo $key; ?> <?php if(isset($value[0]) && !empty($value[0])){echo '<i class="fa fa-angle-down float-right mt-1"></i>' ;}?></a>
                         <div class="dropdown-menu position-absolute bg-secondary border-0 rounded-0 w-100 m-0">
                             <?php foreach($value as $key1 => $value1){ 
                                     if(!empty($value1) && $value1 != null){  ?>

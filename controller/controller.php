@@ -54,8 +54,29 @@ class controller extends model
                             // $this->print_stuf($data);
                             $this->view("../view/shop.php",$data);
                         }
+                    }else if(isset($_GET['category'])&& !isset($_GET['subcategory'])){
+                        $data = $this->connection->query(
+                            "select * from product where product_category_id IN(select category_id from category where category_name='".$_GET['category']."')");
+                        if($data->num_rows < 0){
+                            print_r(json_encode(['data'=>NULL,'message'=>'data not found','status'=>500]));
+                        }else{
+                            $data = $this->fatch_all($data);
+                            // $this->print_stuf($data);
+                            $this->view("../view/shop.php",$data);
+                        }
+                    }else if(isset($_GET['subcategory'])&& !isset($_GET['category'])){
+                        $data = $this->connection->query(
+                            "select * from product where product_subcategory_id IN(select subcategory_id from subcategory where subcategory_name='".$_GET['subcategory']."')");
+                        if($data->num_rows < 0){
+                            print_r(json_encode(['data'=>NULL,'message'=>'data not found','status'=>500]));
+                        }else{
+                            $data = $this->fatch_all($data);
+                            // $this->print_stuf($data);
+                            $this->view("../view/shop.php",$data);
+                        }
                     }else{
-
+                        echo '<h1>CLICK <a href="http://localhost/clones/igotit/public/home"> HERE </a> TO RETURN TO HOME PAGE</h1>';
+                        echo'<script>alert("URL IS Worng GO TO HOME")</script>';
                     };
                 }else{
                     $this->view("../view/shop.php");
