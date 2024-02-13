@@ -42,7 +42,7 @@ class controller extends model
                 $this->view("../view/home.php");
                 break;
             case "public/shop":
-                print_r($_GET);
+                // print_r($_GET);
                 if(isset($_GET['category']) || isset($_GET['subcategory']) ){
                     if(isset($_GET['category']) && isset($_GET['subcategory'])){
                         $data = $this->connection->query(
@@ -52,7 +52,7 @@ class controller extends model
                         }else{
                             $data = $this->fatch_all($data);
                             $this->print_stuf($data);
-                            $this->view("../view/shop.php");
+                            $this->view("../view/shop.php",$data);
                         }
                     }else{
 
@@ -62,7 +62,13 @@ class controller extends model
                 };
                 break;
             case "public/detail":
-                $this->view("../view/detail.php");
+                if(isset($_GET['product'])){
+                    $data = $this->select('product',['*'],['product_code'=>$_GET['product']]);
+                    $this->view("../view/detail.php",$data);
+                }else{
+                    echo'<script>alert(You Do NOT HAVE Product To SEE Detail OFF RETurn TO STORE)</script>';
+                    echo '<h1>CLICK <a href="http://localhost/clones/igotit/public/shop"> HERE </a> TO RETURN TO STORE PAGE</h1>';
+                }
                 break;
             case "public/cart":
                 $this->view("../view/cart.php");
@@ -473,8 +479,9 @@ class controller extends model
             };
         };
     }
-    public function view($url)
-    {
+    public function view($url,...$d)
+    {   
+        $data = $d;
         require_once("../view/header.php");
         require_once($url);
         require_once("../view/footer.php");

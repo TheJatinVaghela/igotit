@@ -1,5 +1,6 @@
 
-
+<!-- <?php print_r($data[0]['data'][0]);?> -->
+<?php $data = $data[0]['data'][0];?>
 
     <!-- Page Header Start -->
     <div class="container-fluid bg-secondary mb-5">
@@ -16,15 +17,15 @@
 
 
     <!-- Shop Detail Start -->
-    <div class="container-fluid py-5">
+    <div class="container-fluid py-5" id="product_code_<?php echo ($data['product_code']);?>">
         <div class="row px-xl-5">
             <div class="col-lg-5 pb-5">
                 <div id="product-carousel" class="carousel slide" data-ride="carousel">
                     <div class="carousel-inner border">
                         <div class="carousel-item active">
-                            <img class="w-100 h-100" src="../public\assets/img/product-1.jpg" alt="Image">
+                            <img class="w-100 h-100" src="<?php echo($this->product_img.$data['product_img'])?>" alt="Image">
                         </div>
-                        <div class="carousel-item">
+                    <!--    <div class="carousel-item">
                             <img class="w-100 h-100" src="../public\assets/img/product-2.jpg" alt="Image">
                         </div>
                         <div class="carousel-item">
@@ -32,19 +33,20 @@
                         </div>
                         <div class="carousel-item">
                             <img class="w-100 h-100" src="../public\assets/img/product-4.jpg" alt="Image">
-                        </div>
+                        </div> -->
                     </div>
-                    <a class="carousel-control-prev" href="#product-carousel" data-slide="prev">
+                  <!--  <a class="carousel-control-prev" href="#product-carousel" data-slide="prev">
                         <i class="fa fa-2x fa-angle-left text-dark"></i>
                     </a>
                     <a class="carousel-control-next" href="#product-carousel" data-slide="next">
                         <i class="fa fa-2x fa-angle-right text-dark"></i>
-                    </a>
-                </div>
+                    </a> -->
+                </div> 
+               
             </div>
 
             <div class="col-lg-7 pb-5">
-                <h3 class="font-weight-semi-bold">Colorful Stylish Shirt</h3>
+                <h3 class="font-weight-semi-bold"><?php echo ($data['product_name']);?></h3>
                 <div class="d-flex mb-3">
                     <div class="text-primary mr-2">
                         <small class="fas fa-star"></small>
@@ -53,10 +55,14 @@
                         <small class="fas fa-star-half-alt"></small>
                         <small class="far fa-star"></small>
                     </div>
-                    <small class="pt-1">(50 Reviews)</small>
+                    <!-- <small class="pt-1">(50 Reviews)</small> -->
                 </div>
-                <h3 class="font-weight-semi-bold mb-4">$150.00</h3>
-                <p class="mb-4">Volup erat ipsum diam elitr rebum et dolor. Est nonumy elitr erat diam stet sit clita ea. Sanc invidunt ipsum et, labore clita lorem magna lorem ut. Erat lorem duo dolor no sea nonumy. Accus labore stet, est lorem sit diam sea et justo, amet at lorem et eirmod ipsum diam et rebum kasd rebum.</p>
+                <h3 class="font-weight-semi-bold mb-4">
+                    <h6>$<?php echo($data['product_saleprice']);?></h6><h6 class="text-muted ml-2"><del>$<?php echo($data['product_retailprice']);?></del></h6>
+                </h3>
+                <p class="mb-4">
+                    <?php echo($data['product_discription']);?>
+                </p>
                 <!-- <div class="d-flex mb-3">
                     <p class="text-dark font-weight-medium mb-0 mr-3">Sizes:</p>
                     <form>
@@ -110,13 +116,13 @@
                 <div class="d-flex align-items-center mb-4 pt-2">
                     <div class="input-group quantity mr-3" style="width: 130px;">
                         <div class="input-group-btn">
-                            <button class="btn btn-primary btn-minus" >
+                            <button class="btn btn-primary btn-minus" onclick="remove_qauntity()" >
                             <i class="fa fa-minus"></i>
                             </button>
                         </div>
-                        <input type="text" class="form-control bg-secondary text-center" value="1">
+                        <input id="product_qauntity" type="text" class="form-control bg-secondary text-center" value="1">
                         <div class="input-group-btn">
-                            <button class="btn btn-primary btn-plus">
+                            <button class="btn btn-primary btn-plus" onclick="add_qauntity()">
                                 <i class="fa fa-plus"></i>
                             </button>
                         </div>
@@ -147,18 +153,21 @@
                 <div class="nav nav-tabs justify-content-center border-secondary mb-4">
                     <a class="nav-item nav-link active" data-toggle="tab" href="#tab-pane-1">Description</a>
                     <a class="nav-item nav-link" data-toggle="tab" href="#tab-pane-2">Information</a>
-                    <a class="nav-item nav-link" data-toggle="tab" href="#tab-pane-3">Reviews (0)</a>
+                    <!--<a class="nav-item nav-link" data-toggle="tab" href="#tab-pane-3">Reviews (0)</a> -->
                 </div>
                 <div class="tab-content">
                     <div class="tab-pane fade show active" id="tab-pane-1">
                         <h4 class="mb-3">Product Description</h4>
-                        <p>Eos no lorem eirmod diam diam, eos elitr et gubergren diam sea. Consetetur vero aliquyam invidunt duo dolores et duo sit. Vero diam ea vero et dolore rebum, dolor rebum eirmod consetetur invidunt sed sed et, lorem duo et eos elitr, sadipscing kasd ipsum rebum diam. Dolore diam stet rebum sed tempor kasd eirmod. Takimata kasd ipsum accusam sadipscing, eos dolores sit no ut diam consetetur duo justo est, sit sanctus diam tempor aliquyam eirmod nonumy rebum dolor accusam, ipsum kasd eos consetetur at sit rebum, diam kasd invidunt tempor lorem, ipsum lorem elitr sanctus eirmod takimata dolor ea invidunt.</p>
-                        <p>Dolore magna est eirmod sanctus dolor, amet diam et eirmod et ipsum. Amet dolore tempor consetetur sed lorem dolor sit lorem tempor. Gubergren amet amet labore sadipscing clita clita diam clita. Sea amet et sed ipsum lorem elitr et, amet et labore voluptua sit rebum. Ea erat sed et diam takimata sed justo. Magna takimata justo et amet magna et.</p>
+                        <p>
+                            <?php echo($data['product_discription']);?>
+                        </p>
                     </div>
                     <div class="tab-pane fade" id="tab-pane-2">
                         <h4 class="mb-3">Additional Information</h4>
-                        <p>Eos no lorem eirmod diam diam, eos elitr et gubergren diam sea. Consetetur vero aliquyam invidunt duo dolores et duo sit. Vero diam ea vero et dolore rebum, dolor rebum eirmod consetetur invidunt sed sed et, lorem duo et eos elitr, sadipscing kasd ipsum rebum diam. Dolore diam stet rebum sed tempor kasd eirmod. Takimata kasd ipsum accusam sadipscing, eos dolores sit no ut diam consetetur duo justo est, sit sanctus diam tempor aliquyam eirmod nonumy rebum dolor accusam, ipsum kasd eos consetetur at sit rebum, diam kasd invidunt tempor lorem, ipsum lorem elitr sanctus eirmod takimata dolor ea invidunt.</p>
-                        <div class="row">
+                        <p>
+                         <?php echo($data['product_discription']);?>
+                        </p>
+                        <!--  <div class="row">
                             <div class="col-md-6">
                                 <ul class="list-group list-group-flush">
                                     <li class="list-group-item px-0">
@@ -191,9 +200,9 @@
                                     </li>
                                   </ul> 
                             </div>
-                        </div>
+                        </div> -->
                     </div>
-                    <div class="tab-pane fade" id="tab-pane-3">
+                  <!--  <div class="tab-pane fade" id="tab-pane-3">
                         <div class="row">
                             <div class="col-md-6">
                                 <h4 class="mb-4">1 review for "Colorful Stylish Shirt"</h4>
@@ -244,7 +253,7 @@
                                 </form>
                             </div>
                         </div>
-                    </div>
+                    </div> -->
                 </div>
             </div>
         </div>
@@ -253,7 +262,7 @@
 
 
     <!-- Products Start -->
-    <div class="container-fluid py-5">
+   <!-- <div class="container-fluid py-5">
         <div class="text-center mb-4">
             <h2 class="section-title px-5"><span class="px-2">You May Also Like</span></h2>
         </div>
@@ -338,8 +347,21 @@
                 </div>
             </div>
         </div>
-    </div>
+    </div> -->
     <!-- Products End -->
 
 
-    
+    <script>
+        function add_qauntity(){
+            val = document.getElementById('product_qauntity').value;
+            document.getElementById('product_qauntity').value = Number(val)+1;
+        };
+        function remove_qauntity(){
+            val = document.getElementById('product_qauntity').value;
+            if(Number(val)>1){
+                document.getElementById('product_qauntity').value =Number(val)-1;
+            }else{
+                document.getElementById('product_qauntity').value = 1;
+            }
+        };
+    </script>
