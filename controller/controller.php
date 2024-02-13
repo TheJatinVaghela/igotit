@@ -51,7 +51,7 @@ class controller extends model
                             print_r(json_encode(['data'=>NULL,'message'=>'data not found','status'=>500]));
                         }else{
                             $data = $this->fatch_all($data);
-                            $this->print_stuf($data);
+                            // $this->print_stuf($data);
                             $this->view("../view/shop.php",$data);
                         }
                     }else{
@@ -66,8 +66,8 @@ class controller extends model
                     $data = $this->select('product',['*'],['product_code'=>$_GET['product']]);
                     $this->view("../view/detail.php",$data);
                 }else{
-                    echo'<script>alert(You Do NOT HAVE Product To SEE Detail OFF RETurn TO STORE)</script>';
                     echo '<h1>CLICK <a href="http://localhost/clones/igotit/public/shop"> HERE </a> TO RETURN TO STORE PAGE</h1>';
+                    echo'<script>alert("You Do NOT HAVE Product To SEE Detail OFF RETurn TO STORE")</script>';
                 }
                 break;
             case "public/cart":

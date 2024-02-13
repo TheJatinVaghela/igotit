@@ -165,27 +165,33 @@
                             </div>
                         </div>
                     </div>
-                    <?php $data = $data[0];?>
-                    <?php foreach($data['data'] as $key =>$value){?>
-                    <div class="col-lg-4 col-md-6 col-sm-12 pb-1" id="product_code_<?php echo ($value['product_code']);?>">
-                        <div class="card product-item border-0 mb-4">
-                            <div class="card-header product-img position-relative overflow-hidden bg-transparent border p-0">
-                                <img class="img-fluid w-100" src="<?php echo($this->product_img.$value['product_img'])?>" alt="IMG">
-                            </div>
-                            <div class="card-body border-left border-right text-center p-0 pt-4 pb-3">
-                                <h6 class="text-truncate mb-3"><?php echo ($value['product_name']);?></h6>
-                                <div class="d-flex justify-content-center">
-                                    <h6>$<?php echo($value['product_saleprice']);?></h6><h6 class="text-muted ml-2"><del>$<?php echo($value['product_retailprice']);?></del></h6>
+                    <?php if(isset($data[0])){ ?>
+                        <?php if($data[0]['status'] != 500 ){ ?>
+                            <?php $data = $data[0];?>
+                            <?php foreach($data['data'] as $key =>$value){?>
+                            <div class="col-lg-4 col-md-6 col-sm-12 pb-1" id="product_code_<?php echo ($value['product_code']);?>">
+                                <div class="card product-item border-0 mb-4">
+                                    <div class="card-header product-img position-relative overflow-hidden bg-transparent border p-0">
+                                        <img class="img-fluid w-100" src="<?php echo($this->product_img.$value['product_img'])?>" alt="IMG">
+                                    </div>
+                                    <div class="card-body border-left border-right text-center p-0 pt-4 pb-3">
+                                        <h6 class="text-truncate mb-3"><?php echo ($value['product_name']);?></h6>
+                                        <div class="d-flex justify-content-center">
+                                            <h6>$<?php echo($value['product_saleprice']);?></h6><h6 class="text-muted ml-2"><del>$<?php echo($value['product_retailprice']);?></del></h6>
+                                        </div>
+                                    </div>
+                                    <div class="card-footer d-flex justify-content-between bg-light border">
+                                        <a href="http://localhost/clones/igotit/public/detail?product=<?php echo ($value['product_code']);?>" class="btn btn-sm text-dark p-0"><i class="fas fa-eye text-primary mr-1"></i>View Detail</a>
+                                        <a href="" class="btn btn-sm text-dark p-0"><i class="fas fa-shopping-cart text-primary mr-1"></i>Add To Cart</a>
+                                    </div>
                                 </div>
                             </div>
-                            <div class="card-footer d-flex justify-content-between bg-light border">
-                                <a href="http://localhost/clones/igotit/public/detail?product=<?php echo ($value['product_code']);?>" class="btn btn-sm text-dark p-0"><i class="fas fa-eye text-primary mr-1"></i>View Detail</a>
-                                <a href="" class="btn btn-sm text-dark p-0"><i class="fas fa-shopping-cart text-primary mr-1"></i>Add To Cart</a>
-                            </div>
-                        </div>
-                    </div>
-                    <?php }?>
-                   <!-- <div class="col-lg-4 col-md-6 col-sm-12 pb-1">
+                            <?php }?>
+                        <?php }else{?><?php 
+                            echo '<h1>'.$data[0]['message'] .'</h1>';
+                        };?>
+                    <?php }else{?>
+                    <div class="col-lg-4 col-md-6 col-sm-12 pb-1">
                         <div class="card product-item border-0 mb-4">
                             <div class="card-header product-img position-relative overflow-hidden bg-transparent border p-0">
                                 <img class="img-fluid w-100" src="../public\assets/img/product-2.jpg" alt="">
@@ -341,7 +347,9 @@
                             </li>
                           </ul>
                         </nav>
-                    </div> -->
+                    </div> 
+                    <?php }?>
+                    
                 </div>
             </div>
             <!-- Shop Product End -->
