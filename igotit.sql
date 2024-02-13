@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Feb 10, 2024 at 04:33 PM
+-- Generation Time: Feb 13, 2024 at 08:43 AM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -151,9 +151,19 @@ CREATE TABLE `product` (
   `product_img` varchar(200) NOT NULL,
   `product_rating` int(10) NOT NULL DEFAULT 0,
   `product_tags` varchar(50) DEFAULT NULL,
+  `product_retailprice` int(20) NOT NULL,
+  `product_saleprice` int(20) NOT NULL,
   `product_category_id` int(11) NOT NULL,
   `product_subcategory_id` int(11) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `product`
+--
+
+INSERT INTO `product` (`product_id`, `seller_id`, `product_code`, `product_status`, `product_name`, `product_discription`, `product_img`, `product_rating`, `product_tags`, `product_retailprice`, `product_saleprice`, `product_category_id`, `product_subcategory_id`) VALUES
+(1, 1, '65ca3883f03c61707751555', NULL, 'bounce', 'bounce is GOOOD', '170775155565ca3883f01e4_Deadlock_Artwork_Full.png', 0, 'Boucn/now/trend', 2000, 1500, 1, 1),
+(2, 1, '65ca3be4c424a1707752420', NULL, 'suffle', 'suffle is BAD', '170775242065ca3be4c3f8c_indina fleg.png', 0, 'suffle/bad/dead', 2977, 1590, 1, 2);
 
 -- --------------------------------------------------------
 
@@ -337,6 +347,12 @@ ALTER TABLE `favourite`
 --
 ALTER TABLE `order`
   MODIFY `order_id` int(11) NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT for table `product`
+--
+ALTER TABLE `product`
+  MODIFY `product_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT for table `seller`
