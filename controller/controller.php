@@ -92,17 +92,20 @@ class controller extends model
                 }
                 break;
             case "public/addtocart":
-                if($_SERVER['REQUEST_METHOD'] == 'POST' || isset($_POST)){
-                    $return = $this->validate_data($_POST);
+                $p = json_decode(file_get_contents('php://input'), true);
+                
+                if($_SERVER['REQUEST_METHOD'] == 'POST' || isset($p)){
+                    $return = $this->validate_data($p);
                     if ($return == true) {
-                        print_r(json_encode(['data' => $_POST, 'message' => 'data Was empty', 'status' => 404]));
+                        print_r(json_encode(['data' => $p, 'message' => 'data Was empty / LOG IN OR REGISTER', 'status' => 404]));
                     } else {
-                        $data = $this->insert("cart", $_POST);
+                        $data = $this->insert("cart", $p);
                         print_r(json_encode($data));
                     };
                 }
                 break;
             case "public/cart":
+                
                 if($_SERVER['REQUEST_METHOD'] == 'GET' || isset($_GET)){
                     $return = $this->validate_data($_POST);
                     if ($return == true) {
@@ -110,8 +113,9 @@ class controller extends model
                         echo "<center><h1>GO TO <a href='http://localhost/clones/igotit/public/register'>SIGN UP</a>OR <a href='http://localhost/clones/igotit/public/login'>SIGN IN</a> </h1> </center>";
                         
                     } else {
-                        $data = $this->select_join(['cart_id','product_qauntity','product_saleprice','product_name'],'cart',[['type'=>' ','table' => 'product', 'key' => 'cart.product_id', 'value' => 'product.product_id']]);
-                        $this->print_stuf($data);
+                        $data = $this->select_join(['cart_id','product_qauntity','product_saleprice','product_name','product_img'],'cart',[['type'=>' ','table' => 'product', 'key' => 'cart.product_id', 'value' => 'product.product_id']]);
+                        // $this->print_stuf($data);
+                        $data['status'] = 200;
                         $this->view("../view/cart.php",$data);
                         
                     };
@@ -491,7 +495,7 @@ class controller extends model
         $return = false;
         $empty = [];
         foreach ($data as $key => $value) {
-            if ($value === "" || !isset($value)) {
+            if ($value === "" || !isset($value) || $value === "NULL") {
                 $return = true;
                 array_push($empty, $value);
             };

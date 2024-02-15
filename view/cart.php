@@ -1,6 +1,10 @@
 
-
-
+<?php $data = $data[0]['data'];
+    // print_r($data);
+?>
+    <header>
+    <meta http-equiv="" content="0; url=http://localhost/clones/igotit/public/cart?user=ok" />
+    </header>
     <!-- Page Header Start -->
     <div class="container-fluid bg-secondary mb-5">
         <div class="d-flex flex-column align-items-center justify-content-center" >
@@ -30,111 +34,43 @@
                         </tr>
                     </thead>
                     <tbody class="align-middle">
+                    <?php if(isset($data[0])){ ?>
+                        
+                        <?php foreach($data as $key =>$value){
+                            
+                            ?>
                         <tr>
-                            <td class="align-middle"><img src="../public\assets/img/product-1.jpg" alt="" style="width: 50px;"> Colorful Stylish Shirt</td>
-                            <td class="align-middle">$150</td>
-                            <td class="align-middle">
-                                <div class="input-group quantity mx-auto" style="width: 100px;">
-                                    <div class="input-group-btn">
-                                        <button class="btn btn-sm btn-primary btn-minus" >
-                                        <i class="fa fa-minus"></i>
-                                        </button>
-                                    </div>
-                                    <input type="text" class="form-control form-control-sm bg-secondary text-center" value="1">
-                                    <div class="input-group-btn">
-                                        <button class="btn btn-sm btn-primary btn-plus">
-                                            <i class="fa fa-plus"></i>
-                                        </button>
-                                    </div>
+                            <td class="align-middle"><img src="<?php echo $this->product_img.$value['product_img'];?>" alt="😀" style="width: 50px;"> <?php echo $value['product_name'];?></td>
+                            <td class="align-middle"><?php echo $value['product_saleprice'];?></td>
+                            <td class="">
+                                <div class="input-group quantity" >
+                                   
+                                    
+                                        <div class="input-group-btn">
+                                            <button class="btn btn-primary btn-minus" onclick="remove_qauntity()" >
+                                            <i class="fa fa-minus"></i>
+                                            </button>
+                                            
+                                        </div>
+                                        <input id="product_qauntity" type="text" class="form-control bg-secondary text-center" value="<?php echo $value['product_qauntity'];?>">
+                                        <div class="input-group-btn">
+                                            <button class="btn btn-primary btn-plus" onclick="add_qauntity()">
+                                                <i class="fa fa-plus"></i>
+                                            </button>
+                                        
+                                        </div>
+                                                                        
                                 </div>
                             </td>
-                            <td class="align-middle">$150</td>
+                            <td class="align-middle" id="totalPrice"><?php $saleprice = json_encode($value['product_saleprice']);echo $value['product_saleprice']*$value['product_qauntity']; ?></td>
                             <td class="align-middle"><button class="btn btn-sm btn-primary"><i class="fa fa-times"></i></button></td>
                         </tr>
-                        <tr>
-                            <td class="align-middle"><img src="../public\assets/img/product-2.jpg" alt="" style="width: 50px;"> Colorful Stylish Shirt</td>
-                            <td class="align-middle">$150</td>
-                            <td class="align-middle">
-                                <div class="input-group quantity mx-auto" style="width: 100px;">
-                                    <div class="input-group-btn">
-                                        <button class="btn btn-sm btn-primary btn-minus" >
-                                        <i class="fa fa-minus"></i>
-                                        </button>
-                                    </div>
-                                    <input type="text" class="form-control form-control-sm bg-secondary text-center" value="1">
-                                    <div class="input-group-btn">
-                                        <button class="btn btn-sm btn-primary btn-plus">
-                                            <i class="fa fa-plus"></i>
-                                        </button>
-                                    </div>
-                                </div>
-                            </td>
-                            <td class="align-middle">$150</td>
-                            <td class="align-middle"><button class="btn btn-sm btn-primary"><i class="fa fa-times"></i></button></td>
-                        </tr>
-                        <tr>
-                            <td class="align-middle"><img src="../public\assets/img/product-3.jpg" alt="" style="width: 50px;"> Colorful Stylish Shirt</td>
-                            <td class="align-middle">$150</td>
-                            <td class="align-middle">
-                                <div class="input-group quantity mx-auto" style="width: 100px;">
-                                    <div class="input-group-btn">
-                                        <button class="btn btn-sm btn-primary btn-minus" >
-                                        <i class="fa fa-minus"></i>
-                                        </button>
-                                    </div>
-                                    <input type="text" class="form-control form-control-sm bg-secondary text-center" value="1">
-                                    <div class="input-group-btn">
-                                        <button class="btn btn-sm btn-primary btn-plus">
-                                            <i class="fa fa-plus"></i>
-                                        </button>
-                                    </div>
-                                </div>
-                            </td>
-                            <td class="align-middle">$150</td>
-                            <td class="align-middle"><button class="btn btn-sm btn-primary"><i class="fa fa-times"></i></button></td>
-                        </tr>
-                        <tr>
-                            <td class="align-middle"><img src="../public\assets/img/product-4.jpg" alt="" style="width: 50px;"> Colorful Stylish Shirt</td>
-                            <td class="align-middle">$150</td>
-                            <td class="align-middle">
-                                <div class="input-group quantity mx-auto" style="width: 100px;">
-                                    <div class="input-group-btn">
-                                        <button class="btn btn-sm btn-primary btn-minus" >
-                                        <i class="fa fa-minus"></i>
-                                        </button>
-                                    </div>
-                                    <input type="text" class="form-control form-control-sm bg-secondary text-center" value="1">
-                                    <div class="input-group-btn">
-                                        <button class="btn btn-sm btn-primary btn-plus">
-                                            <i class="fa fa-plus"></i>
-                                        </button>
-                                    </div>
-                                </div>
-                            </td>
-                            <td class="align-middle">$150</td>
-                            <td class="align-middle"><button class="btn btn-sm btn-primary"><i class="fa fa-times"></i></button></td>
-                        </tr>
-                        <tr>
-                            <td class="align-middle"><img src="../public\assets/img/product-5.jpg" alt="" style="width: 50px;"> Colorful Stylish Shirt</td>
-                            <td class="align-middle">$150</td>
-                            <td class="align-middle">
-                                <div class="input-group quantity mx-auto" style="width: 100px;">
-                                    <div class="input-group-btn">
-                                        <button class="btn btn-sm btn-primary btn-minus" >
-                                        <i class="fa fa-minus"></i>
-                                        </button>
-                                    </div>
-                                    <input type="text" class="form-control form-control-sm bg-secondary text-center" value="1">
-                                    <div class="input-group-btn">
-                                        <button class="btn btn-sm btn-primary btn-plus">
-                                            <i class="fa fa-plus"></i>
-                                        </button>
-                                    </div>
-                                </div>
-                            </td>
-                            <td class="align-middle">$150</td>
-                            <td class="align-middle"><button class="btn btn-sm btn-primary"><i class="fa fa-times"></i></button></td>
-                        </tr>
+                        <?php }?>
+                        <?php }else{?><?php 
+                            echo '<h1>'.$data[0]['message'] .'</h1>';
+                        };?>
+                    
+
                     </tbody>
                 </table>
             </div>
@@ -175,3 +111,26 @@
     <!-- Cart End -->
 
 
+    <script>
+        function add_qauntity(){
+            val = document.getElementById('product_qauntity').value;
+            let input = Number(val)+1;
+            document.getElementById('product_qauntity').value = input;
+            document.getElementById('totalPrice').innerHTML= Number(<?php echo $saleprice;?>) * input;  
+        };
+    </script>
+    <script>
+                                
+    function remove_qauntity(){
+        val = document.getElementById('product_qauntity').value;
+        if(Number(val)>1){
+           let input = Number(val)-1;
+            document.getElementById('product_qauntity').value =input;
+            document.getElementById('totalPrice').innerHTML= Number(<?php echo $saleprice;?>) * input;  
+        }else{
+            let  input = 1;
+            document.getElementById('product_qauntity').value = input;
+            document.getElementById('totalPrice').innerHTML= Number(<?php echo $saleprice;?>) * input;  
+        }
+    };
+    </script>
