@@ -56,7 +56,7 @@
         </div>
     </div>
     <!-- Footer End -->
-
+    
 
     <!-- Back to Top -->
     <a href="#" class="btn btn-primary back-to-top"><i class="fa fa-angle-double-up"></i></a>
@@ -79,6 +79,7 @@
 
     <!-- Template Javascript -->
     <script src="<?php echo $this->assets;?>js/main.js"></script>
+
 
 </body>
 

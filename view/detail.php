@@ -119,16 +119,68 @@
                             <button class="btn btn-primary btn-minus" onclick="remove_qauntity()" >
                             <i class="fa fa-minus"></i>
                             </button>
+                            <script>
+                                
+                                function remove_qauntity(){
+                                    val = document.getElementById('product_qauntity').value;
+                                    if(Number(val)>1){
+                                        document.getElementById('product_qauntity').value =Number(val)-1;
+                                    }else{
+                                        document.getElementById('product_qauntity').value = 1;
+                                    }
+                                };
+                            </script>
                         </div>
                         <input id="product_qauntity" type="text" class="form-control bg-secondary text-center" value="1">
                         <div class="input-group-btn">
                             <button class="btn btn-primary btn-plus" onclick="add_qauntity()">
                                 <i class="fa fa-plus"></i>
                             </button>
+                            <script>
+                                function add_qauntity(){
+                                    val = document.getElementById('product_qauntity').value;
+                                    document.getElementById('product_qauntity').value = Number(val)+1;
+                                };
+                            </script>
                         </div>
                     </div>
-                    <button class="btn btn-primary px-3" onclick="add_qauntity()"><i class="fa fa-shopping-cart mr-1"></i> Add To Cart </button>
+                    <button class="btn btn-primary px-3" onclick="addtocart(this)" >
+                        <i class="fa fa-shopping-cart mr-1"></i> Add To Cart 
+                    </button>
+                    <script>
+                        
+                        function addtocart(e){
+                            
+                            let url = "http://localhost/clones/igotit/public/addtocart";
+                            let data = {
+                                'product_id':<?php echo $data['product_id'];?>,
+                                'customer_id':<?php (isset($_COOKIE['customer_id']))?$_COOKIE['customer_id']:NULL;?>,
+                                'product_qauntity':document.getElementById('product_qauntity').value
+                            } ;
+                            jQuery.ajax({
+                                url:url,
+                                data:data,
+                                cache:false,
+                                processData:false,
+                                contentType:false,
+                                type:'POST',
+                                success:function(result){
+                                    result = JSON.parse(result);    
+                                    if (result.status == 200) {
+                                        setCookie("customer_id",result.data[0].customer_id,2);
+                                        window.location.href = "http://localhost/clones/igotit/public/cart?user=<?php 
+                                        (isset($_COOKIE['customer_id']))?$_COOKIE['customer_id']:NULL; ?>";
+                                    } else {
+                                        
+                                        alert(result.message);
+                                    };
+                                }
+                            });
+                        
+                        };
+                    </script>
                 </div>
+                
                 <div class="d-flex pt-2">
                     <p class="text-dark font-weight-medium mb-0 mr-2">Share on:</p>
                     <div class="d-inline-flex">
@@ -350,47 +402,3 @@
     </div> -->
     <!-- Products End -->
 
-
-    <script>
-        function add_qauntity(){
-            val = document.getElementById('product_qauntity').value;
-            document.getElementById('product_qauntity').value = Number(val)+1;
-        };
-        function remove_qauntity(){
-            val = document.getElementById('product_qauntity').value;
-            if(Number(val)>1){
-                document.getElementById('product_qauntity').value =Number(val)-1;
-            }else{
-                document.getElementById('product_qauntity').value = 1;
-            }
-        };
-        $('#addtocart').click(function(e){
-            
-            let url = "http://localhost/clones/igotit/public/addtocart";
-            let data = {
-                'product_id':<?php echo $data['product_id'];?>,
-                'customer_id':<?php (isset($_COOKIE['customer_id']))?$_COOKIE['customer_id']:NULL;?>,
-                'product_qauntity':document.getElementById('product_qauntity').value
-            } ;
-            jQuery.ajax({
-                url:url,
-                data:data,
-                cache:false,
-                processData:false,
-                contentType:false,
-                type:'POST',
-                success:function(result){
-                    result = JSON.parse(result);    
-                    if (result.status == 200) {
-                        setCookie("customer_id",result.data[0].customer_id,2);
-                        window.location.href = "http://localhost/clones/igotit/public/cart?user=<?php 
-                        (isset($_COOKIE['customer_id']))?$_COOKIE['customer_id']:NULL; ?>";
-                    } else {
-                        
-                        alert(result.message);
-                    };
-                }
-            });
-        
-        });
-    </script>
