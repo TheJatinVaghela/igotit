@@ -127,7 +127,7 @@
                             </button>
                         </div>
                     </div>
-                    <button class="btn btn-primary px-3"><i class="fa fa-shopping-cart mr-1"></i> Add To Cart</button>
+                    <button class="btn btn-primary px-3" onclick="add_qauntity()"><i class="fa fa-shopping-cart mr-1"></i> Add To Cart </button>
                 </div>
                 <div class="d-flex pt-2">
                     <p class="text-dark font-weight-medium mb-0 mr-2">Share on:</p>
@@ -364,4 +364,33 @@
                 document.getElementById('product_qauntity').value = 1;
             }
         };
+        $('#addtocart').click(function(e){
+            
+            let url = "http://localhost/clones/igotit/public/addtocart";
+            let data = {
+                'product_id':<?php echo $data['product_id'];?>,
+                'customer_id':<?php (isset($_COOKIE['customer_id']))?$_COOKIE['customer_id']:NULL;?>,
+                'product_qauntity':document.getElementById('product_qauntity').value
+            } ;
+            jQuery.ajax({
+                url:url,
+                data:data,
+                cache:false,
+                processData:false,
+                contentType:false,
+                type:'POST',
+                success:function(result){
+                    result = JSON.parse(result);    
+                    if (result.status == 200) {
+                        setCookie("customer_id",result.data[0].customer_id,2);
+                        window.location.href = "http://localhost/clones/igotit/public/cart?user=<?php 
+                        (isset($_COOKIE['customer_id']))?$_COOKIE['customer_id']:NULL; ?>";
+                    } else {
+                        
+                        alert(result.message);
+                    };
+                }
+            });
+        
+        });
     </script>

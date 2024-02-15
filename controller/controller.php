@@ -91,8 +91,31 @@ class controller extends model
                     echo'<script>alert("You Do NOT HAVE Product To SEE Detail OFF RETurn TO STORE")</script>';
                 }
                 break;
+            case "public/addtocart":
+                if($_SERVER['REQUEST_METHOD'] == 'POST' || isset($_POST)){
+                    $return = $this->validate_data($_POST);
+                    if ($return == true) {
+                        print_r(json_encode(['data' => $_POST, 'message' => 'data Was empty', 'status' => 404]));
+                    } else {
+                        $data = $this->insert("cart", $_POST);
+                        print_r(json_encode($data));
+                    };
+                }
+                break;
             case "public/cart":
-                $this->view("../view/cart.php");
+                if($_SERVER['REQUEST_METHOD'] == 'GET' || isset($_GET)){
+                    $return = $this->validate_data($_POST);
+                    if ($return == true) {
+                        print_r(json_encode(['data' => $_POST, 'message' => 'data Was empty', 'status' => 404]));
+                        echo "<center><h1>GO TO <a href='http://localhost/clones/igotit/public/register'>SIGN UP</a>OR <a href='http://localhost/clones/igotit/public/login'>SIGN IN</a> </h1> </center>";
+                        
+                    } else {
+                        $data = $this->select_join(['cart_id','product_qauntity','product_saleprice','product_name'],'cart',[['type'=>' ','table' => 'product', 'key' => 'cart.product_id', 'value' => 'product.product_id']]);
+                        $this->print_stuf($data);
+                        $this->view("../view/cart.php",$data);
+                        
+                    };
+                };
                 break;
             case "public/checkout":
                 $this->view("../view/checkout.php");

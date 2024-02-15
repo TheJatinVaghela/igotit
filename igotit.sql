@@ -3,9 +3,9 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Feb 13, 2024 at 08:43 AM
--- Server version: 10.4.32-MariaDB
--- PHP Version: 8.2.12
+-- Generation Time: Feb 15, 2024 at 07:27 AM
+-- Server version: 10.4.28-MariaDB
+-- PHP Version: 8.2.4
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -54,7 +54,8 @@ CREATE TABLE `cart` (
   `cart_id` int(11) NOT NULL,
   `customer_id` int(11) DEFAULT NULL,
   `product_id` int(11) DEFAULT NULL,
-  `status` int(11) DEFAULT NULL COMMENT ' code can be ( 0 ) ( 1 ) ( 2 )\r\n( 0 ) = in the cart\r\n( 1 ) = its Buying\r\n( 2 ) = its ordered'
+  `product_qauntity` int(11) NOT NULL DEFAULT 1,
+  `status` int(11) NOT NULL DEFAULT 0 COMMENT ' code can be ( 0 ) ( 1 ) ( 2 )\r\n( 0 ) = in the cart\r\n( 1 ) = its Buying\r\n( 2 ) = its ordered'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
