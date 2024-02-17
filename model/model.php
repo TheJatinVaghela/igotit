@@ -62,10 +62,13 @@ class model {
     public function delete($tbl,$where=NULL){
         $sql = "DELETE FROM $tbl WHERE";
         foreach ($where as $key => $value) {
-            $sql .= " $key = $value AND";
+            $sql .= " $key = '$value' AND";
         };
         $sql = substr($sql,0,-3);
+        
         $data = $this->sqli_($sql,false);
+        
+        
         return $data;
     }
     

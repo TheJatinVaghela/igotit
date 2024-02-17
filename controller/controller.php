@@ -330,7 +330,7 @@ class controller extends model
                 break;
             case "seller/delete_product":
                 $data = json_decode(file_get_contents("php://input"),true);
-
+            
                 if(isset($data)){
                     $return = $this->validate_data($_POST);
                     if ($return == true) {

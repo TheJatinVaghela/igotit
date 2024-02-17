@@ -40,16 +40,18 @@
    async function Delete(){
     let value = <?php echo $p_code;?>;
        console.log( value);
-      let data = { "product_code" :value };
+      let data = { "product_code" : value };
+      console.log(data);
       let url = "http://localhost/clones/igotit/seller/delete_product";
-    $.ajax({
+      jQuery.ajax({
         url:url,
         data:JSON.stringify(data),
+        type:"POST",
         processData:false,
         cache:false,
         contentType:false,
         success:function(result){
-            // console.log(result);
+             console.log(result);
             result = JSON.parse(result);
             console.log(result);
             if(result.status == 200){
