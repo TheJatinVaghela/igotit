@@ -104,6 +104,21 @@ class controller extends model
                     };
                 }
                 break;
+            case "public/removeCart":
+                $data = json_decode(file_get_contents("php://input"),true);
+
+                if(isset($data)){
+                    $return = $this->validate_data($_POST);
+                    if ($return == true) {
+                        print_r(json_encode(['data' => $_POST, 'message' => 'data Was empty', 'status' => 404]));
+                    }
+                    else{
+       
+                        $data = $this->delete('cart',$data);
+                        print_r(json_encode($data));
+                    }
+                };
+                break;
             case "public/cart":
                 
                 if($_SERVER['REQUEST_METHOD'] == 'GET' || isset($_GET)){
@@ -113,10 +128,17 @@ class controller extends model
                         echo "<center><h1>GO TO <a href='http://localhost/clones/igotit/public/register'>SIGN UP</a>OR <a href='http://localhost/clones/igotit/public/login'>SIGN IN</a> </h1> </center>";
                         
                     } else {
-                        $data = $this->select_join(['cart_id','product_qauntity','product_saleprice','product_name','product_img'],'cart',[['type'=>' ','table' => 'product', 'key' => 'cart.product_id', 'value' => 'product.product_id']]);
-                        // $this->print_stuf($data);
-                        $data['status'] = 200;
-                        $this->view("../view/cart.php",$data);
+                        if(isset($_COOKIE['customer_id'])){
+
+                            $data = $this->select_join(['cart_id','product_qauntity','product_saleprice','product_name','product_img'],'cart',[['type'=>' ','table' => 'product', 'key' => 'cart.product_id', 'value' => 'product.product_id']
+                            ,['type'=>'inner','table' => 'customer', 'key' => $_COOKIE["customer_id"],'value' => 'cart.customer_id']]);
+                            // $this->print_stuf($data);
+                            // $data['status'] = 200;
+                            $this->view("../view/cart.php",$data);    
+                        }else{
+                            $data = NULL;
+                            $this->view("../view/cart.php",$data);
+                        }
                         
                     };
                 };

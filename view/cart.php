@@ -1,6 +1,17 @@
 
-<?php $data = $data[0]['data'];
-    // print_r($data);
+<?php
+//  print_r($data);
+ if(isset($data[0])){
+
+        if(isset($data[0]['data']) && $data[0]['data'] != NULL){
+         $data = $data[0]['data'];
+        }else if($data[0]['status'] == 500){
+            $data = $data[0]['message'];
+        };
+    }else{
+        $data = NULL;
+    };
+
 ?>
     <header>
     <meta http-equiv="" content="0; url=http://localhost/clones/igotit/public/cart?user=ok" />
@@ -34,10 +45,10 @@
                         </tr>
                     </thead>
                     <tbody class="align-middle">
-                    <?php if(isset($data[0])){ ?>
+                    <?php if(isset($data) && is_array($data)){ ?>
                         
                         <?php foreach($data as $key =>$value){
-                            
+                            // print_r($value);
                             ?>
                         <tr>
                             <td class="align-middle"><img src="<?php echo $this->product_img.$value['product_img'];?>" alt="😀" style="width: 50px;"> <?php echo $value['product_name'];?></td>
@@ -63,11 +74,17 @@
                                 </div>
                             </td>
                             <td class="align-middle" id="totalPrice"><?php $saleprice = json_encode($value['product_saleprice']);echo $value['product_saleprice']*$value['product_qauntity']; ?></td>
-                            <td class="align-middle"><button class="btn btn-sm btn-primary"><i class="fa fa-times"></i></button></td>
-                        </tr>
+                            <td class="align-middle"><button class="btn btn-sm btn-primary" onclick="removeProduct(<?php echo $value['cart_id']?>)"><i class="fa fa-times"></i></button></td>
+                        </tr>   
                         <?php }?>
                         <?php }else{?><?php 
-                            echo '<h1>'.$data[0]['message'] .'</h1>';
+                        if($data == NULL){
+                            echo '<tr><td class="align-middle"  > YOU NEED TO LOGIN OR SIGN UP</td></tr>';
+                        }else if ($data != NULL){
+                            echo '<tr><td class="align-middle"  >'.$data.'</td></tr>';
+
+                        };
+
                         };?>
                     
 
@@ -133,4 +150,28 @@
             document.getElementById('totalPrice').innerHTML= Number(<?php echo $saleprice;?>) * input;  
         }
     };
+
+    function removeProduct(code){
+      let data = {
+        "cart_id":code
+      };
+      console.log(data);
+      let url = "http://localhost/clones/igotit/public/removeCart";
+       jQuery.ajax({
+        url:url,
+        data:JSON.stringify(data),
+        type:"POST",
+        contentType:false,
+        processData:false,
+        success:function(result){
+            result = JSON.parse(result);
+            console.log(result);
+           if(result.status == 200){
+                window.location.reload();
+            }else{
+                console.log(result);
+            }; 
+        }
+       }) 
+    }
     </script>
