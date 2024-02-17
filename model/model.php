@@ -75,10 +75,10 @@ class model {
             $sql .= "`$key` = '$value' AND";
         };
         $sql = substr($sql,0,-3);
+     
         $data = $this->sqli_($sql); 
         if($data['data'] == NULL) {return $data;};
         $data = $this->fatch_all($data['data']);
-
         return $data;
     }
     public function select($tbl,array $get,$where=null){

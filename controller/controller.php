@@ -130,11 +130,16 @@ class controller extends model
                     } else {
                         if(isset($_COOKIE['customer_id'])){
 
-                            $data = $this->select_join(['cart_id','product_qauntity','product_saleprice','product_name','product_img'],'cart',[['type'=>' ','table' => 'product', 'key' => 'cart.product_id', 'value' => 'product.product_id']
-                            ,['type'=>'inner','table' => 'customer', 'key' => $_COOKIE["customer_id"],'value' => 'cart.customer_id']]);
+                            $data = 'SELECT cart_id , product_qauntity , product_saleprice , product_name , product_img FROM cart JOIN product ON cart.product_id = product.product_id WHERE cart.customer_id ='.$_COOKIE["customer_id"]; 
+                            $data= $this->sqli_($data);
+                            if($data['data'] == NULL) {
+                                $this->view("../view/cart.php",$data);    
+                            }else{
+                                $data = $this->fatch_all($data['data']);        
+                                $this->view("../view/cart.php",$data);    
+                            };
                             // $this->print_stuf($data);
                             // $data['status'] = 200;
-                            $this->view("../view/cart.php",$data);    
                         }else{
                             $data = NULL;
                             $this->view("../view/cart.php",$data);
@@ -222,7 +227,8 @@ class controller extends model
                 $this->seller_view('../view/seller/uploadproduct.php');
                 break;
             case 'seller/product':
-                $this->seller_view('../view/seller/see_product.php');
+                $this->data = $this->select('product', ['*'],['seller_id'=>$_COOKIE['seller_id']]);
+                $this->seller_view('../view/seller/see_products.php');
                 break;
             case 'seller/forgotpassword':
                 $this->seller_view('../view/seller/forgotpassword.php');
@@ -322,6 +328,21 @@ class controller extends model
                     };
                 };
                 break;
+            case "seller/delete_product":
+                $data = json_decode(file_get_contents("php://input"),true);
+
+                if(isset($data)){
+                    $return = $this->validate_data($_POST);
+                    if ($return == true) {
+                        print_r(json_encode(['data' => $_POST, 'message' => 'data Was empty', 'status' => 404]));
+                    }
+                    else{
+       
+                        $data = $this->delete('product',$data);
+                        print_r(json_encode($data));
+                    }
+                };
+                break;
                 // ADMIN CODE
             case 'admin/home':
                 if (!isset($_COOKIE["admin_id"])) {
@@ -349,6 +370,7 @@ class controller extends model
                 $this->data = $this->select('category', ['*']);
                 $this->admin_view('../view/admin/add_subcategory.php');
                 break;
+            
             case 'admin/customer-table':
                 try {
                     $this->data = $this->select('customer', ['*']);
