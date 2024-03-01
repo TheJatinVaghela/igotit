@@ -122,7 +122,7 @@ class controller extends model
             case "public/cart":
                 
                 if($_SERVER['REQUEST_METHOD'] == 'GET' || isset($_GET)){
-                    $return = $this->validate_data($_POST);
+                    $return = $this->validate_data($_POST,[]);
                     if ($return == true) {
                         print_r(json_encode(['data' => $_POST, 'message' => 'data Was empty', 'status' => 404]));
                         echo "<center><h1>GO TO <a href='http://localhost/clones/igotit/public/register'>SIGN UP</a>OR <a href='http://localhost/clones/igotit/public/login'>SIGN IN</a> </h1> </center>";

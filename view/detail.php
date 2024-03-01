@@ -121,7 +121,7 @@
                             </button>
                             
                         </div>
-                        <input id="product_qauntity" type="text" class="form-control bg-secondary text-center" value="1">
+                        <input id="product_qauntity" disabled  type="text" class="form-control bg-secondary text-center" value="1">
                         <div class="input-group-btn">
                             <button class="btn btn-primary btn-plus" onclick="add_qauntity()">
                                 <i class="fa fa-plus"></i>
@@ -373,36 +373,40 @@
     };
     </script>
     <script>
-        
-        <?php $userid = (isset($_COOKIE['customer_id'])? $_COOKIE['customer_id']:'NULL');?>
-        function addtocart(e){
+        $(document).ready(function(){
+            <?php $userid = (isset($_COOKIE['customer_id'])? $_COOKIE['customer_id']:'NULL');?>
+            function addtocart(e){
+
+                
+                let url = "http://localhost/clones/igotit/public/addtocart";
+                let data = {
+                    'product_id':<?php echo json_encode($data['product_id']);?>,
+                    'customer_id':<?php echo json_encode($userid);?>,
+                    'product_qauntity':document.getElementById('product_qauntity').value
+                } ;
+                jQuery.ajax({
+                    url:url,
+                    data:JSON.stringify(data),
+                    cache:false,
+                    processData:false,
+                    contentType:false,
+                    type:'POST',
+                    success:function(result){
+                        result = JSON.parse(result);  
+                        console.log(result);  
+                        if (result.status == 200) {
+                            
+                            window.location.href = `http://localhost/clones/igotit/public/cart?user=<?php echo json_encode($userid);?>`;
+                        } else {
+                            console.log(result);
+                            alert(result.message);
+                        };
+                    }
+                });
+                // console.log(data);
             
-            let url = "http://localhost/clones/igotit/public/addtocart";
-            let data = {
-                'product_id':<?php echo json_encode($data['product_id']);?>,
-                'customer_id':<?php echo json_encode($userid);?>,
-                'product_qauntity':document.getElementById('product_qauntity').value
-            } ;
-            jQuery.ajax({
-                url:url,
-                data:JSON.stringify(data),
-                cache:false,
-                processData:false,
-                contentType:false,
-                type:'POST',
-                success:function(result){
-                    result = JSON.parse(result);  
-                    console.log(result);  
-                    if (result.status == 200) {
-                        
-                        window.location.href = `http://localhost/clones/igotit/public/cart?user=<?php echo json_encode($userid);?>`;
-                    } else {
-                        console.log(result);
-                        alert(result.message);
-                    };
-                }
-            });
-            // console.log(data);
-        
-        };
+            };
+        });
     </script>
+
+    
