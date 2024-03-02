@@ -84,8 +84,15 @@
       spanErrorArray = validate_data({
         "seller_name_error": ($("input[name='seller_name']", '#seller_register') && $("input[name='seller_name']", '#seller_register').val().trim() !== '') ? true : false,
         "seller_addres_error": ($("input[name=seller_addres]", '#seller_register') && $("input[name=seller_addres]", '#seller_register').val().trim() !== '') ? true : false,
-        "seller_email_error": ($("input[name='seller_email']", '#seller_register') && $("input[name='seller_email']", '#seller_register').val() &&
-          /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/.test($("input[type='email'][name='seller_email']", '#seller_register').val())) ? true : false,
+        "seller_email_error": (
+          ($("input[name='seller_email']", '#seller_register')) 
+          && 
+          ($("input[name='seller_email']", '#seller_register').val())
+          &&
+          (/^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/.test($("input[type='email'][name='seller_email']", '#seller_register').val()))
+          &&
+          (chackIsUniqueMail($("input[name='seller_email']", '#seller_register'), $('#seller_email_error')))
+          )? true : false,
         // "seller_country_error": ($("[name='seller_country']", '#seller_register').prop('selected', true) && $("[name='seller_country']", '#seller_register').prop('selected', true).is(':selected')) ? true : false,
         "seller_password_error": ($("input[type='password'][name=seller_password]", '#seller_register') && (/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d).{8,}$/.test($("input[type='password'][name=seller_password]", '#seller_register').val()))) ? true : false,
         "seller_phone_error": ($("input[type='tel'][name='seller_phone']", '#seller_register') && (/^(\(\d{3}\)|\d{3})[- .]?\d{3}[- .]?\d{4}$/.test($("input[type='tel'][name='seller_phone']", '#seller_register').val().trim()))) ? true : false,
@@ -118,9 +125,9 @@
           let input = e.split("_error")[0];
           console.log($("[name='" + input + "']"));
           $("[name='" + input + "']").click(function(element) {
-             if ($("#" + e).show()) {
-               $("#" + e).hide();
-             }
+            if ($("#" + e).show()) {
+              $("#" + e).hide();
+            }
           })
         });
       }
@@ -140,13 +147,34 @@
         const element = object[key];
         if (element == false) {
           returnArr.push(key)
-          $('#'+key).show();
+          $('#' + key).show();
 
           console.log(key);
         }
       }
     }
     return returnArr;
+  }
+
+  async function chackIsUniqueMail(elm, errorElm) {
+    let chack = await fetch("http://localhost/clones/igotit/public/chackUniqeMail?seller=" + $(elm).val());
+    let result = await chack.json();
+    console.log(result);
+    if(result.status == 200){
+        $(errorElm).html("Email Already Exists");
+        if(errorElm.hide()){
+          $(errorElm).show().focus();
+          return false;
+        };
+        return false;
+    }else{
+      $(errorElm).html("Enter Correct Email");
+      if(errorElm.show()){
+          $(errorElm).hide();
+          return true;
+        };
+      return true;
+    }
   }
 </script>
 

@@ -21,8 +21,24 @@ class controller extends model
         switch ($path) {
                 // PUBLIC CODE
             case "public/home":
-                $this->data =          //data You Want              ,        //form this table,    //right JOIN category ON subcategory.product_category_id = category.category_id
-                    $this->select_join(['category_name', 'subcategory_name'], 'subcategory', [['type' => 'right', 'table' => 'category', 'key' => 'subcategory.product_category_id', 'value' => 'category.category_id']]);
+                $this->data =                            
+                    $this->select_join(
+                        //data You Want
+                        [
+                            'category_name',
+                            'subcategory_name'
+                        ],
+                        //form this table,
+                        'subcategory',
+                        [
+                            [
+                                'type' => 'right',                          // right JOIN 
+                                'table' => 'category',                      // category ON
+                                'key' => 'subcategory.product_category_id', // subcategory.product_category_id =
+                                'value' => 'category.category_id'           // category.category_id
+                            ]
+                        ]
+                    );
 
                 $newArr = [];
 
@@ -43,58 +59,61 @@ class controller extends model
                 break;
             case "public/shop":
                 // print_r($_GET);
-                if(isset($_GET['category']) || isset($_GET['subcategory']) ){
-                    if(isset($_GET['category']) && isset($_GET['subcategory'])){
+                if (isset($_GET['category']) || isset($_GET['subcategory'])) {
+                    if (isset($_GET['category']) && isset($_GET['subcategory'])) {
                         $data = $this->connection->query(
-                            "select * from product where product.product_subcategory_id IN(select subcategory_id from subcategory where subcategory_name='".$_GET['subcategory']."')  and product_category_id IN(select category_id from category where category_name='".$_GET['category']."')");
-                        if($data->num_rows < 0){
-                            print_r(json_encode(['data'=>NULL,'message'=>'data not found','status'=>500]));
-                        }else{
+                            "select * from product where product.product_subcategory_id IN(select subcategory_id from subcategory where subcategory_name='" . $_GET['subcategory'] . "')  and product_category_id IN(select category_id from category where category_name='" . $_GET['category'] . "')"
+                        );
+                        if ($data->num_rows < 0) {
+                            print_r(json_encode(['data' => NULL, 'message' => 'data not found', 'status' => 500]));
+                        } else {
                             $data = $this->fatch_all($data);
                             // $this->print_stuf($data);
-                            $this->view("../view/shop.php",$data);
+                            $this->view("../view/shop.php", $data);
                         }
-                    }else if(isset($_GET['category'])&& !isset($_GET['subcategory'])){
+                    } else if (isset($_GET['category']) && !isset($_GET['subcategory'])) {
                         $data = $this->connection->query(
-                            "select * from product where product_category_id IN(select category_id from category where category_name='".$_GET['category']."')");
-                        if($data->num_rows < 0){
-                            print_r(json_encode(['data'=>NULL,'message'=>'data not found','status'=>500]));
-                        }else{
+                            "select * from product where product_category_id IN(select category_id from category where category_name='" . $_GET['category'] . "')"
+                        );
+                        if ($data->num_rows < 0) {
+                            print_r(json_encode(['data' => NULL, 'message' => 'data not found', 'status' => 500]));
+                        } else {
                             $data = $this->fatch_all($data);
                             // $this->print_stuf($data);
-                            $this->view("../view/shop.php",$data);
+                            $this->view("../view/shop.php", $data);
                         }
-                    }else if(isset($_GET['subcategory'])&& !isset($_GET['category'])){
+                    } else if (isset($_GET['subcategory']) && !isset($_GET['category'])) {
                         $data = $this->connection->query(
-                            "select * from product where product_subcategory_id IN(select subcategory_id from subcategory where subcategory_name='".$_GET['subcategory']."')");
-                        if($data->num_rows < 0){
-                            print_r(json_encode(['data'=>NULL,'message'=>'data not found','status'=>500]));
-                        }else{
+                            "select * from product where product_subcategory_id IN(select subcategory_id from subcategory where subcategory_name='" . $_GET['subcategory'] . "')"
+                        );
+                        if ($data->num_rows < 0) {
+                            print_r(json_encode(['data' => NULL, 'message' => 'data not found', 'status' => 500]));
+                        } else {
                             $data = $this->fatch_all($data);
                             // $this->print_stuf($data);
-                            $this->view("../view/shop.php",$data);
+                            $this->view("../view/shop.php", $data);
                         }
-                    }else{
+                    } else {
                         echo '<h1>CLICK <a href="http://localhost/clones/igotit/public/home"> HERE </a> TO RETURN TO HOME PAGE</h1>';
-                        echo'<script>alert("URL IS Worng GO TO HOME")</script>';
+                        echo '<script>alert("URL IS Worng GO TO HOME")</script>';
                     };
-                }else{
+                } else {
                     $this->view("../view/shop.php");
                 };
                 break;
             case "public/detail":
-                if(isset($_GET['product'])){
-                    $data = $this->select('product',['*'],['product_code'=>$_GET['product']]);
-                    $this->view("../view/detail.php",$data);
-                }else{
+                if (isset($_GET['product'])) {
+                    $data = $this->select('product', ['*'], ['product_code' => $_GET['product']]);
+                    $this->view("../view/detail.php", $data);
+                } else {
                     echo '<h1>CLICK <a href="http://localhost/clones/igotit/public/shop"> HERE </a> TO RETURN TO STORE PAGE</h1>';
-                    echo'<script>alert("You Do NOT HAVE Product To SEE Detail OFF RETurn TO STORE")</script>';
+                    echo '<script>alert("You Do NOT HAVE Product To SEE Detail OFF RETurn TO STORE")</script>';
                 }
                 break;
             case "public/addtocart":
                 $p = json_decode(file_get_contents('php://input'), true);
-                
-                if($_SERVER['REQUEST_METHOD'] == 'POST' || isset($p)){
+
+                if ($_SERVER['REQUEST_METHOD'] == 'POST' || isset($p)) {
                     $return = $this->validate_data($p);
                     if ($return == true) {
                         print_r(json_encode(['data' => $p, 'message' => 'data Was empty / LOG IN OR REGISTER', 'status' => 404]));
@@ -105,46 +124,43 @@ class controller extends model
                 }
                 break;
             case "public/removeCart":
-                $data = json_decode(file_get_contents("php://input"),true);
+                $data = json_decode(file_get_contents("php://input"), true);
 
-                if(isset($data)){
+                if (isset($data)) {
                     $return = $this->validate_data($_POST);
                     if ($return == true) {
                         print_r(json_encode(['data' => $_POST, 'message' => 'data Was empty', 'status' => 404]));
-                    }
-                    else{
-       
-                        $data = $this->delete('cart',$data);
+                    } else {
+
+                        $data = $this->delete('cart', $data);
                         print_r(json_encode($data));
                     }
                 };
                 break;
             case "public/cart":
-                
-                if($_SERVER['REQUEST_METHOD'] == 'GET' || isset($_GET)){
-                    $return = $this->validate_data($_POST,[]);
+
+                if ($_SERVER['REQUEST_METHOD'] == 'GET' || isset($_GET)) {
+                    $return = $this->validate_data($_POST, []);
                     if ($return == true) {
                         print_r(json_encode(['data' => $_POST, 'message' => 'data Was empty', 'status' => 404]));
                         echo "<center><h1>GO TO <a href='http://localhost/clones/igotit/public/register'>SIGN UP</a>OR <a href='http://localhost/clones/igotit/public/login'>SIGN IN</a> </h1> </center>";
-                        
                     } else {
-                        if(isset($_COOKIE['customer_id'])){
+                        if (isset($_COOKIE['customer_id'])) {
 
-                            $data = 'SELECT cart_id , product_qauntity , product_saleprice , product_name , product_img FROM cart JOIN product ON cart.product_id = product.product_id WHERE cart.customer_id ='.$_COOKIE["customer_id"]; 
-                            $data= $this->sqli_($data);
-                            if($data['data'] == NULL) {
-                                $this->view("../view/cart.php",$data);    
-                            }else{
-                                $data = $this->fatch_all($data['data']);        
-                                $this->view("../view/cart.php",$data);    
+                            $data = 'SELECT cart_id , product_qauntity , product_saleprice , product_name , product_img FROM cart JOIN product ON cart.product_id = product.product_id WHERE cart.customer_id =' . $_COOKIE["customer_id"];
+                            $data = $this->sqli_($data);
+                            if ($data['data'] == NULL) {
+                                $this->view("../view/cart.php", $data);
+                            } else {
+                                $data = $this->fatch_all($data['data']);
+                                $this->view("../view/cart.php", $data);
                             };
                             // $this->print_stuf($data);
                             // $data['status'] = 200;
-                        }else{
+                        } else {
                             $data = NULL;
-                            $this->view("../view/cart.php",$data);
+                            $this->view("../view/cart.php", $data);
                         }
-                        
                     };
                 };
                 break;
@@ -181,9 +197,9 @@ class controller extends model
                         print_r(json_encode(['data' => $_POST, 'message' => 'data Was empty', 'status' => 404]));
                     } else {
                         $data = $this->chack_account("customer", $_POST);
-                        if($data['data'][0]['customer_ban'] == '1'){
-                            print_r(json_encode(['data'=>Null,'message'=>'You Have Been Banned','status'=>404]));
-                        }else{
+                        if ($data['data'][0]['customer_ban'] == '1') {
+                            print_r(json_encode(['data' => Null, 'message' => 'You Have Been Banned', 'status' => 404]));
+                        } else {
                             print_r(json_encode($data));
                         };
                     };
@@ -227,7 +243,7 @@ class controller extends model
                 $this->seller_view('../view/seller/uploadproduct.php');
                 break;
             case 'seller/product':
-                $this->data = $this->select('product', ['*'],['seller_id'=>$_COOKIE['seller_id']]);
+                $this->data = $this->select('product', ['*'], ['seller_id' => $_COOKIE['seller_id']]);
                 $this->seller_view('../view/seller/see_products.php');
                 break;
             case 'seller/forgotpassword':
@@ -253,9 +269,9 @@ class controller extends model
                     } else {
                         unset($_POST["seller_terms"]);
                         $data = $this->chack_account("seller", $_POST);
-                        if($data['data'][0]['seller_ban'] == '1'){
-                            print_r(json_encode(['data'=>Null,'message'=>'You Have Been Banned','status'=>404]));
-                        }else{
+                        if ($data['data'][0]['seller_ban'] == '1') {
+                            print_r(json_encode(['data' => Null, 'message' => 'You Have Been Banned', 'status' => 404]));
+                        } else {
                             print_r(json_encode($data));
                         };
                     };
@@ -274,9 +290,9 @@ class controller extends model
                         $Temp_Arr = $_POST;
                         unset($Temp_Arr['seller_password']);
                         $data = $this->chack_account("seller", $Temp_Arr);
-                        if($data['data'][0]['seller_ban'] == '1'){
-                            print_r(json_encode(['data'=>Null,'message'=>'You Have Been Banned','status'=>404]));
-                        }else{
+                        if ($data['data'][0]['seller_ban'] == '1') {
+                            print_r(json_encode(['data' => Null, 'message' => 'You Have Been Banned', 'status' => 404]));
+                        } else {
                             if ($data['data'] == NULL) {
                                 print_r(json_encode($data));
                             };
@@ -293,15 +309,14 @@ class controller extends model
                         print_r(json_encode(['data' => $_POST, 'message' => 'data Was empty', 'status' => 404]));
                     } else {
 
-                        $data=$_POST['select_category'];
+                        $data = $_POST['select_category'];
                         $data = $this->connection->query("SELECT subcategory_id,subcategory_name FROM subcategory WHERE  `product_category_id` = $data");
-                        if($data->num_rows > 0){
+                        if ($data->num_rows > 0) {
                             $data = $this->fatch_all($data);
                             print_r(json_encode($data));
-                        }else{
-                            print_r(json_encode(['data'=>NULL , 'message'=>'NO Sub Category Found','status'=>500]));
+                        } else {
+                            print_r(json_encode(['data' => NULL, 'message' => 'NO Sub Category Found', 'status' => 500]));
                         };
-                        
                     };
                 };
                 break;
@@ -329,16 +344,15 @@ class controller extends model
                 };
                 break;
             case "seller/delete_product":
-                $data = json_decode(file_get_contents("php://input"),true);
-            
-                if(isset($data)){
+                $data = json_decode(file_get_contents("php://input"), true);
+
+                if (isset($data)) {
                     $return = $this->validate_data($_POST);
                     if ($return == true) {
                         print_r(json_encode(['data' => $_POST, 'message' => 'data Was empty', 'status' => 404]));
-                    }
-                    else{
-       
-                        $data = $this->delete('product',$data);
+                    } else {
+
+                        $data = $this->delete('product', $data);
                         print_r(json_encode($data));
                     }
                 };
@@ -370,7 +384,7 @@ class controller extends model
                 $this->data = $this->select('category', ['*']);
                 $this->admin_view('../view/admin/add_subcategory.php');
                 break;
-            
+
             case 'admin/customer-table':
                 try {
                     $this->data = $this->select('customer', ['*']);
@@ -479,7 +493,7 @@ class controller extends model
                         if ($data['data'] == NULL) {
                             print_r(json_encode($data));
                         };
-                        
+
                         $data = $this->update_account($key, [$key . "_ban" => '1'], $post_data);
 
                         print_r(json_encode($data));
@@ -528,6 +542,28 @@ class controller extends model
                     };
                 };
                 break;
+            
+            // Common Apis 
+            case 'public/chackUniqeMail':
+                if ($_SERVER['REQUEST_METHOD'] == 'GET' || isset($_GET)) {
+                    $return = $this->validate_data($_POST);
+                    if ($return == true) {
+                        print_r(json_encode(['data' => $_POST, 'message' => 'data Was empty', 'status' => 404]));
+                    } else {
+                        
+                        $data = $this->select(
+                            array_key_first($_GET),
+                            [
+                                array_key_first($_GET).'_email'
+                            ],[
+                                array_key_first($_GET).'_email'=>$_GET[array_key_first($_GET)]
+                            ]
+                        );
+                        // header("content-type : application/json");
+                        print_r(json_encode($data));
+                    };
+                };
+                break;
             default:
                 echo " NO PAGE ";
                 break;
@@ -547,23 +583,23 @@ class controller extends model
         return $return;
     }
     public function chack_userExists($cookie, $tbl)
-    {   
-        $cookie_key = $cookie.'_id';
+    {
+        $cookie_key = $cookie . '_id';
         if (isset($_COOKIE[$cookie_key])) {
             $data = [$cookie_key => $_COOKIE[$cookie_key]];
             $answer = $this->chack_account($tbl, $data);
-            if($cookie !== 'admin'){
-               
-                if($answer['data'][0][$cookie.'_ban'] == '1'){
+            if ($cookie !== 'admin') {
+
+                if ($answer['data'][0][$cookie . '_ban'] == '1') {
                     unset($_COOKIE[$cookie_key]);
                     setcookie($cookie_key, '', -1, '/');
-                }else{
+                } else {
                     if ($answer['status'] == 500) {
                         unset($_COOKIE[$cookie_key]);
                         setcookie($cookie_key, '', -1, '/');
                     };
                 };
-            }else{
+            } else {
                 if ($answer['status'] == 500) {
                     unset($_COOKIE[$cookie_key]);
                     setcookie($cookie_key, '', -1, '/');
@@ -571,8 +607,8 @@ class controller extends model
             };
         };
     }
-    public function view($url,...$d)
-    {   
+    public function view($url, ...$d)
+    {
         $data = $d;
         require_once("../view/header.php");
         require_once($url);
