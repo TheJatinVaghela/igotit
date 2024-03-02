@@ -277,7 +277,7 @@ class controller extends model
                     } else {
                         unset($_POST["seller_terms"]);
                         $data = $this->chack_account("seller", $_POST);
-                        if ($data['data'][0]['seller_ban'] == '1') {
+                        if (isset($data['data']) && $data['data'][0]['seller_ban'] == '1') {
                             print_r(json_encode(['data' => Null, 'message' => 'You Have Been Banned', 'status' => 404]));
                         } else {
                             print_r(json_encode($data));

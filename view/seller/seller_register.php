@@ -170,44 +170,7 @@
     });
   });
 </script>
-<script>
-  function validate_data(object) {
-    let returnArr = [];
-    for (const key in object) {
-      if (object.hasOwnProperty.call(object, key)) {
-        const element = object[key];
-        if (element == false) {
-          returnArr.push(key)
-          $('#' + key).show();
 
-          console.log(key);
-        }
-      }
-    }
-    return returnArr;
-  }
-
-  async function chackIsUniqueMail(elm, errorElm) {
-    let chack = await fetch("http://localhost/clones/igotit/public/chackUniqeMail?seller=" + $(elm).val());
-    let result = await chack.json();
-    console.log(result);
-    if (result.status == 200) {
-      $(errorElm).html("Email Already Exists");
-      if (errorElm.hide()) {
-        $(errorElm).show().focus();
-        return false;
-      };
-      return false;
-    } else {
-      $(errorElm).html("Enter Correct Email");
-      if (errorElm.show()) {
-        $(errorElm).hide();
-        return true;
-      };
-      return true;
-    }
-  }
-</script>
 
 
 
