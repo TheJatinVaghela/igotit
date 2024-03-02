@@ -47,15 +47,17 @@
   $(document).ready(function() {
     $('#seller_login').on('submit', function(e) {
       e.preventDefault();
-
-      spanErrorArray = validate_data({
+        let data = new FormData(this);
+        let url = "http://localhost/clones/igotit/seller/chack_account";
+        let href="http://localhost/clones/igotit/seller/home";
+        validateAndSendData({
 
         "seller_email_error": (
           ($("input[name='seller_email']", '#seller_login')) &&
           ($("input[name='seller_email']", '#seller_login').val()) &&
           (/^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/.test($("input[type='email'][name='seller_email']", '#seller_login').val()))
           /*&&
-                   (chackIsUniqueMail($("input[name='seller_email']", '#seller_login'), $('#seller_email_error'))) */
+                   (chackIsUniqueMail($("input[name='seller_email']", '#seller_login'), $('#seller_email_error'),'seller')) */
         ) ? true : false,
 
         "seller_password_error": (
@@ -68,11 +70,7 @@
           ($("input:checkbox[name='seller_terms']", '#seller_login').is(':checked'))
         ) ? true : false,
 
-      });
-
-      if (Array.isArray(spanErrorArray) && spanErrorArray.length === 0) {
-        let data = new FormData(this);
-        let url = "http://localhost/clones/igotit/seller/chack_account";
+      },function(){
         jQuery.ajax({
           url: url,
           data: data,
@@ -84,7 +82,7 @@
             if (result.status == 200) {
               setCookie("seller_id", result.data[0].seller_id, 2);
               setCookie("seller_name", result.data[0].seller_name, 2);
-              window.location.href = "http://localhost/clones/igotit/seller/home";
+              window.location.href = href;
             } else {
               setCookie("seller_id", 'NULL', -2);
               setCookie("seller_name", 'NULL', -2);
@@ -92,17 +90,8 @@
             };
           }
         });
-      } else {
-        spanErrorArray.forEach(e => {
-          let input = e.split("_error")[0];
-          console.log($("[name='" + input + "']"));
-          $("[name='" + input + "']").click(function(element) {
-            if ($("#" + e).show()) {
-              $("#" + e).hide();
-            }
-          })
-        });
-      }
+      });
+
     });
   });
 

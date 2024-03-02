@@ -16,6 +16,26 @@
           </div>
           </div>
 
+          <script>
+            function validateAndSendData(obj, queryFunction) {
+              var spanErrorArray;
+              spanErrorArray = validate_data(obj);
+              if (Array.isArray(spanErrorArray) && spanErrorArray.length === 0) {
+                queryFunction();
+              } else {
+                spanErrorArray.forEach(e => {
+                  let input = e.split("_error")[0];
+                  console.log($("[name='" + input + "']"));
+                  $("[name='" + input + "']").click(function(element) {
+                    if ($("#" + e).show()) {
+                      $("#" + e).hide();
+                    }
+                  })
+                });
+              }
+
+            }
+          </script>
 
           <script>
             function validate_data(object) {
@@ -34,8 +54,8 @@
               return returnArr;
             }
 
-            async function chackIsUniqueMail(elm, errorElm) {
-              let chack = await fetch("http://localhost/clones/igotit/public/chackUniqeMail?seller=" + $(elm).val());
+            async function chackIsUniqueMail(elm, errorElm,keyName) {
+              let chack = await fetch("http://localhost/clones/igotit/public/chackUniqeMail?"+keyName+"=" + $(elm).val());
               let result = await chack.json();
               console.log(result);
               if (result.status == 200) {

@@ -77,11 +77,12 @@
 <button id="validate">CLICK</button>
 <script>
   $(document).ready(function() {
-    var spanErrorArray;
     $('#seller_register').on('submit', function(e) {
       e.preventDefault();
-
-      spanErrorArray = validate_data({
+      let data = new FormData(this);
+      let url = "http://localhost/clones/igotit/seller/create_seller";
+      let href = "http://localhost/clones/igotit/seller/login";
+      validateAndSendData({
 
         "seller_name_error": (
           ($("input[name='seller_name']", '#seller_register')) &&
@@ -97,13 +98,13 @@
           ($("input[name='seller_email']", '#seller_register')) &&
           ($("input[name='seller_email']", '#seller_register').val()) &&
           (/^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/.test($("input[type='email'][name='seller_email']", '#seller_register').val())) &&
-          (chackIsUniqueMail($("input[name='seller_email']", '#seller_register'), $('#seller_email_error')))
+          (chackIsUniqueMail($("input[name='seller_email']", '#seller_register'), $('#seller_email_error'), 'seller'))
         ) ? true : false,
 
         /* "seller_country_error": (
-           ($("[name='seller_country']", '#seller_register').prop('selected', true)) &&
-           ($("[name='seller_country']", '#seller_register').prop('selected', true).is(':selected'))
-         ) ? true : false, */
+          ($("[name='seller_country']", '#seller_register').prop('selected', true)) &&
+          ($("[name='seller_country']", '#seller_register').prop('selected', true).is(':selected'))
+        ) ? true : false, */
 
         "seller_password_error": (
           ($("input[type='password'][name=seller_password]", '#seller_register')) &&
@@ -131,11 +132,7 @@
             ($("input[type='radio'][name='fav_language']:checked").length > 0)
           ) ? true : false,  */
 
-      });
-
-      if (Array.isArray(spanErrorArray) && spanErrorArray.length === 0) {
-        let data = new FormData(this);
-        let url = "http://localhost/clones/igotit/seller/create_seller";
+      }, function() {
         jQuery.ajax({
           url: url,
           data: data,
@@ -145,27 +142,13 @@
           success: function(result) {
             result = JSON.parse(result);
             if (result.status == 200) {
-              window.location.href = "http://localhost/clones/igotit/seller/login";
+              window.location.href = href;
             } else {
               console.log(result);
             };
           }
         });
-      } else {
-        spanErrorArray.forEach(e => {
-          let input = e.split("_error")[0];
-          console.log($("[name='" + input + "']"));
-          $("[name='" + input + "']").click(function(element) {
-            if ($("#" + e).show()) {
-              $("#" + e).hide();
-            }
-          })
-        });
-      }
-
-
-
-
+      });
 
     });
   });
