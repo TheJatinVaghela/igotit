@@ -82,28 +82,59 @@
       e.preventDefault();
 
       spanErrorArray = validate_data({
-        "seller_name_error": ($("input[name='seller_name']", '#seller_register') && $("input[name='seller_name']", '#seller_register').val().trim() !== '') ? true : false,
-        "seller_addres_error": ($("input[name=seller_addres]", '#seller_register') && $("input[name=seller_addres]", '#seller_register').val().trim() !== '') ? true : false,
+
+        "seller_name_error": (
+          ($("input[name='seller_name']", '#seller_register')) &&
+          ($("input[name='seller_name']", '#seller_register').val().trim() !== '')
+        ) ? true : false,
+
+        "seller_addres_error": (
+          ($("input[name=seller_addres]", '#seller_register')) &&
+          ($("input[name=seller_addres]", '#seller_register').val().trim() !== '')
+        ) ? true : false,
+
         "seller_email_error": (
-          ($("input[name='seller_email']", '#seller_register')) 
-          && 
-          ($("input[name='seller_email']", '#seller_register').val())
-          &&
-          (/^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/.test($("input[type='email'][name='seller_email']", '#seller_register').val()))
-          &&
+          ($("input[name='seller_email']", '#seller_register')) &&
+          ($("input[name='seller_email']", '#seller_register').val()) &&
+          (/^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/.test($("input[type='email'][name='seller_email']", '#seller_register').val())) &&
           (chackIsUniqueMail($("input[name='seller_email']", '#seller_register'), $('#seller_email_error')))
-          )? true : false,
-        // "seller_country_error": ($("[name='seller_country']", '#seller_register').prop('selected', true) && $("[name='seller_country']", '#seller_register').prop('selected', true).is(':selected')) ? true : false,
-        "seller_password_error": ($("input[type='password'][name=seller_password]", '#seller_register') && (/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d).{8,}$/.test($("input[type='password'][name=seller_password]", '#seller_register').val()))) ? true : false,
-        "seller_phone_error": ($("input[type='tel'][name='seller_phone']", '#seller_register') && (/^(\(\d{3}\)|\d{3})[- .]?\d{3}[- .]?\d{4}$/.test($("input[type='tel'][name='seller_phone']", '#seller_register').val().trim()))) ? true : false,
-        "seller_terms_error": ($("input:checkbox[name='seller_terms']", '#seller_register') && $("input:checkbox[name='seller_terms']", '#seller_register').is(':checked')) ? true : false,
-        // "seller_file_error": ($("input[type='file'][name=seller_file]", '#seller_register') && $("input[type='file'][name=seller_file]", '#seller_register').val() && $("input[type='file'][name=seller_file]", '#seller_register').val().toLowerCase().match(/\.(png|jpg|jpeg|gif|bmp)$/)) ? true : false,
-        // "fav_language_error": ($("input[type='radio'][name='fav_language']:checked") && $("input[type='radio'][name='fav_language']:checked").length > 0) ? true : false,
+        ) ? true : false,
+
+        /* "seller_country_error": (
+           ($("[name='seller_country']", '#seller_register').prop('selected', true)) &&
+           ($("[name='seller_country']", '#seller_register').prop('selected', true).is(':selected'))
+         ) ? true : false, */
+
+        "seller_password_error": (
+          ($("input[type='password'][name=seller_password]", '#seller_register')) &&
+          (/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d).{8,}$/.test($("input[type='password'][name=seller_password]", '#seller_register').val()))
+        ) ? true : false,
+
+        "seller_phone_error": (
+          ($("input[type='tel'][name='seller_phone']", '#seller_register')) &&
+          (/^(\(\d{3}\)|\d{3})[- .]?\d{3}[- .]?\d{4}$/.test($("input[type='tel'][name='seller_phone']", '#seller_register').val().trim()))
+        ) ? true : false,
+
+        "seller_terms_error": (
+          ($("input:checkbox[name='seller_terms']", '#seller_register')) &&
+          ($("input:checkbox[name='seller_terms']", '#seller_register').is(':checked'))
+        ) ? true : false,
+
+        /*  "seller_file_error": (
+            ($("input[type='file'][name=seller_file]", '#seller_register')) &&
+            ($("input[type='file'][name=seller_file]", '#seller_register').val()) &&
+            ($("input[type='file'][name=seller_file]", '#seller_register').val().toLowerCase().match(/\.(png|jpg|jpeg|gif|bmp)$/))
+          ) ? true : false,  */
+
+        /*  "fav_language_error": (
+            ($("input[type='radio'][name='fav_language']:checked")) &&
+            ($("input[type='radio'][name='fav_language']:checked").length > 0)
+          ) ? true : false,  */
 
       });
 
       if (Array.isArray(spanErrorArray) && spanErrorArray.length === 0) {
-        /*let data = new FormData(this);
+        let data = new FormData(this);
         let url = "http://localhost/clones/igotit/seller/create_seller";
         jQuery.ajax({
           url: url,
@@ -119,7 +150,7 @@
               console.log(result);
             };
           }
-        }); */
+        });
       } else {
         spanErrorArray.forEach(e => {
           let input = e.split("_error")[0];
@@ -160,19 +191,19 @@
     let chack = await fetch("http://localhost/clones/igotit/public/chackUniqeMail?seller=" + $(elm).val());
     let result = await chack.json();
     console.log(result);
-    if(result.status == 200){
-        $(errorElm).html("Email Already Exists");
-        if(errorElm.hide()){
-          $(errorElm).show().focus();
-          return false;
-        };
+    if (result.status == 200) {
+      $(errorElm).html("Email Already Exists");
+      if (errorElm.hide()) {
+        $(errorElm).show().focus();
         return false;
-    }else{
+      };
+      return false;
+    } else {
       $(errorElm).html("Enter Correct Email");
-      if(errorElm.show()){
-          $(errorElm).hide();
-          return true;
-        };
+      if (errorElm.show()) {
+        $(errorElm).hide();
+        return true;
+      };
       return true;
     }
   }
