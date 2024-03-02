@@ -238,11 +238,19 @@ class controller extends model
                 $this->seller_view('../view/seller/seller_register.php');
                 break;
             case 'seller/uploadproduct':
+                if (!isset($_COOKIE["seller_id"])) {
+                    echo "<center><h1>GO TO <a href='http://localhost/clones/igotit/seller/register'>SIGN UP</a>OR <a href='http://localhost/clones/igotit/seller/login'>SIGN IN</a> </h1> </center>";
+                    exit();
+                };
                 $this->data['CATEGORY'] = $this->select('category', ['*']);
                 $this->data['SUBCATEGORY'] = $this->select('subcategory', ['*']);
                 $this->seller_view('../view/seller/uploadproduct.php');
                 break;
             case 'seller/product':
+                if (!isset($_COOKIE["seller_id"])) {
+                    echo "<center><h1>GO TO <a href='http://localhost/clones/igotit/seller/register'>SIGN UP</a>OR <a href='http://localhost/clones/igotit/seller/login'>SIGN IN</a> </h1> </center>";
+                    exit();
+                };
                 $this->data = $this->select('product', ['*'], ['seller_id' => $_COOKIE['seller_id']]);
                 $this->seller_view('../view/seller/see_products.php');
                 break;
@@ -372,20 +380,36 @@ class controller extends model
                 $this->admin_view('../view/admin/admin_register.php');
                 break;
             case 'admin/product':
+                if (!isset($_COOKIE["admin_id"])) {
+                    echo "<center><h1>GO TO <a href='http://localhost/clones/igotit/admin/register'>SIGN UP</a>OR <a href='http://localhost/clones/igotit/admin/login'>SIGN IN</a> </h1> </center>";
+                    exit();
+                };
                 $this->admin_view('../view/admin/see_product.php');
                 break;
             case 'admin/forgotpassword':
                 $this->admin_view('../view/admin/forgotpassword.php');
                 break;
             case 'admin/create_category':
+                if (!isset($_COOKIE["admin_id"])) {
+                    echo "<center><h1>GO TO <a href='http://localhost/clones/igotit/admin/register'>SIGN UP</a>OR <a href='http://localhost/clones/igotit/admin/login'>SIGN IN</a> </h1> </center>";
+                    exit();
+                };
                 $this->admin_view('../view/admin/add_category.php');
                 break;
             case 'admin/create_subcategory':
+                if (!isset($_COOKIE["admin_id"])) {
+                    echo "<center><h1>GO TO <a href='http://localhost/clones/igotit/admin/register'>SIGN UP</a>OR <a href='http://localhost/clones/igotit/admin/login'>SIGN IN</a> </h1> </center>";
+                    exit();
+                };
                 $this->data = $this->select('category', ['*']);
                 $this->admin_view('../view/admin/add_subcategory.php');
                 break;
 
             case 'admin/customer-table':
+                if (!isset($_COOKIE["admin_id"])) {
+                    echo "<center><h1>GO TO <a href='http://localhost/clones/igotit/admin/register'>SIGN UP</a>OR <a href='http://localhost/clones/igotit/admin/login'>SIGN IN</a> </h1> </center>";
+                    exit();
+                };
                 try {
                     $this->data = $this->select('customer', ['*']);
                     $this->data['name'] = 'Customer';
@@ -395,6 +419,10 @@ class controller extends model
                 $this->admin_view('../view/admin/usertable.php');
                 break;
             case 'admin/seller-table':
+                if (!isset($_COOKIE["admin_id"])) {
+                    echo "<center><h1>GO TO <a href='http://localhost/clones/igotit/admin/register'>SIGN UP</a>OR <a href='http://localhost/clones/igotit/admin/login'>SIGN IN</a> </h1> </center>";
+                    exit();
+                };
                 try {
                     $this->data = $this->select('seller', ['*']);
                     $this->data['name'] = 'Seller';
