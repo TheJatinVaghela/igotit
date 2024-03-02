@@ -21,7 +21,7 @@ class controller extends model
         switch ($path) {
                 // PUBLIC CODE
             case "public/home":
-                $this->data =                            
+                $this->data =
                     $this->select_join(
                         //data You Want
                         [
@@ -128,8 +128,8 @@ class controller extends model
 
                 if (isset($data)) {
                     $return = $this->validate_data($_POST);
-                    if ($return == true) {
-                        print_r(json_encode(['data' => $_POST, 'message' => 'data Was empty', 'status' => 404]));
+                    if ($return['error'] == true) {
+                        print_r(json_encode(['data' => $return['data'], 'message' => 'Problem with data', 'status' => 404]));
                     } else {
 
                         $data = $this->delete('cart', $data);
@@ -182,8 +182,8 @@ class controller extends model
             case "public/create_account":
                 if ($_SERVER['REQUEST_METHOD'] == 'POST' || isset($_POST)) {
                     $return = $this->validate_data($_POST);
-                    if ($return == true) {
-                        print_r(json_encode(['data' => $_POST, 'message' => 'data Was empty', 'status' => 404]));
+                    if ($return['error'] == true) {
+                        print_r(json_encode(['data' => $return['data'], 'message' => 'Problem with data', 'status' => 404]));
                     } else {
                         $data = $this->insert("customer", $_POST);
                         print_r(json_encode($data));
@@ -193,8 +193,8 @@ class controller extends model
             case 'public/chack_account':
                 if ($_SERVER['REQUEST_METHOD'] == 'POST' || isset($_POST)) {
                     $return = $this->validate_data($_POST);
-                    if ($return == true) {
-                        print_r(json_encode(['data' => $_POST, 'message' => 'data Was empty', 'status' => 404]));
+                    if ($return['error'] == true) {
+                        print_r(json_encode(['data' => $return['data'], 'message' => 'Problem with data', 'status' => 404]));
                     } else {
                         $data = $this->chack_account("customer", $_POST);
                         if ($data['data'][0]['customer_ban'] == '1') {
@@ -208,8 +208,8 @@ class controller extends model
             case 'public/changepassword':
                 if ($_SERVER['REQUEST_METHOD'] == 'POST' || isset($_POST)) {
                     $return = $this->validate_data($_POST);
-                    if ($return == true) {
-                        print_r(json_encode(['data' => $_POST, 'message' => 'data Was empty', 'status' => 404]));
+                    if ($return['error'] == true) {
+                        print_r(json_encode(['data' => $return['data'], 'message' => 'Problem with data', 'status' => 404]));
                     } else {
                         $Temp_Arr = $_POST;
                         unset($Temp_Arr["customer_password"]);
@@ -252,8 +252,8 @@ class controller extends model
             case 'seller/create_seller':
                 if ($_SERVER['REQUEST_METHOD'] == 'POST' || isset($_POST)) {
                     $return = $this->validate_data($_POST);
-                    if ($return == true) {
-                        print_r(json_encode(['data' => $_POST, 'message' => 'data Was empty', 'status' => 404]));
+                    if ($return['error'] == true) {
+                        print_r(json_encode(['data' => $return['data'], 'message' => 'Problem with data', 'status' => 404]));
                     } else {
                         unset($_POST['seller_terms']);
                         $data = $this->insert("seller", $_POST);
@@ -264,8 +264,8 @@ class controller extends model
             case 'seller/chack_account':
                 if ($_SERVER['REQUEST_METHOD'] == 'POST' || isset($_POST)) {
                     $return = $this->validate_data($_POST);
-                    if ($return == true) {
-                        print_r(json_encode(['data' => $_POST, 'message' => 'data Was empty', 'status' => 404]));
+                    if ($return['error'] == true) {
+                        print_r(json_encode(['data' => $return['data'], 'message' => 'Problem with data', 'status' => 404]));
                     } else {
                         unset($_POST["seller_terms"]);
                         $data = $this->chack_account("seller", $_POST);
@@ -280,8 +280,8 @@ class controller extends model
             case 'seller/changepassword':
                 if ($_SERVER['REQUEST_METHOD'] == 'POST' || isset($_POST)) {
                     $return = $this->validate_data($_POST);
-                    if ($return == true) {
-                        print_r(json_encode(['data' => $_POST, 'message' => 'data Was empty', 'status' => 404]));
+                    if ($return['error'] == true) {
+                        print_r(json_encode(['data' => $return['data'], 'message' => 'Problem with data', 'status' => 404]));
                     } else {
                         if ($_POST["seller_password"] != $_POST["seller_password_re"]) {
                             print_r(json_encode(['data' => $_POST, 'message' => 'Password Did Not Match', 'status' => 404]));
@@ -305,8 +305,8 @@ class controller extends model
             case 'seller/get_subcategory':
                 if ($_SERVER['REQUEST_METHOD'] == 'POST' || isset($_POST)) {
                     $return = $this->validate_data($_POST);
-                    if ($return == true) {
-                        print_r(json_encode(['data' => $_POST, 'message' => 'data Was empty', 'status' => 404]));
+                    if ($return['error'] == true) {
+                        print_r(json_encode(['data' => $return['data'], 'message' => 'Problem with data', 'status' => 404]));
                     } else {
 
                         $data = $_POST['select_category'];
@@ -323,8 +323,8 @@ class controller extends model
             case 'seller/add_product':
                 if ($_SERVER['REQUEST_METHOD'] == 'POST' || isset($_POST)) {
                     $return = $this->validate_data($_POST);
-                    if ($return == true) {
-                        print_r(json_encode(['data' => $_POST, 'message' => 'data Was empty', 'status' => 404]));
+                    if ($return['error'] == true) {
+                        print_r(json_encode(['data' => $return['data'], 'message' => 'Problem with data', 'status' => 404]));
                     } else {
                         try {
                             $uniq_id = time() . uniqid() . '_';
@@ -348,8 +348,8 @@ class controller extends model
 
                 if (isset($data)) {
                     $return = $this->validate_data($_POST);
-                    if ($return == true) {
-                        print_r(json_encode(['data' => $_POST, 'message' => 'data Was empty', 'status' => 404]));
+                    if ($return['error'] == true) {
+                        print_r(json_encode(['data' => $return['data'], 'message' => 'Problem with data', 'status' => 404]));
                     } else {
 
                         $data = $this->delete('product', $data);
@@ -406,8 +406,8 @@ class controller extends model
             case 'admin/create_admin':
                 if ($_SERVER['REQUEST_METHOD'] == 'POST' || isset($_POST)) {
                     $return = $this->validate_data($_POST);
-                    if ($return == true) {
-                        print_r(json_encode(['data' => $_POST, 'message' => 'data Was empty', 'status' => 404]));
+                    if ($return['error'] == true) {
+                        print_r(json_encode(['data' => $return['data'], 'message' => 'Problem with data', 'status' => 404]));
                     } else {
                         unset($_POST['admin_terms']);
                         $data = $this->insert("admin", $_POST);
@@ -418,8 +418,8 @@ class controller extends model
             case 'admin/chack_account':
                 if ($_SERVER['REQUEST_METHOD'] == 'POST' || isset($_POST)) {
                     $return = $this->validate_data($_POST);
-                    if ($return == true) {
-                        print_r(json_encode(['data' => $_POST, 'message' => 'data Was empty', 'status' => 404]));
+                    if ($return['error'] == true) {
+                        print_r(json_encode(['data' => $return['data'], 'message' => 'Problem with data', 'status' => 404]));
                     } else {
                         unset($_POST['admin_terms']);
                         $data = $this->chack_account("admin", $_POST);
@@ -430,8 +430,8 @@ class controller extends model
             case 'admin/changepassword':
                 if ($_SERVER['REQUEST_METHOD'] == 'POST' || isset($_POST)) {
                     $return = $this->validate_data($_POST);
-                    if ($return == true) {
-                        print_r(json_encode(['data' => $_POST, 'message' => 'data Was empty', 'status' => 404]));
+                    if ($return['error'] == true) {
+                        print_r(json_encode(['data' => $return['data'], 'message' => 'Problem with data', 'status' => 404]));
                     } else {
                         if ($_POST["admin_password"] != $_POST["admin_password_re"]) {
                             print_r(json_encode(['data' => $_POST, 'message' => 'Password Did Not Match', 'status' => 404]));
@@ -451,8 +451,8 @@ class controller extends model
             case 'admin/update':
                 if ($_SERVER['REQUEST_METHOD'] == 'POST' || isset($_POST)) {
                     $return = $this->validate_data($_POST);
-                    if ($return == true) {
-                        print_r(json_encode(['data' => $_POST, 'message' => 'data Was empty', 'status' => 404]));
+                    if ($return['error'] == true) {
+                        print_r(json_encode(['data' => $return['data'], 'message' => 'Problem with data', 'status' => 404]));
                     } else {
                         $key = array_key_exists('seller_id', $_POST) ? 'seller_id' : 'customer_id';
                         $table = explode('_', $key);
@@ -523,8 +523,8 @@ class controller extends model
             case 'admin/add_category':
                 if ($_SERVER['REQUEST_METHOD'] == 'POST' || isset($_POST)) {
                     $return = $this->validate_data($_POST);
-                    if ($return == true) {
-                        print_r(json_encode(['data' => $_POST, 'message' => 'data Was empty', 'status' => 404]));
+                    if ($return['error'] == true) {
+                        print_r(json_encode(['data' => $return['data'], 'message' => 'Problem with data', 'status' => 404]));
                     } else {
                         $data = $this->insert("category", $_POST);
                         print_r(json_encode($data));
@@ -534,29 +534,30 @@ class controller extends model
             case 'admin/add_subcategory':
                 if ($_SERVER['REQUEST_METHOD'] == 'POST' || isset($_POST)) {
                     $return = $this->validate_data($_POST);
-                    if ($return == true) {
-                        print_r(json_encode(['data' => $_POST, 'message' => 'data Was empty', 'status' => 404]));
+                    if ($return['error'] == true) {
+                        print_r(json_encode(['data' => $return['data'], 'message' => 'Problem with data', 'status' => 404]));
                     } else {
                         $data = $this->insert("subcategory", $_POST);
                         print_r(json_encode($data));
                     };
                 };
                 break;
-            
-            // Common Apis 
+
+                // Common Apis 
             case 'public/chackUniqeMail':
                 if ($_SERVER['REQUEST_METHOD'] == 'GET' || isset($_GET)) {
                     $return = $this->validate_data($_POST);
-                    if ($return == true) {
-                        print_r(json_encode(['data' => $_POST, 'message' => 'data Was empty', 'status' => 404]));
+                    if ($return['error'] == true) {
+                        print_r(json_encode(['data' => $return['data'], 'message' => 'Problem with data', 'status' => 404]));
                     } else {
-                        
+
                         $data = $this->select(
                             array_key_first($_GET),
                             [
-                                array_key_first($_GET).'_email'
-                            ],[
-                                array_key_first($_GET).'_email'=>$_GET[array_key_first($_GET)]
+                                array_key_first($_GET) . '_email'
+                            ],
+                            [
+                                array_key_first($_GET) . '_email' => $_GET[array_key_first($_GET)]
                             ]
                         );
                         // header("content-type : application/json");
@@ -573,14 +574,90 @@ class controller extends model
     public function validate_data($data)
     {
         $return = false;
-        $empty = [];
-        foreach ($data as $key => $value) {
-            if ($value === "" || !isset($value) || $value === "NULL") {
-                $return = true;
-                array_push($empty, $value);
-            };
-        };
-        return $return;
+        $errors = [];
+        $data_keys = array_keys($data);
+        foreach ($data_keys as $key => $value) {
+            switch (implode('_',array_slice(explode('_', $value),1))) {
+                case ('name' || 'tags' || 'category_id' || 'subcategory_id' || 'discription' || 'terms' || 'saleprice' || 'retailprice'):
+                    if (empty($data[$value]) && isset($data[$value])) {
+                        $errors[$value] = "Name is required.";
+                        $return = true;
+                    }
+                    break;
+                case 'email':
+                    if (!filter_var($data[$value], FILTER_VALIDATE_EMAIL)) {
+                        $errors[$value] = "Please enter a valid email.";
+                        $return = true;
+                    }
+                    break;
+                case 'file':
+                    if ($data[$value]['error'] !== UPLOAD_ERR_OK) {
+                        $errors[$value] = "File upload failed.";
+                        $return = true;
+                    }
+                    // Add further file validation (e.g., size, type) as needed
+                    break;
+                case 'img':
+                    if ($data[$value]['error'] !== UPLOAD_ERR_OK) {
+                        $errors[$value] = "File upload failed.";
+                        $return = true;
+                    } else {
+                        // Check if uploaded file is an image
+                        $allowedMimeTypes = ['image/jpeg', 'image/png', 'image/gif'];
+                        if (!in_array($data[$value]['type'], $allowedMimeTypes)) {
+                            $errors[$value] = "Only image files (JPEG, PNG, GIF) are allowed.";
+                            $return = true;
+                        }
+                        // Add further file validation (e.g., size) as needed
+                    }
+                    break;
+                case 'phone':
+                    if (!preg_match("/^\d{3}-\d{3}-\d{4}$/", $data[$value])) {
+                        $errors[$value] = "Please enter a valid phone number .";
+                        $return = true;
+                    }
+                    break;
+                    // for select 
+                case 'country':
+                    if (
+                        $data[$value] != "United States of America" ||
+                        "United Kingdom" ||
+                        "India" ||
+                        "Germany" ||
+                        "Argentina"
+                    ) {
+                        $errors[$value] = "Please Select A Given Country";
+                        $return = true;
+                    }
+                    break;
+                    // for redio    
+                case 'language':
+                    if (
+                        $data[$value] != "HTML" ||
+                        "CSS" ||
+                        "JavaScript"
+                    ) {
+                        $errors[$value] = "Please Select A Given language";
+                        $return = true;
+                    }
+                    break;
+                case 'password':
+                    if (empty($data[$value])) {
+                        $errors[$value] = "Password is required.";
+                        $return = true;
+                    } else {
+                        if (strlen($data[$value]) < 8) {
+                            $errors[$value] = "Password must be at least 8 characters long.";
+                            $return = true;
+                        }
+                    }
+                    break;
+                default:
+                    $errors[$value] = "Could Not Found This " . $value;
+                    break;
+            }
+        }
+        return ['data'=>$errors,'error'=>$return];
     }
     public function chack_userExists($cookie, $tbl)
     {
