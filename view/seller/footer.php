@@ -25,7 +25,7 @@
               } else {
                 spanErrorArray.forEach(e => {
                   let input = e.split("_error")[0];
-                  console.log($("[name='" + input + "']"));
+                  // console.log($("[name='" + input + "']"));
                   $("[name='" + input + "']").click(function(element) {
                     if ($("#" + e).show()) {
                       $("#" + e).hide();
@@ -47,7 +47,7 @@
                     returnArr.push(key)
                     $('#' + key).show();
 
-                    console.log(key);
+                    // console.log(key);
                   }
                 }
               }
