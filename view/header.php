@@ -94,7 +94,7 @@
     
            
     <nav class="container navbar navbar-expand-lg bg-light navbar-light py-3 py-lg-0 px-0">
-        <a href="" class="text-decoration-none d-block d-lg-none">
+        <a href="http://localhost/clones/igotit/public/home" class="text-decoration-none d-block d-lg-none">
             <h1 class="m-0 display-5 font-weight-semi-bold"><span class="text-primary font-weight-bold border px-3 mr-1">E</span>Shopper</h1>
         </a>
         <button type="button" class="navbar-toggler" data-toggle="collapse" data-target="#navbarCollapse">
@@ -108,6 +108,23 @@
                 <a href="http://localhost/clones/igotit/public/cart" class="nav-item nav-link<?php if($this->page_name == '/cart'){echo " active";}?>">Shopping Cart</a>
                 <a href="http://localhost/clones/igotit/public/checkout" class="nav-item nav-link<?php if($this->page_name == '/checkout'){echo " active";}?>">Checkout</a>
                 <a href="http://localhost/clones/igotit/public/contact" class="nav-item nav-link<?php if($this->page_name == '/contact'){echo " active";}?>">Contact</a>
+                <nav class="collapse show navbar navbar-vertical navbar-light align-items-start p-0 border border-top-0 border-bottom-0" id="navbar-vertical">
+                Categories    
+                <div class="navbar-nav w-100 overflow-hidden" style="height: 410px">
+                <?php foreach($this->data as $key => $value){?>
+                    <div class="nav-item dropdown">
+                        <a class="nav-link"  <?php if(isset($value[0]) && !empty($value[0])){echo "data-toggle='dropdown'"; };?> ><?php echo $key; ?> <?php if(isset($value[0]) && !empty($value[0])){echo '<i class="fa fa-angle-down float-right mt-1"></i>' ;}?></a>
+                        <div class="dropdown-menu position-absolute bg-secondary border-0 rounded-0 w-100 m-0">
+                            <?php foreach($value as $key1 => $value1){ 
+                                    if(!empty($value1) && $value1 != null){  ?>
+                                        <a href="http://localhost/clones/igotit/public/shop?category=<?php echo $key;?>&subcategory=<?php echo $value1;?>" class="dropdown-item"><?php echo $value1;?></a>
+                                <?php  };
+                            } ?>
+                        </div>
+                    </div>
+                <?php };?>
+                </div>
+            </nav>
             </div>
             <?php 
                 if(isset($_COOKIE['customer_id'])){ ?>
