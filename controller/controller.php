@@ -21,6 +21,7 @@ class controller extends model
         switch ($path) {
                 // PUBLIC CODE
             case "public/home":
+                $data = $this->select('product', ['*']);
                 $this->data =
                     $this->select_join(
                         //data You Want
@@ -55,7 +56,7 @@ class controller extends model
                     }
                 }
                 $this->data = $newArr;
-                $this->view("../view/home.php");
+                $this->view("../view/home.php",$data);
                 break;
             case "public/shop":
                 // print_r($_GET);
