@@ -1,4 +1,13 @@
+<!-- <?php $this->print_stuf($data[0]['data']);?> -->
+<!-- <?php $this->print_stuf($data[0]['total']);?> -->
+<?php 
+            $user_id = $_COOKIE['customer_id'];
+            $total = $data[0]['total'];
+            $user_data = $data[0]['user_data']['data'][0];
+          $this->print_stuf($data[0]['data']);
+        ?>
 <!-- Page Header Start -->
+
 <div class="container-fluid bg-secondary mb-5">
     <div class="d-flex flex-column align-items-center justify-content-center" >
         <h1 class="font-weight-semi-bold text-uppercase mb-3">Checkout</h1>
@@ -15,17 +24,13 @@
 <!-- Checkout Start -->
 <div class="container-fluid pt-5 ">
     <div class="row px-xl-5">
-
-
-
-        <h4 class="font-weight-semi-bold mb-4">Register</h4>
-
+<!-- 
         <div class="col-md-12 form-group">
             <div class="custom-control custom-checkbox">
                 <input type="checkbox" class="custom-control-input" id="shipto">
                 <label class="custom-control-label" for="shipto" data-toggle="collapse" data-target="#shipping-address">Ship to different address</label>
             </div>
-        </div>
+        </div> -->
         <div class="collapse mb-4" id="shipping-address">
             <h4 class="font-weight-semi-bold mb-4">Shipping Address</h4>
             <div class="row">
@@ -59,32 +64,28 @@
                 </div>
                 <div class="card-body">
                     <h5 class="font-weight-medium mb-3">Products</h5>
-                    <div class="d-flex justify-content-between">
-                        <p>Colorful Stylish Shirt 1</p>
-                        <p>$150</p>
+                    <?php foreach ($data[0]['data'] as $key => $value) { ?>
+                        <div class="d-flex justify-content-between">
+                            <p><?php echo $value['product_name']?></p>
+                        <p><?php echo $value['product_saleprice']?></p>
                     </div>
-                    <div class="d-flex justify-content-between">
-                        <p>Colorful Stylish Shirt 2</p>
-                        <p>$150</p>
-                    </div>
-                    <div class="d-flex justify-content-between">
-                        <p>Colorful Stylish Shirt 3</p>
-                        <p>$150</p>
-                    </div>
-                    <hr class="mt-0">
+                   <?php }?>
+                    
+                    
+                    <!-- <hr class="mt-0">
                     <div class="d-flex justify-content-between mb-3 pt-1">
-                        <h6 class="font-weight-medium">Subtotal</h6>
-                        <h6 class="font-weight-medium">$150</h6>
+                        <h6 class="font-weight-medium">total</h6>
+                        <h6 class="font-weight-medium"><?php echo $data[0]['total'];?></h6>
                     </div>
                     <div class="d-flex justify-content-between">
                         <h6 class="font-weight-medium">Shipping</h6>
                         <h6 class="font-weight-medium">$10</h6>
-                    </div>
+                    </div> -->
                 </div>
                 <div class="card-footer border-secondary bg-transparent">
                     <div class="d-flex justify-content-between mt-2">
                         <h5 class="font-weight-bold">Total</h5>
-                        <h5 class="font-weight-bold">$160</h5>
+                        <h5 class="font-weight-bold"><?php echo $data[0]['total'];?></h5>
                     </div>
                 </div>
             </div>
@@ -92,7 +93,7 @@
                 <div class="card-header bg-secondary border-0">
                     <h4 class="font-weight-semi-bold m-0">Payment</h4>
                 </div>
-                <div class="card-body">
+                <!-- <div class="card-body">
                     <div class="form-group">
                         <div class="custom-control custom-radio">
                             <input type="radio" class="custom-control-input" name="payment" id="paypal">
@@ -111,12 +112,39 @@
                             <label class="custom-control-label" for="banktransfer">Bank Transfer</label>
                         </div>
                     </div>
-                </div>
+                </div> -->
                 <div class="card-footer border-secondary bg-transparent">
-                    <button class="btn btn-lg btn-block btn-primary font-weight-bold my-3 py-3">Place Order</button>
+                    <!-- <button class="btn btn-lg btn-block btn-primary font-weight-bold my-3 py-3" onclick="razerpay_function()">Place Order</button> -->
+                    <form action="http://localhost/clones/igotit/public/paymentSuccessFull" method="POST">
+<script
+    
+    src="https://checkout.razorpay.com/v1/checkout.js"
+    data-key="<?php echo $this->razerpay_api_key;?>" // Enter the Test API Key ID generated from Dashboard → Settings → API Keys
+    data-amount="<?php echo $total * 100;?>" // Amount is in currency subunits. Hence, 29935 refers to 29935 paise or ₹299.35.
+    data-currency="INR"// You can accept international payments by changing the currency code. Contact our Support Team to enable International for your account
+    data-id="<?php echo "OID".rand(10,100).'END';?>"// Replace with the order_id generated by you in the backend.
+    data-buttontext="Pay with Razorpay Place Order"
+    data-name="igotit"
+    data-description="Goods"
+    data-image="https://example.com/your_logo.jpg"
+    data-prefill.name="<?php echo $user_data['customer_firstname']." ".$user_data['customer_lastname'];?>"
+    data-prefill.email="<?php echo $user_data['customer_email'];?>"
+    data-prefill.contact="<?php echo $user_data['customer_phone'];?>"
+    data-theme.color="#F37254"
+></script>
+<input type="hidden" custom="Hidden Element" name="hidden"/>
+</form>
                 </div>
             </div>
         </div>
     </div>
 </div>
 <!-- Checkout End -->
+<script>
+    
+    
+    function razerpay_function(){
+        
+    }
+</script>
+

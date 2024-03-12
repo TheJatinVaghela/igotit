@@ -116,8 +116,8 @@ class controller extends model
 
                 if ($_SERVER['REQUEST_METHOD'] == 'POST' || isset($p)) {
                     $return = $this->validate_data($p);
-                    if ($return == true) {
-                        print_r(json_encode(['data' => $p, 'message' => 'data Was empty / LOG IN OR REGISTER', 'status' => 404]));
+                    if ($return['error'] == true) {
+                        print_r(json_encode(['data' => $return['data'], 'message' => $return['error'], 'status' => 404]));
                     } else {
                         $data = $this->insert("cart", $p);
                         print_r(json_encode($data));
@@ -130,7 +130,7 @@ class controller extends model
                 if (isset($data)) {
                     $return = $this->validate_data($_POST);
                     if ($return['error'] == true) {
-                        print_r(json_encode(['data' => $return['data'], 'message' => 'Problem with data', 'status' => 404]));
+                        print_r(json_encode(['data' => $return['data'], 'message' => $return['error'], 'status' => 404]));
                     } else {
 
                         $data = $this->delete('cart', $data);
@@ -141,19 +141,28 @@ class controller extends model
             case "public/cart":
 
                 if ($_SERVER['REQUEST_METHOD'] == 'GET' || isset($_GET)) {
-                    $return = $this->validate_data($_POST, []);
-                    if ($return == true) {
+                    $return = $this->validate_data($_POST);
+                    if($return['error'] == true) {
                         print_r(json_encode(['data' => $_POST, 'message' => 'data Was empty', 'status' => 404]));
                         echo "<center><h1>GO TO <a href='http://localhost/clones/igotit/public/register'>SIGN UP</a>OR <a href='http://localhost/clones/igotit/public/login'>SIGN IN</a> </h1> </center>";
                     } else {
                         if (isset($_COOKIE['customer_id'])) {
 
-                            $data = 'SELECT cart_id , product_qauntity , product_saleprice , product_name , product_img FROM cart JOIN product ON cart.product_id = product.product_id WHERE cart.customer_id =' . $_COOKIE["customer_id"];
+                            $data = 'SELECT cart_id , product_qauntity , product_saleprice , product_name , product_img FROM cart JOIN product ON cart.product_id = product.product_id WHERE cart.customer_id =' . $_COOKIE["customer_id"] . ' AND cart.status != 2';
                             $data = $this->sqli_($data);
                             if ($data['data'] == NULL) {
                                 $this->view("../view/cart.php", $data);
                             } else {
-                                $data = $this->fatch_all($data['data']);
+                               
+                                $total=0;
+                                if($data['data']->num_rows > 0){
+                                    $data = $this->fatch_all($data['data']);
+
+                                    foreach ($data['data'] as $key => $value) {
+                                        $total = $total + $value['product_saleprice']; 
+                                    }
+                                };
+                                $data['total'] = $total;
                                 $this->view("../view/cart.php", $data);
                             };
                             // $this->print_stuf($data);
@@ -166,7 +175,37 @@ class controller extends model
                 };
                 break;
             case "public/checkout":
-                $this->view("../view/checkout.php");
+                
+                if (isset($_COOKIE['customer_id'])) {
+                    $data = 'SELECT cart_id , product_qauntity , product_saleprice , product_name , product_img FROM cart JOIN product ON cart.product_id = product.product_id WHERE cart.customer_id =' . $_COOKIE["customer_id"] . ' AND cart.status != 2';
+                    $data = $this->sqli_($data);
+                    if ($data['data'] == NULL) {
+                        $this->view("../view/cart.php", $data);
+                    } else {
+                        $user_data = $this->chack_account('customer',['customer_id' => $_COOKIE['customer_id']]);
+                        $total=0;
+                        $data = $this->fatch_all($data['data']);
+                        // $this->print_stuf($data['data']);
+                        foreach ($data['data'] as $key => $value) {
+                            $total = $total + $value['product_saleprice']; 
+                        }
+                        $data['total'] = $total;
+                        $data['user_data']=$user_data;
+                        $this->view("../view/checkout.php", $data);
+                    };
+                }else {
+                   echo "<h1> <a href='http://localhost/clones/igotit/public/login'>Log In</a> OR <a href='http://localhost/clones/igotit/public/register'>Register</a> </h1>";
+                }
+                
+                
+                break;
+            case 'public/paymentSuccessFull':
+                if (isset($_COOKIE['customer_id'])) {
+                    $this->update_account('cart',['status'=>2],['customer_id'=>$_COOKIE['customer_id']]);
+                    $this->view('../view/paymentSuccessFull.php');
+                }else {
+                   echo "<h1> <a href='http://localhost/clones/igotit/public/login'>Log In</a> OR <a href='http://localhost/clones/igotit/public/register'>Register</a> </h1>";
+                }
                 break;
             case "public/contact":
                 $this->view("../view/contact.php");
@@ -496,7 +535,7 @@ class controller extends model
                     $post_data = json_decode(file_get_contents('php://input'), true);
 
                     $return = $this->validate_data($post_data);
-                    if ($return == true) {
+                    if($return['error'] == true) {
                         print_r(json_encode(['data' => $post_data, 'message' => 'data Was empty', 'status' => 404]));
                     } else {
                         $key = array_key_exists('seller_id', $post_data) ? 'seller' : 'customer';
@@ -514,7 +553,7 @@ class controller extends model
                     $post_data = json_decode(file_get_contents('php://input'), true);
 
                     $return = $this->validate_data($post_data);
-                    if ($return == true) {
+                    if($return['error'] == true) {
                         print_r(json_encode(['data' => $post_data, 'message' => 'data Was empty', 'status' => 404]));
                     } else {
                         $key = array_key_exists('seller_id', $post_data) ? 'seller' : 'customer';
@@ -534,7 +573,7 @@ class controller extends model
                     $post_data = json_decode(file_get_contents('php://input'), true);
 
                     $return = $this->validate_data($post_data);
-                    if ($return == true) {
+                    if($return['error'] == true) {
                         print_r(json_encode(['data' => $post_data, 'message' => 'data Was empty', 'status' => 404]));
                     } else {
                         $key = array_key_exists('seller_id', $post_data) ? 'seller' : 'customer';

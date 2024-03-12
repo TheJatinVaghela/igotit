@@ -355,58 +355,6 @@
         </div>
     </div> -->
     <!-- Products End -->
-    <script>
-        function add_qauntity(){
-            val = document.getElementById('product_qauntity').value;
-            document.getElementById('product_qauntity').value = Number(val)+1;
-        };
-    </script>
-    <script>
-                                
-    function remove_qauntity(){
-        val = document.getElementById('product_qauntity').value;
-        if(Number(val)>1){
-            document.getElementById('product_qauntity').value =Number(val)-1;
-        }else{
-            document.getElementById('product_qauntity').value = 1;
-        }
-    };
-    </script>
-    <script>
-        $(document).ready(function(){
-            <?php $userid = (isset($_COOKIE['customer_id'])? $_COOKIE['customer_id']:'NULL');?>
-            function addtocart(e){
-
-                
-                let url = "http://localhost/clones/igotit/public/addtocart";
-                let data = {
-                    'product_id':<?php echo json_encode($data['product_id']);?>,
-                    'customer_id':<?php echo json_encode($userid);?>,
-                    'product_qauntity':document.getElementById('product_qauntity').value
-                } ;
-                jQuery.ajax({
-                    url:url,
-                    data:JSON.stringify(data),
-                    cache:false,
-                    processData:false,
-                    contentType:false,
-                    type:'POST',
-                    success:function(result){
-                        result = JSON.parse(result);  
-                        console.log(result);  
-                        if (result.status == 200) {
-                            
-                            window.location.href = `http://localhost/clones/igotit/public/cart?user=<?php echo json_encode($userid);?>`;
-                        } else {
-                            console.log(result);
-                            alert(result.message);
-                        };
-                    }
-                });
-                // console.log(data);
-            
-            };
-        });
-    </script>
+    
 
     

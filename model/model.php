@@ -9,6 +9,7 @@ class model {
     public $username = "root";
     public $password = "";
     public $database = "igotit";
+    protected $razerpay_api_key = "rzp_test_28sXZ6PupFDQwx"; 
     protected $connection ;
 
     public function __construct(){
