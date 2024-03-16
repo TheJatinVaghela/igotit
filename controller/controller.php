@@ -159,7 +159,7 @@ class controller extends model
                                     $data = $this->fatch_all($data['data']);
 
                                     foreach ($data['data'] as $key => $value) {
-                                        $total = $total + $value['product_saleprice']; 
+                                        $total = $total + $value['product_saleprice'] * $value['product_qauntity']; 
                                     }
                                 };
                                 $data['total'] = $total;
@@ -172,6 +172,30 @@ class controller extends model
                             $this->view("../view/cart.php", $data);
                         }
                     };
+                };
+                break;
+            case "public/increaseProductQuantity":
+                $data = json_decode(file_get_contents("php://input"), true);
+
+                if (isset($data)) {
+                    if(!isset($data['product_qauntity']) || !isset($data['cart_id']) ){
+                        print_r(json_encode(['data' => NULL, 'message' => "data Is Null", 'status' => 404]));
+                    } else {
+                        $data = $this->update_account('cart', $data,['cart_id'=>$data['cart_id']]);
+                        print_r(json_encode($data));
+                    }
+                };
+                break;
+            case "public/decreaseProductQuantity":
+                $data = json_decode(file_get_contents("php://input"), true);
+
+                if (isset($data)) {
+                    if(!isset($data['product_qauntity']) || !isset($data['cart_id']) ){
+                        print_r(json_encode(['data' => NULL, 'message' => "data Is Null", 'status' => 404]));
+                    } else {
+                        $data = $this->update_account('cart', $data,['cart_id'=>$data['cart_id']]);
+                        print_r(json_encode($data));
+                    }
                 };
                 break;
             case "public/checkout":
