@@ -55,23 +55,7 @@
     </div>
 </div>
 <!-- Footer End -->
-<script>
-        function add_qauntity(){
-            val = document.getElementById('product_qauntity').value;
-            document.getElementById('product_qauntity').value = Number(val)+1;
-        };
-    </script>
-    <script>
-                                
-    function remove_qauntity(){
-        val = document.getElementById('product_qauntity').value;
-        if(Number(val)>1){
-            document.getElementById('product_qauntity').value =Number(val)-1;
-        }else{
-            document.getElementById('product_qauntity').value = 1;
-        }
-    };
-    </script>
+
     <script>
         
             <?php $userid = (isset($_COOKIE['customer_id'])? $_COOKIE['customer_id']:'NULL');?>

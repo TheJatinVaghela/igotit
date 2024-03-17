@@ -99,7 +99,8 @@ class controller extends model
                         echo '<script>alert("URL IS Worng GO TO HOME")</script>';
                     };
                 } else {
-                    $this->view("../view/shop.php");
+                    $data = $this->select('product',['*']);
+                    $this->view("../view/shop.php",$data);
                 };
                 break;
             case "public/detail":
@@ -119,6 +120,8 @@ class controller extends model
                     if ($return['error'] == true) {
                         print_r(json_encode(['data' => $return['data'], 'message' => $return['error'], 'status' => 404]));
                     } else {
+                        $p['payment_id']=0;
+                      
                         $data = $this->insert("cart", $p);
                         print_r(json_encode($data));
                     };
@@ -169,6 +172,7 @@ class controller extends model
                             // $data['status'] = 200;
                         } else {
                             $data = NULL;
+                            
                             $this->view("../view/cart.php", $data);
                         }
                     };
@@ -209,9 +213,9 @@ class controller extends model
                         $user_data = $this->chack_account('customer',['customer_id' => $_COOKIE['customer_id']]);
                         $total=0;
                         $data = $this->fatch_all($data['data']);
-                        // $this->print_stuf($data['data']);
+                        //  $this->print_stuf($data['data']);
                         foreach ($data['data'] as $key => $value) {
-                            $total = $total + $value['product_saleprice']; 
+                            $total = $total + $value['product_saleprice'] * $value['product_qauntity']; 
                         }
                         $data['total'] = $total;
                         $data['user_data']=$user_data;
@@ -223,9 +227,42 @@ class controller extends model
                 
                 
                 break;
+            case "public/payment":
+                $data = json_decode(file_get_contents("php://input"), true);
+                if (isset($data)) {
+                    if(!isset($data['name']) || !isset($data['pay_id']) || !isset($data['amount']) ){
+                        print_r(json_encode(['data' => NULL, 'message' => "data Is Null", 'status' => 404]));
+                    } else {
+                        // $this->print_stuf($data);
+                        // exit();
+                    
+                        $data = array(
+                            'name' => $data['name'],
+                            'amount' => $data['amount'],
+                            'pay_id' => $data['pay_id'],
+                            'pay_status' => "Success"
+                        );
+                        
+                        $res =  $this->insert('payment', $data);
+                        if($res['status']==200){
+                            $getData = $this->select('payment',['payment_id'],['pay_id'=>$data['pay_id']]);
+                            if($getData['status'] == 200){
+                                $payment_id = $getData['data'][0]['payment_id'];
+                                $update = $this->update_account('cart',['status'=>2,'payment_id'=>$payment_id],['customer_id'=>$_COOKIE['customer_id']]);
+                                print_r(json_encode($update));
+                            }
+                        }else{
+                            print_r(json_encode($res));
+                        }
+                    }
+                }else{
+
+                    print_r(['error'=>500]);
+                };
+                break;
             case 'public/paymentSuccessFull':
                 if (isset($_COOKIE['customer_id'])) {
-                    $this->update_account('cart',['status'=>2],['customer_id'=>$_COOKIE['customer_id']]);
+                   
                     $this->view('../view/paymentSuccessFull.php');
                 }else {
                    echo "<h1> <a href='http://localhost/clones/igotit/public/login'>Log In</a> OR <a href='http://localhost/clones/igotit/public/register'>Register</a> </h1>";

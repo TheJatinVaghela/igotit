@@ -58,14 +58,14 @@ if (isset($data[0])) {
 
 
                                         <div class="input-group-btn">
-                                            <button class="btn btn-primary btn-minus" onclick="remove_qauntity(<?php echo $value['cart_id']; ?>)">
+                                            <button class="btn btn-primary btn-minus" onclick="remove_qauntity('product_qauntity_<?php echo $value['cart_id']; ?>',<?php echo $value['cart_id']; ?>,'totalPrice_<?php echo $value['cart_id']; ?>')">
                                                 <i class="fa fa-minus"></i>
                                             </button>
 
                                         </div>
-                                        <input id="product_qauntity" type="text" class="form-control bg-secondary text-center" value="<?php echo $value['product_qauntity']; ?>">
+                                        <input id="product_qauntity_<?php echo $value['cart_id']; ?>" type="text" class="form-control bg-secondary text-center" value="<?php echo $value['product_qauntity']; ?>">
                                         <div class="input-group-btn">
-                                            <button class="btn btn-primary btn-plus" onclick="add_qauntity(<?php echo $value['cart_id']; ?>)">
+                                            <button class="btn btn-primary btn-plus" onclick="add_qauntity('product_qauntity_<?php echo $value['cart_id']; ?>',<?php echo $value['cart_id']; ?>,'totalPrice_<?php echo $value['cart_id']; ?>')">
                                                 <i class="fa fa-plus"></i>
                                             </button>
 
@@ -73,9 +73,9 @@ if (isset($data[0])) {
 
                                     </div>
                                 </td>
-                                <td class="align-middle" id="totalPrice"><?php $saleprice = json_encode($value['product_saleprice']);
+                                <td class="align-middle" id="totalPrice_<?php echo $value['cart_id']; ?>"><?php $saleprice = json_encode($value['product_saleprice']);
                                                                             echo $value['product_saleprice'] * $value['product_qauntity']; ?></td>
-                                <td class="align-middle"><button class="btn btn-sm btn-primary" onclick="removeProduct(<?php echo $value['cart_id'] ?>)"><i class="fa fa-times"></i></button></td>
+                                <td class="align-middle"><button class="btn btn-sm btn-primary" onclick="removeProduct('product_qauntity_<?php echo $value['cart_id']; ?>',<?php echo $value['cart_id'] ?>,'totalPrice_<?php echo $value['cart_id']; ?>')"><i class="fa fa-times"></i></button></td>
                             </tr>
                         <?php } ?>
                         <?php } else { ?><?php
@@ -101,7 +101,7 @@ if (isset($data[0])) {
             </form>
             <div class="card border-secondary mb-5">
                 <div class="card-header bg-secondary border-0">
-                    <h4 class="font-weight-semi-bold m-0">Cart Summary</h4>
+                    <h4 class="font-weight-semi-bold m-0">Do Chack Out</h4>
                 </div>
                 <!-- <div class="card-body">
                         <div class="d-flex justify-content-between mb-3 pt-1">
@@ -114,10 +114,10 @@ if (isset($data[0])) {
                         </div>
                     </div> -->
                 <div class="card-footer border-secondary bg-transparent">
-                    <div class="d-flex justify-content-between mt-2">
+                    <!-- <div class="d-flex justify-content-between mt-2">
                         <h5 class="font-weight-bold">Total</h5>
-                        <h5 class="font-weight-bold"><?php echo $total; ?></h5>
-                    </div>
+                        <h5 class="font-weight-bold" id="FullTotal"><?php echo $total; ?></h5>
+                    </div> -->
                     <a href="http://localhost/clones/igotit/public/checkout" class="btn btn-block btn-primary my-3 py-3">Proceed To Checkout</a>
                 </div>
             </div>
@@ -128,13 +128,13 @@ if (isset($data[0])) {
 
 
 <script>
-   async function add_qauntity(cart_id) {
+   async function add_qauntity(quntityTagId,cart_id,totalTagId) {
+    
         console.log(cart_id);
-        val = document.getElementById('product_qauntity').value;
+        val = document.getElementById(quntityTagId).value;
         let input = Number(val) + 1;
-        console.log(input);
-        document.getElementById('product_qauntity').value = input;
-        document.getElementById('totalPrice').innerHTML = Number(<?php echo $saleprice; ?>) * input;
+        document.getElementById(quntityTagId).value = input;
+        document.getElementById(totalTagId).innerHTML = Number(<?php echo $saleprice; ?>) * input;
         let url = "http://localhost/clones/igotit/public/increaseProductQuantity";
         let data = {
                 "product_qauntity": input,
@@ -161,21 +161,21 @@ if (isset($data[0])) {
             // window.location.reload();
             console.log(error);
         }
-    }false;
+    }true;
 </script>
 <script>
-   async function remove_qauntity(cart_id) {
-        val = document.getElementById('product_qauntity').value;
+   async function remove_qauntity(quntityTagId,cart_id,totalTagId) {
+        val = document.getElementById(quntityTagId).value;
         let input;
         if (Number(val) > 1) {
             input = Number(val) - 1;
-            document.getElementById('product_qauntity').value = input;
-            document.getElementById('totalPrice').innerHTML = Number(<?php echo $saleprice; ?>) * input;
+            document.getElementById(quntityTagId).value = input;
+            document.getElementById(totalTagId).innerHTML = Number(<?php echo $saleprice; ?>) * input;
 
         } else {
             input = 1;
-            document.getElementById('product_qauntity').value = input;
-            document.getElementById('totalPrice').innerHTML = Number(<?php echo $saleprice; ?>) * input;
+            document.getElementById(quntityTagId).value = input;
+            document.getElementById(totalTagId).innerHTML = Number(<?php echo $saleprice; ?>) * input;
         };
         let url = "http://localhost/clones/igotit/public/decreaseProductQuantity";
         try {
